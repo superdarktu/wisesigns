@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.signs.mapper.watermeter.WatermeterMapper" >
+  <resultMap id="BaseResultMap" type="com.signs.model.watermeter.Watermeter" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="total_code" property="totalCode" jdbcType="VARCHAR" />
+    <result column="collector_code" property="collectorCode" jdbcType="VARCHAR" />
+    <result column="flow_day" property="flowDay" jdbcType="REAL" />
+    <result column="flow_month" property="flowMonth" jdbcType="REAL" />
+    <result column="flow_total" property="flowTotal" jdbcType="REAL" />
+    <result column="tap_status" property="tapStatus" jdbcType="INTEGER" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+  </resultMap>
+</mapper>
