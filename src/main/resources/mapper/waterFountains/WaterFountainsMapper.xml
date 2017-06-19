@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.signs.mapper.waterFountains.WaterFountainsMapper" >
-  <resultMap id="BaseResultMap" type="com.signs.model.waterFountains.WaterFountains" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="place" property="place" jdbcType="VARCHAR" />
-    <result column="table_code" property="tableCode" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="water_price" property="waterPrice" jdbcType="REAL" />
-    <result column="cost_scale" property="costScale" jdbcType="REAL" />
-    <result column="longitude" property="longitude" jdbcType="REAL" />
-    <result column="latitude" property="latitude" jdbcType="REAL" />
-    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
-  </resultMap>
+<mapper namespace="com.signs.mapper.waterFountains.WaterFountainsMapper">
+    <resultMap id="BaseResultMap" type="com.signs.model.waterFountains.WaterFountains">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="place" property="place" jdbcType="VARCHAR"/>
+        <result column="table_code" property="tableCode" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="water_price" property="waterPrice" jdbcType="REAL"/>
+        <result column="cost_scale" property="costScale" jdbcType="REAL"/>
+        <result column="longitude" property="longitude" jdbcType="REAL"/>
+        <result column="latitude" property="latitude" jdbcType="REAL"/>
+        <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
+    </resultMap>
 </mapper>

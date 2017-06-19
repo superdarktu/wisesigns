@@ -1,7 +1,8 @@
 package com.signs.model.waterCard;
 
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "tb_water_card")
 public class WaterCard {

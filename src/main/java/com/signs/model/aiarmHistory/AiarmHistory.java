@@ -1,7 +1,9 @@
 package com.signs.model.aiarmHistory;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "tb_aiarm_history")
 public class AiarmHistory {

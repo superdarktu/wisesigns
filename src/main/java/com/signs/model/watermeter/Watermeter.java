@@ -1,7 +1,8 @@
 package com.signs.model.watermeter;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "tb_watermeter")
 public class Watermeter {
