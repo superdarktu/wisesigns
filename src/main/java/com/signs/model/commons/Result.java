@@ -5,7 +5,7 @@ package com.signs.model.commons;
  */
 public class Result {
 
-    private Boolean success;
+    private int result;
 
     private String msg;
 
@@ -14,20 +14,20 @@ public class Result {
     private String info;
 
     public Result() {
-        success = true;
+        result = 1;
     }
 
     public void setError(String msg) {
         this.msg = msg;
-        this.success = false;
+        this.result = 1;
     }
 
-    public Boolean getSuccess() {
-        return success;
+    public int getResult() {
+        return result;
     }
 
-    public void setSuccess(Boolean success) {
-        this.success = success;
+    public void setResult(int result) {
+        this.result = result;
     }
 
     public String getMsg() {
@@ -44,6 +44,7 @@ public class Result {
 
     public void setData(Object data) {
         this.data = data;
+        this.result = 0;
     }
 
     public String getInfo() {

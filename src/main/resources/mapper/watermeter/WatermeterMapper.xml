@@ -16,4 +16,18 @@
         <result column="tap_status" property="tapStatus" jdbcType="INTEGER"/>
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
     </resultMap>
+
+    <select id="pageData" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT * from tb_watermeter
+        where 1=1
+        <if test="code != null and code != ''">
+            and code = #{code}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="tapStatus != null">
+            and tap_status = #{tapStatus}
+        </if>
+    </select>
 </mapper>

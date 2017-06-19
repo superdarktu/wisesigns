@@ -19,13 +19,13 @@ public class Watermeter {
     private String collectorCode;
 
     @Column(name = "flow_day")
-    private Float flowDay;
+    private float flowDay;
 
     @Column(name = "flow_month")
-    private Float flowMonth;
+    private float flowMonth;
 
     @Column(name = "flow_total")
-    private Float flowTotal;
+    private float flowTotal;
 
     @Column(name = "tap_status")
     private Integer tapStatus;
@@ -105,42 +105,42 @@ public class Watermeter {
     /**
      * @return flow_day
      */
-    public Float getFlowDay() {
+    public float getFlowDay() {
         return flowDay;
     }
 
     /**
      * @param flowDay
      */
-    public void setFlowDay(Float flowDay) {
+    public void setFlowDay(float flowDay) {
         this.flowDay = flowDay;
     }
 
     /**
      * @return flow_month
      */
-    public Float getFlowMonth() {
+    public float getFlowMonth() {
         return flowMonth;
     }
 
     /**
      * @param flowMonth
      */
-    public void setFlowMonth(Float flowMonth) {
+    public void setFlowMonth(float flowMonth) {
         this.flowMonth = flowMonth;
     }
 
     /**
      * @return flow_total
      */
-    public Float getFlowTotal() {
+    public float getFlowTotal() {
         return flowTotal;
     }
 
     /**
      * @param flowTotal
      */
-    public void setFlowTotal(Float flowTotal) {
+    public void setFlowTotal(float flowTotal) {
         this.flowTotal = flowTotal;
     }
 
