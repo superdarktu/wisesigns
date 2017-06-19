@@ -16,4 +16,20 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
   </resultMap>
+
+
+  <select id="login" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+    select * from tb_manager
+    where user_name = #{userName} and password  = #{password} and status != 1
+  </select>
+
+  <select id="isHaveUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from tb_manager where user_name = #{username} and status != 1
+  </select>
+
+  <select id="findByAdmin" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * from tb_manager u
+    where u.status=0 and (u.user_name like #{search} or u.name like #{search} or u.tel like #{search})
+  </select>
+
 </mapper>
