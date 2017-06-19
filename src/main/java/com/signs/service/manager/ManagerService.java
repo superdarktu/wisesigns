@@ -61,7 +61,6 @@ public class ManagerService {
      * @param manager
      * @return
      */
-    @Transactional
     public boolean createUser(Manager manager) {
         manager.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
         manager.setCtime(new Date());

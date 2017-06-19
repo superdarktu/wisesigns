@@ -132,4 +132,44 @@ public class ManagerController {
         return dto;
     }
 
+    /**
+     * 修改密码
+     * @param id
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
+    @PostMapping("/updatePassword")
+    public Result updatePassword(String id, String oldPassword, String newPassword) {
+        Result dto = new Result();
+        dto.setData("1");
+        try {
+            if (service.updatePassword(id,oldPassword,newPassword)) {
+                dto.setData("0");
+            }
+        } catch (Exception e) {
+            dto.setData("1");
+        }
+        return dto;
+    }
+
+    /**
+     * 重置密码为123456
+     * @param id
+     * @return
+     */
+    @PostMapping("/resetPassword")
+    public Result resetPassword(String id) {
+        Result dto = new Result();
+        dto.setData("1");
+        try {
+            if (service.resetPassword(id)) {
+                dto.setData("0");
+            }
+        } catch (Exception e) {
+            dto.setData("1");
+        }
+        return dto;
+    }
+
 }
