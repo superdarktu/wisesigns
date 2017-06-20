@@ -65,6 +65,7 @@ public class ManagerService {
         manager.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
         manager.setCtime(new Date());
         manager.setStatus(0);
+        manager.setType("manager");
         mapper.insert(manager);
         return true;
     }

@@ -25,12 +25,12 @@ public class ManagerController {
         Result dto = new Result();
         try {
             if (!service.isHaveUsername(model.getUserName())) {
-                dto.setData("2");
+                dto.setResult(2);
             } else {
                 Manager manager = service.login(model.getUserName(), model.getPassword());
 
                 if (manager == null) {
-                    dto.setData("1");
+                    dto.setResult(1);
                 } else {
                     dto.setData(manager);
                 }
@@ -55,6 +55,7 @@ public class ManagerController {
             }
             service.createUser(manager);
         } catch (Exception e) {
+            e.printStackTrace();
             return "1";
         }
         return "0";
@@ -90,10 +91,10 @@ public class ManagerController {
         Result dto = new Result();
         try {
             service.delete(idstr);
-            dto.setData("0");
+            dto.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
-            dto.setData("1");
+            dto.setResult(1);
         }
         return dto;
     }
@@ -164,10 +165,10 @@ public class ManagerController {
         dto.setData("1");
         try {
             if (service.resetPassword(id)) {
-                dto.setData("0");
+                dto.setResult(0);
             }
         } catch (Exception e) {
-            dto.setData("1");
+            dto.setResult(1);
         }
         return dto;
     }
