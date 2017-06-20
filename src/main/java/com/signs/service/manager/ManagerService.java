@@ -1,7 +1,9 @@
 package com.signs.service.manager;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.manager.ManagerMapper;
+import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.manager.Manager;
 import com.signs.util.auth.AccessToken;
@@ -111,12 +113,13 @@ public class ManagerService {
      * @param keyWord
      * @return
      */
-    public List<Manager> page(PageParam page, String keyWord) {
+    public PageInfo<Manager> page(PageParam page, String keyWord) {
 
         if (page.getPageNo() != null && page.getPageSize() != null) {
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         }
-        return mapper.findByAdmin(keyWord);
+        List<Manager> result = mapper.findByAdmin(keyWord);
+        return new PageInfo(result);
     }
 
     /**

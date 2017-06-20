@@ -1,5 +1,6 @@
 package com.signs.mapper.manager;
 
+import com.github.pagehelper.Page;
 import com.signs.model.manager.Manager;
 import com.signs.util.MyMapper;
 
