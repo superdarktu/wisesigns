@@ -2,9 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.signs.mapper.waterCard.WaterCardMapper">
     <resultMap id="BaseResultMap" type="com.signs.model.waterCard.WaterCard">
+<<<<<<< HEAD
+
+=======
         <!--
           WARNING - @mbg.generated
         -->
+>>>>>>> 10ebedd3891062fa9b739dc8fd412779decd410e
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="code" property="code" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
@@ -13,4 +17,24 @@
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
     </resultMap>
+<<<<<<< HEAD
+    <select id="selectCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM tb_water_card WHERE code=#{code}
+    </select>
+    <select id="getWaterCard" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+          SELECT *
+        FROM tb_water_card
+        WHERE 1=1
+              <if test="type!=null">
+                   AND    type = #{type}
+              </if>
+        <if test="status!=null">
+            AND status=#{status}
+        </if>
+        <if test="value!=null">
+            AND code LIKE #{value}
+        </if>
+    </select>
+=======
+>>>>>>> 10ebedd3891062fa9b739dc8fd412779decd410e
 </mapper>
