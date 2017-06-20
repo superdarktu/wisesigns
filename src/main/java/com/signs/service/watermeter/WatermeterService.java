@@ -3,7 +3,6 @@ package com.signs.service.watermeter;
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.watermeter.WatermeterMapper;
 import com.signs.model.commons.PageParam;
-import com.signs.model.manager.Manager;
 import com.signs.model.watermeter.Watermeter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
