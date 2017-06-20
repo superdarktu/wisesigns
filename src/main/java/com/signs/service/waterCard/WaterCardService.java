@@ -1,7 +1,9 @@
 package com.signs.service.waterCard;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.waterCard.WaterCardMapper;
+import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.waterCard.WaterCard;
 import org.springframework.stereotype.Service;
@@ -64,7 +66,7 @@ public class WaterCardService {
      * 分页查询
      *
      */
-    public List<WaterCard>
+    public PageInfo<WaterCard>
     page(PageParam page, String type,String status, String value) {
         if (page.getPageNo() != null && page.getPageSize() != null) PageHelper.startPage(page.getPageNo(), page.getPageSize());
         HashMap<String,String> hashMap = new HashMap<>();
@@ -77,7 +79,7 @@ public class WaterCardService {
         if (value != null) {
             hashMap.put("value", "%"+value+"%");
         }
-        return mapper.getWaterCard(hashMap);
+        return new PageInfo(mapper.getWaterCard(hashMap)) ;
     }
 
 

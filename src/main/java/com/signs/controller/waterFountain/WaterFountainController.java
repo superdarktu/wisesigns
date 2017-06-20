@@ -91,14 +91,13 @@ public class WaterFountainController {
     }
 
     @PostMapping("/queryType")
-    public Result pageUser(PageParam param, String type, String value) {
+    public Object pageUser(PageParam param, String type, String value) {
         Result dto = new Result();
         try {
-            dto.setData(service.page(param, type, value));
+         return service.page(param, type, value);
         } catch (Exception e) {
             e.printStackTrace();
-            dto.setData("1");
+           return "1";
         }
-        return dto;
     }
 }
