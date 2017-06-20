@@ -2,13 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.signs.mapper.waterFountains.WaterFountainsMapper">
     <resultMap id="BaseResultMap" type="com.signs.model.waterFountains.WaterFountains">
-<<<<<<< HEAD
 
-=======
+
+
         <!--
           WARNING - @mbg.generated
         -->
->>>>>>> 10ebedd3891062fa9b739dc8fd412779decd410e
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="code" property="code" jdbcType="VARCHAR"/>
         <result column="place" property="place" jdbcType="VARCHAR"/>
@@ -20,7 +19,6 @@
         <result column="latitude" property="latitude" jdbcType="REAL"/>
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
     </resultMap>
-<<<<<<< HEAD
 
     <select id="selectCode" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * FROM tb_water_fountains WHERE code=#{code}
@@ -38,6 +36,4 @@
         </if>
 
     </select>
-=======
->>>>>>> 10ebedd3891062fa9b739dc8fd412779decd410e
 </mapper>
