@@ -29,10 +29,10 @@ public interface ManagerMapper extends MyMapper<Manager> {
     /**
      * 查询所有用户
      *
-     * @param search
+     * @param keyWord
      * @return
      */
-    List<Manager> findByAdmin(String search);
+    List<Manager> findByAdmin(String keyWord);
 
     /**
      * 模糊查询

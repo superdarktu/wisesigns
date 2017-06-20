@@ -106,6 +106,8 @@ public class ManagerController {
     public Result pageUser(PageParam param, String keyWord) {
         Result dto = new Result();
         try {
+            if(StringUtil.isEmpty(keyWord))
+                keyWord = "";
             dto.setData(service.page(param, keyWord));
         } catch (Exception e) {
             e.printStackTrace();

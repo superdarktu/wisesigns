@@ -2,6 +2,7 @@ package com.signs.service.watermeter;
 
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.watermeter.WatermeterMapper;
+import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.watermeter.Watermeter;
 import org.springframework.stereotype.Service;
@@ -71,13 +72,13 @@ public class WatermeterService {
      * @param map
      * @return
      */
-    public List<Watermeter> page(PageParam page, Map<String,Object> map){
+    public PageInfo<Watermeter> page(PageParam page, Map<String,Object> map){
 
         if (page.getPageNo() != null && page.getPageSize() != null) {
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         }
 
-        return mapper.pageData(map);
+        return new PageInfo<Watermeter>(mapper.pageData(map));
     }
 
     /**

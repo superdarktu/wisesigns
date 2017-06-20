@@ -30,9 +30,7 @@
     <select id="findByAdmin" parameterType="java.lang.String" resultMap="BaseResultMap">
     SELECT * from tb_manager u
     where u.status=0 and  u.type = 'manager'
-     <if test="search != null and search != ''">
-        and  (u.user_name like #{search} or u.name like #{search} or u.tel like #{search})
-     </if>
+        and  ( "" = #{keyWord} or u.user_name like CONCAT('%',#{keyWord},'%') or u.name like CONCAT('%',#{keyWord},'%') or u.tel like CONCAT('%',#{keyWord},'%'))
   </select>
 
 </mapper>
