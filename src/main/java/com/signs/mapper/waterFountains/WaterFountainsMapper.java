@@ -3,7 +3,6 @@ package com.signs.mapper.waterFountains;
 import com.signs.model.waterFountains.WaterFountains;
 import com.signs.util.MyMapper;
 
-
 import java.util.HashMap;
 import java.util.List;
 

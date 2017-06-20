@@ -2,13 +2,10 @@ package com.signs.controller.waterCard;
 
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
-import com.signs.model.waterCard.WaterCard;
 import com.signs.service.waterCard.WaterCardService;
-import com.signs.service.waterFountains.WaterFountainsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tk.mybatis.mapper.util.StringUtil;
 
 import javax.annotation.Resource;
 

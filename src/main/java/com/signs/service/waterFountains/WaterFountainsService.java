@@ -6,7 +6,6 @@ import com.signs.mapper.waterFountains.WaterFountainsMapper;
 import com.signs.model.commons.PageParam;
 import com.signs.model.managerUser.ManagerUser;
 import com.signs.model.waterFountains.WaterFountains;
-import com.signs.util.auth.TokenManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

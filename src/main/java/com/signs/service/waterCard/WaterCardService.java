@@ -1,14 +1,9 @@
 package com.signs.service.waterCard;
 
 import com.github.pagehelper.PageHelper;
-import com.signs.mapper.managerUser.ManagerUserMapper;
 import com.signs.mapper.waterCard.WaterCardMapper;
-import com.signs.mapper.waterFountains.WaterFountainsMapper;
 import com.signs.model.commons.PageParam;
-import com.signs.model.managerUser.ManagerUser;
 import com.signs.model.waterCard.WaterCard;
-import com.signs.model.waterFountains.WaterFountains;
-import com.signs.util.auth.TokenManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
