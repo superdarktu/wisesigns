@@ -112,6 +112,7 @@ public class collectorController {
             collector.setName(tableNumber);
             result.setData(service.page(param,collector));
         }catch (Exception e){
+            e.printStackTrace();
             result.setResult(1);
         }
         return result;
@@ -119,14 +120,14 @@ public class collectorController {
 
     /**
      * 查询链接表编号
-     * @param id
+     * @param
      * @return
      */
     @PostMapping("/linkNumber")
-    public Result linkNumber(String id){
+    public Result linkNumber(String collectorNumber){
         Result result = new Result();
         try{
-            result.setData(watermeterService.queryByCollector(id));
+            result.setData(watermeterService.queryByCollector(collectorNumber));
         }catch (Exception e){
             result.setResult(1);
         }
