@@ -92,7 +92,6 @@ public class WaterFountainController {
 
     @PostMapping("/queryType")
     public Object pageUser(PageParam param, String type, String value) {
-        Result dto = new Result();
         try {
          return service.page(param, type, value);
         } catch (Exception e) {
