@@ -2,9 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.signs.mapper.user.UserMapper">
     <resultMap id="BaseResultMap" type="com.signs.model.user.User">
-        <!--
-          WARNING - @mbg.generated
-        -->
+
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="card_no" property="cardNo" jdbcType="VARCHAR"/>
         <result column="card_type" property="cardType" jdbcType="INTEGER"/>
@@ -13,4 +11,13 @@
         <result column="price" property="price" jdbcType="REAL"/>
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
     </resultMap>
+    <select id="pageFuzzy" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        select * from tb_user WHERE 1=1
+        <if test="status!=null">
+            AND card_type=#{status}
+        </if>
+        <if test="value!=null">
+            AND (card_no LIKE #{value} OR name LIKE #{value})
+        </if>
+    </select>
 </mapper>

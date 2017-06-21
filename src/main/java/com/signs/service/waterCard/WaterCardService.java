@@ -36,6 +36,8 @@ public class WaterCardService {
       waterCard.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
       waterCard.setCode(cardNumberi);
       waterCard.setPassword(password);
+      waterCard.setPhone("110");
+      waterCard.setStatus(1);
       waterCard.setType(type);
       waterCard.setCtime(new Date());
       mapper.insert(waterCard);
