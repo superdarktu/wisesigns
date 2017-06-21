@@ -13,4 +13,25 @@
         <result column="property_id" property="propertyId" jdbcType="VARCHAR"/>
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
     </resultMap>
+
+    <resultMap id="BaseResultMapVO" type="com.signs.dto.Collector.CollectorVO" extends="BaseResultMap">
+        <result column="tuiguan" property="tuiguan" jdbcType="INTEGER"/>
+        <result column="touzi" property="touzi" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+
+    <select id="findData" parameterType="com.signs.model.collector.Collector" resultMap="BaseResultMapVO">
+        select c.*,
+        (select count(*) from tb_manager_user_collector where collector_id = c.id and manager_user_type = 1) as tuiguan,
+        (select count(*) from tb_manager_user_collector where collector_id = c.id and manager_user_type = 2) as touzi
+        form tb_collector as c
+        where 1 =1
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        <if test="name != null and name != ''">
+            and (c.name like CONCAT('%',#{name},'%') or c.code like CONCAT('%',#{name},'%'))
+        </if>
+    </select>
 </mapper>

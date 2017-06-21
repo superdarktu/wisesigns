@@ -13,4 +13,6 @@ public interface WatermeterMapper extends MyMapper<Watermeter> {
      *
      */
      List<Watermeter> pageData(Map<String,Object> map);
+
+     List<String> queryByCollector(String collectorCode);
 }
