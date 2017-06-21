@@ -73,7 +73,7 @@ public class ManagerController {
             if (StringUtil.isEmpty(manager.getId())) {
                 return "2";
             }
-            if (service.isHaveUsername(manager.getUserName())) {
+            if (!StringUtil.isEmpty(manager.getUserName()) && service.isHaveUsername(manager.getUserName())) {
                 return "2";
             }
             service.save(manager);
