@@ -21,7 +21,7 @@
         SELECT * from tb_watermeter
         where 1=1
         <if test="code != null and code != ''">
-            and code = #{code}
+            and code like  CONCAT('%',#{code},'%')
         </if>
         <if test="status != null">
             and status = #{status}
@@ -30,4 +30,9 @@
             and tap_status = #{tapStatus}
         </if>
     </select>
+
+    <select id="queryByCollector" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT code from tb_watermeter where collector_code = #{collectorCode}
+    </select>
+
 </mapper>

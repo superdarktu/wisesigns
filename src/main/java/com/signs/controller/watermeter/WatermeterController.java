@@ -98,14 +98,14 @@ public class WatermeterController {
 
     /**
      * 删除表信息
-     * @param ids
+     * @param id
      * @return
      */
     @RequestMapping("/deleteNetstat")
-    public Result deleteNetstat(String ids){
+    public Result deleteNetstat(String id){
         Result result = new Result();
         result.setResult(1);
-        if(service.delete(ids)) result.setResult(0);
+        if(service.delete(id)) result.setResult(0);
         return  result;
     }
 

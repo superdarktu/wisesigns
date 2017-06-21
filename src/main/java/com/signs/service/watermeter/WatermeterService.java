@@ -49,7 +49,7 @@ public class WatermeterService {
         watermeter.setStatus(0);
         watermeter.setFlowDay(0);
         watermeter.setFlowMonth(0);
-        watermeter.setTapStatus(0);
+        watermeter.setTapStatus(1);
         if(mapper.insert(watermeter) > 0) return true;
         return false;
     }
@@ -105,5 +105,15 @@ public class WatermeterService {
 
         if(mapper.updateByPrimaryKeySelective(watermeter) > 0) return true;
         return  false;
+    }
+
+    /**
+     * 根据采集器获取所有的表编号
+     * @param collectorCode
+     * @return
+     */
+    public List<String> queryByCollector(String collectorCode){
+
+        return mapper.queryByCollector(collectorCode);
     }
 }

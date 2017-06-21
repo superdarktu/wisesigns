@@ -1,11 +1,14 @@
 package com.signs.model.watermeter;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
 @Table(name = "tb_watermeter")
 public class Watermeter {
+
+    @Id
     private String id;
 
     private String code;
