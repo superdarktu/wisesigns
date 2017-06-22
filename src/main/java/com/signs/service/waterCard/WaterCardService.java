@@ -19,7 +19,6 @@ public class WaterCardService {
     @Resource
     private WaterCardMapper mapper;
 
-
     /**
      * 创水卡
      */
@@ -40,7 +39,6 @@ public class WaterCardService {
         return true;
     }
 
-
     /**
      * 根据ids删除
      */
@@ -56,24 +54,16 @@ public class WaterCardService {
         return true;
     }
 
-
     /**
      * 分页查询
      */
     public PageInfo page(PageParam page, String type, String status, String value) {
-        if (page.getPageNo() != null && page.getPageSize() != null)
-            PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        if (page.getPageNo() != null && page.getPageSize() != null) PageHelper.startPage(page.getPageNo(), page.getPageSize());
         HashMap<String, String> hashMap = new HashMap<>();
-        //type为0时表示搜索全部
-        if (type!=null&&!type.equals("0")) {
-            hashMap.put("type", type);
-        }
-        if (status != null&&!status.equals("0")) {
-            hashMap.put("status", status);
-        }
-        if (value != null) {
-            hashMap.put("value", "%" + value + "%");
-        }
+//        type为0时表示搜索全部
+        if (type!=null&&!type.equals("0")) hashMap.put("type", type);
+        if (status != null&&!status.equals("0")) hashMap.put("status", status);
+        if (value != null) hashMap.put("value", "%" + value + "%");
         return new PageInfo(mapper.getWaterCard(hashMap));
     }
 

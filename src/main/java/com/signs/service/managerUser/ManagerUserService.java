@@ -25,7 +25,7 @@ public class ManagerUserService {
      */
     @Transactional
     public boolean createCard(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price) {
-        //账号是否重复
+//        账号是否重复
         List<ManagerUser> ManagerUsers = mapper.selectCode(account);
         if (ManagerUsers == null || ManagerUsers.size() > 0) return false;
         ManagerUser managerUser = new ManagerUser();
@@ -91,7 +91,8 @@ public class ManagerUserService {
      * 分页查询
      */
     public PageInfo<ManagerUser> page(PageParam page, String type, String status, String value) {
-        if (page.getPageNo() != null && page.getPageSize() != null) PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        if (page.getPageNo() != null && page.getPageSize() != null)
+            PageHelper.startPage(page.getPageNo(), page.getPageSize());
         HashMap<String, String> hashMap = new HashMap<>();
         if (type != null) hashMap.put("type", type);
         if (status != null) hashMap.put("status", status);

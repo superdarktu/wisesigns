@@ -26,13 +26,12 @@ public class WaterFountainsService {
 
     /**
      * 创饮水机
-     *
      */
     @Transactional
     public boolean createFountains(String waterNumber, String waterPosition, String tableNumber, Integer waterType, Float longitude, Float latitude) {
 //        卡号不重复
         List<WaterFountains> fountains = mapper.selectCode(waterNumber);
-        if (fountains == null|| fountains.size()>0) return false;
+        if (fountains == null || fountains.size() > 0) return false;
         ManagerUser managerUser = mapper1.selectPrice(tableNumber);
         WaterFountains waterFountains = new WaterFountains();
         waterFountains.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
@@ -52,7 +51,6 @@ public class WaterFountainsService {
 
     /**
      * 根据ids删除
-     *
      */
     @Transactional
     public boolean delete(String idstr) {
@@ -68,7 +66,6 @@ public class WaterFountainsService {
 
     /**
      * 查询修改的饮水机信息
-     *
      */
     public WaterFountains gain(String id) {
         return mapper.selectByPrimaryKey(id);
@@ -76,7 +73,6 @@ public class WaterFountainsService {
 
     /**
      * 修改饮水机信息
-     *
      */
     public WaterFountains save(String id, String newWaterNumber, String newWaterPosition, String newTableNumber, Integer newWaterType, Float newLongitude, Float newLatitude) {
 //        卡号不重复
@@ -101,10 +97,11 @@ public class WaterFountainsService {
      */
     public PageInfo<WaterFountains>
     page(PageParam page, String type, String value) {
-        if (page.getPageNo() != null && page.getPageSize() != null) PageHelper.startPage(page.getPageNo(), page.getPageSize());
-        HashMap<String,String> hashMap = new HashMap<>();
+        if (page.getPageNo() != null && page.getPageSize() != null)
+            PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        HashMap<String, String> hashMap = new HashMap<>();
         if (type != null) hashMap.put("type", type);
-        if (value != null) hashMap.put("value", "%"+value+"%");
-        return new PageInfo(mapper.getDispenser(hashMap)) ;
+        if (value != null) hashMap.put("value", "%" + value + "%");
+        return new PageInfo(mapper.getDispenser(hashMap));
     }
 }

@@ -8,7 +8,7 @@
         <result column="price" property="price" jdbcType="REAL"/>
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
     </resultMap>
-    <select id="selectByUserId"  parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * FROM tb_user_recharge_record WHERE user_id=#{userId}
     </select>
 </mapper>

@@ -20,8 +20,7 @@ public class UserPurchaseRecordService {
      */
     public List<UserPurchaseRecord>
     page(PageParam page, String userId) {
-        if (page.getPageNo() != null && page.getPageSize() != null)
-            PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        if (page.getPageNo() != null && page.getPageSize() != null) PageHelper.startPage(page.getPageNo(), page.getPageSize());
         return mapper.selectByUserId(userId);
     }
 
