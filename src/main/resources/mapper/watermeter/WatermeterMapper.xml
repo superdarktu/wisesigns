@@ -23,10 +23,10 @@
         <if test="code != null and code != ''">
             and code like  CONCAT('%',#{code},'%')
         </if>
-        <if test="status != null">
+        <if test="status != null and status != ''">
             and status = #{status}
         </if>
-        <if test="tapStatus != null">
+        <if test="tapStatus != null and tapStatus != ''">
             and tap_status = #{tapStatus}
         </if>
     </select>
