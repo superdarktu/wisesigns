@@ -1,6 +1,5 @@
 package com.signs.service.waterFountains;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.managerUser.ManagerUserMapper;
 import com.signs.mapper.waterFountains.WaterFountainsMapper;
@@ -99,18 +98,13 @@ public class WaterFountainsService {
 
     /**
      * 分页查询
-     *
      */
     public PageInfo<WaterFountains>
     page(PageParam page, String type, String value) {
         if (page.getPageNo() != null && page.getPageSize() != null) PageHelper.startPage(page.getPageNo(), page.getPageSize());
         HashMap<String,String> hashMap = new HashMap<>();
-        if (type != null) {
-            hashMap.put("type", type);
-        }
-        if (value != null) {
-            hashMap.put("value", "%"+value+"%");
-        }
+        if (type != null) hashMap.put("type", type);
+        if (value != null) hashMap.put("value", "%"+value+"%");
         return new PageInfo(mapper.getDispenser(hashMap)) ;
     }
 }

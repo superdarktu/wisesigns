@@ -64,10 +64,11 @@ public class WaterCardService {
         if (page.getPageNo() != null && page.getPageSize() != null)
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         HashMap<String, String> hashMap = new HashMap<>();
-        if (type != null) {
+        //type为0时表示搜索全部
+        if (type!=null&&!type.equals("0")) {
             hashMap.put("type", type);
         }
-        if (status != null) {
+        if (status != null&&!status.equals("0")) {
             hashMap.put("status", status);
         }
         if (value != null) {
