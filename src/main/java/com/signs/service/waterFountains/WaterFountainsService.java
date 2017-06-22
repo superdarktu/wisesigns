@@ -81,8 +81,8 @@ public class WaterFountainsService {
      */
     public WaterFountains save(String id, String newWaterNumber, String newWaterPosition, String newTableNumber, Integer newWaterType, Float newLongitude, Float newLatitude) {
 //        卡号不重复
-        List<WaterFountains> fountains = mapper.selectCode(newWaterNumber);
-        if (fountains == null|| fountains.size()>0) return null;
+        WaterFountains fountains = mapper.selectByPrimaryKey(id);
+        if (fountains == null) return null;
         WaterFountains waterFountains = new WaterFountains();
         waterFountains.setId(id);
         waterFountains.setCtime(new Date());

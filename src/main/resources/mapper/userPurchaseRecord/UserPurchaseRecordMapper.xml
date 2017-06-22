@@ -11,4 +11,7 @@
         <result column="place" property="place" jdbcType="VARCHAR"/>
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
     </resultMap>
+    <select id="selectByUserId"  parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM tb_user_purchase_record WHERE user_id=#{userId}
+    </select>
 </mapper>
