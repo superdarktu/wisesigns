@@ -58,7 +58,7 @@ public class WaterCardController {
     @PostMapping("/queryType")
     public Object pageUser(PageParam param, String type,String status, String value) {
         try {
-        return    service.page(param,type,status,value);
+        return service.page(param,type,status,value);
         } catch (Exception e) {
             e.printStackTrace();
             return "1";
