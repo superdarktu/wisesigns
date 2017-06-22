@@ -24,7 +24,6 @@ public class WaterFountainController {
 
     @PostMapping("/addDispenser")
     public Result addDispenser(String waterNumber, String waterPosition, String tableNumber, Integer waterType, Float longitude, Float latitude) {
-
         Result dto = new Result();
         try {
             boolean b = service.createFountains(waterNumber, waterPosition, tableNumber, waterType, longitude, latitude);
@@ -39,7 +38,6 @@ public class WaterFountainController {
 
     /**
      * 修改用户前获取信息
-     *
      */
     @PostMapping("/gainDispenser")
     public Result gain(String id) {
@@ -55,18 +53,13 @@ public class WaterFountainController {
 
     /**
      * 修改饮水机
-     *
      */
     @PostMapping("/reviseDispenser")
-    public String updateUser(String id, String newWaterNumber, String newWaterPosition, String newTableNumber, Integer newWaterType, Float newLongitude, Float newLatitude) {
+    public String updateWaterFountains(String id, String newWaterNumber, String newWaterPosition, String newTableNumber, Integer newWaterType, Float newLongitude, Float newLatitude) {
         try {
-            if (StringUtil.isEmpty(id)) {
-                return "2";
-            }
+            if (StringUtil.isEmpty(id)) return "2";
             WaterFountains save = service.save(id, newWaterNumber, newWaterPosition, newTableNumber, newWaterType, newLongitude, newLatitude);
-            if (save == null) {
-                return "1";
-            }
+            if (save == null) return "1";
         } catch (Exception e) {
             return "1";
         }
@@ -75,10 +68,9 @@ public class WaterFountainController {
 
     /**
      * 根据传过来的一串id删除
-     *
      */
     @PostMapping("/deleteWater")
-    public Result deleteUser(String id) {
+    public Result deleteWaterFountains(String id) {
         Result dto = new Result();
         try {
             service.delete(id);
@@ -90,13 +82,16 @@ public class WaterFountainController {
         return dto;
     }
 
+    /**
+     * 查询饮水机
+     */
     @PostMapping("/queryType")
-    public Object pageUser(PageParam param, String type, String value) {
+    public Object pageWaterFountains(PageParam param, String type, String value) {
         try {
-         return service.page(param, type, value);
+            return service.page(param, type, value);
         } catch (Exception e) {
             e.printStackTrace();
-           return "1";
+            return "1";
         }
     }
 }

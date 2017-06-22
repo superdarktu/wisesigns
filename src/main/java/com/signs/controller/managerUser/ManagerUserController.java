@@ -5,7 +5,6 @@ import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.model.managerUser.ManagerUser;
 import com.signs.service.managerUser.ManagerUserService;
-import com.signs.service.waterCard.WaterCardService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,19 +74,18 @@ public class ManagerUserController {
     @PostMapping("/reviseUser")
     public String updateUser(String id, String newAccount, String newPassword, String newUserName, Integer newUserType, String newTel, Float newPrime, Float newDivide, Float newPrice) {
         try {
-            if (StringUtil.isEmpty(id)) {
-                return "2";
-            }
+            if (StringUtil.isEmpty(id)) return "2";
             ManagerUser save = service.save(id, newAccount, newPassword, newUserName, newUserType, newTel, newPrime, newDivide, newPrice);
-            if (save == null) {
-                return "1";
-            }
+            if (save == null) return "1";
         } catch (Exception e) {
             return "1";
         }
         return "0";
     }
 
+    /**
+     * 查询管理用户
+     */
     @PostMapping("/svnStatus")
     public Object pageUser(PageParam param, String type, String status, String value) {
         try {

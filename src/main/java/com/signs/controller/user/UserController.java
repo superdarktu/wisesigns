@@ -26,12 +26,14 @@ public class UserController {
     @Resource
     private UserRechargeRecordService service2;
 
-
+    /**
+     * 查询终端用户
+     */
     @PostMapping("/svnStatus")
     public Result pageUser(PageParam param, String status, String value) {
-        Result result=new Result();
+        Result result = new Result();
         try {
-            result.setData(service.page(param,status,value));
+            result.setData(service.page(param, status, value));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,13 +41,16 @@ public class UserController {
         }
         return result;
     }
+
+    /**
+     * 查询该用户的账单
+     */
     @PostMapping("/billInquiry")
     public TwoDataResult pageBill(PageParam param, String id) {
-        TwoDataResult result=new TwoDataResult();
+        TwoDataResult result = new TwoDataResult();
         try {
-            result.setConsume(service1.page(param,id));
-            result.setRecharge(service2.page(param,id));
-
+            result.setConsume(service1.page(param, id));
+            result.setRecharge(service2.page(param, id));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -77,7 +77,6 @@ public class ManagerUserService {
      */
     @Transactional
     public boolean delete(String idstr) {
-
         String ids[] = idstr.split(",");
         for (String id : ids) {
             ManagerUser managerUser = mapper.selectByPrimaryKey(id);
