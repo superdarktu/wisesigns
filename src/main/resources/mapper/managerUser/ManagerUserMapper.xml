@@ -24,13 +24,9 @@
         (select * from tb_manager_user WHERE account=#{account}) UNION (select * from tb_manager WHERE user_name=#{account})
     </select>
 <select id="getManagerUser" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-    select *
-    from tb_manager_user tmu WHERE 1=1
-    <if test="status!=null">
-        AND user_type=#{status}
-    </if>
-    <if test="value!=null">
-      AND (account LIKE #{value} OR name LIKE #{value})
-    </if>
+    select * ,(SELECT count(*) FROM tb_collector WHERE property_id=tmu.id) AS 'count'
+    from tb_manager_user AS tmu WHERE 1=1
+    <if test="status!=null"> AND user_type=#{status}</if>
+    <if test="value!=null"> AND (account LIKE #{value} OR name LIKE #{value}) </if>
 </select>
 </mapper>

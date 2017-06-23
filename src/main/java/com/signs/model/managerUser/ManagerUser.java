@@ -29,7 +29,7 @@ public class ManagerUser {
 
     @Column(name = "water_price")
     private Float waterPrice;
-
+private Integer count;
     private Date ctime;
 
     /**
@@ -170,5 +170,13 @@ public class ManagerUser {
      */
     public void setCtime(Date ctime) {
         this.ctime = ctime;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }
