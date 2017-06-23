@@ -34,4 +34,14 @@
             and (c.name like CONCAT('%',#{name},'%') or c.code like CONCAT('%',#{name},'%'))
         </if>
     </select>
+
+    <select id="findByManager" parameterType="java.lang.String" resultType="java.lang.String">
+        select code from tb_collector where property_id = #{managerId}
+    </select>
+
+    <select id="findWithNoProperty" parameterType="java.lang.String" resultType="BaseResultMap">
+        select * from tb_collector where ISNULL(property_id)
+    </select>
+
+
 </mapper>

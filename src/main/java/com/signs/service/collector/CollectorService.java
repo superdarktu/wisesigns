@@ -3,9 +3,12 @@ package com.signs.service.collector;
 import com.github.pagehelper.PageHelper;
 import com.signs.dto.Collector.CollectorVO;
 import com.signs.mapper.collector.CollectorMapper;
+import com.signs.mapper.managerUser.ManagerUserMapper;
+import com.signs.mapper.managerUserCollector.ManagerUserCollectorMapper;
 import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
+import com.signs.model.managerUser.ManagerUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +21,12 @@ public class CollectorService {
 
     @Resource
     private CollectorMapper mapper;
+
+    @Resource
+    private ManagerUserMapper managerUserMapper;
+
+    @Resource
+    private ManagerUserCollectorMapper managerUserCollectorMapper;
 
 
     /**
@@ -82,5 +91,32 @@ public class CollectorService {
         }
         List<CollectorVO> result = mapper.findData(collector);
         return new PageInfo(result);
+    }
+
+    /**
+     * 获取没有分配过物业的采集器
+     * @return
+     */
+    public List<Collector> findWithNoProperty(){
+
+        return mapper.findWithNoProperty();
+    }
+
+    /**
+     * 根据管理用户ID获取采集器编号
+     * @param managerId
+     * @return
+     */
+    public List<String> findByManager(String managerId){
+
+        ManagerUser managerUser =  managerUserMapper.selectByPrimaryKey(managerId);
+
+        if(managerUser.getUserType() == 1){
+
+            return mapper.findByManager(managerId);
+        }else{
+
+            return managerUserCollectorMapper.findByManager(managerId);
+        }
     }
 }
