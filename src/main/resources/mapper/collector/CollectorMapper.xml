@@ -36,7 +36,7 @@
         select code from tb_collector where property_id = #{managerId}
     </select>
 
-    <select id="findWithNoProperty" parameterType="java.lang.String" resultType="BaseResultMap">
+    <select id="findWithNoProperty" parameterType="java.lang.String" resultMap="BaseResultMap">
         select * from tb_collector where ISNULL(property_id)
     </select>
 
