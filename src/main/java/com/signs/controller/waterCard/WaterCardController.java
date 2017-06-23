@@ -18,11 +18,9 @@ public class WaterCardController {
 
     /**
      * 添加水卡
-     *
      */
-
     @PostMapping("/addWaterCard")
-    public Result addDispenser(String cardNumberi, String password, Integer type) {
+    public Result addWaterCard(String cardNumberi, String password, Integer type) {
 
         Result dto = new Result();
         try {
@@ -38,12 +36,9 @@ public class WaterCardController {
 
     /**
      * 根据传过来的一串id删除
-     *
-     * @param
-     * @return
      */
     @PostMapping("/deleteCard")
-    public Result deleteUser(String id) {
+    public Result deleteCard(String id) {
         Result dto = new Result();
         try {
             service.delete(id);
@@ -55,10 +50,13 @@ public class WaterCardController {
         return dto;
     }
 
+    /**
+     * 查询水卡
+     */
     @PostMapping("/queryType")
-    public Object pageUser(PageParam param, String type,String status, String value) {
+    public Object pageCard(PageParam param, String type,String status, String value) {
         try {
-        return    service.page(param,type,status,value);
+        return service.page(param,type,status,value);
         } catch (Exception e) {
             e.printStackTrace();
             return "1";

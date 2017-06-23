@@ -5,7 +5,6 @@ import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.model.managerUser.ManagerUser;
 import com.signs.service.managerUser.ManagerUserService;
-import com.signs.service.waterCard.WaterCardService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,16 +20,15 @@ public class ManagerUserController {
 
     /**
      * 添加水卡
-     *
      */
 
     @PostMapping("/addUser")
-    public Result addDispenser(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price) {
+    public Result addUser(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price) {
 
         Result dto = new Result();
         try {
             boolean b = service.createCard(account, password, userName, userType, tel, prime, divide, price);
-            String content=b?"0":"1";
+            String content = b ? "0" : "1";
             dto.setData(content);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -41,7 +39,6 @@ public class ManagerUserController {
 
     /**
      * 根据传过来的一串id删除
-     *
      */
     @PostMapping("/deleteUser")
     public Result deleteUser(String id) {
@@ -55,9 +52,9 @@ public class ManagerUserController {
         }
         return dto;
     }
+
     /**
      * 修改用户前获取信息
-     *
      */
     @PostMapping("/gainUser")
     public Result gain(String id) {
@@ -73,27 +70,26 @@ public class ManagerUserController {
 
     /**
      * 修改管理用户
-     *
      */
     @PostMapping("/reviseUser")
-    public String updateUser(String id, String newAccount, String newPassword, String newUserName, Integer newUserType,String newTel,  Float newPrime, Float newDivide,Float newPrice) {
+    public String updateUser(String id, String newAccount, String newPassword, String newUserName, Integer newUserType, String newTel, Float newPrime, Float newDivide, Float newPrice) {
         try {
-            if (StringUtil.isEmpty(id)) {
-                return "2";
-            }
-            ManagerUser save = service.save( id, newAccount,newPassword,newUserName, newUserType, newTel,   newPrime,  newDivide, newPrice);
-            if (save == null) {
-                return "1";
-            }
+            if (StringUtil.isEmpty(id)) return "2";
+            ManagerUser save = service.save(id, newAccount, newPassword, newUserName, newUserType, newTel, newPrime, newDivide, newPrice);
+            if (save == null) return "1";
         } catch (Exception e) {
             return "1";
         }
         return "0";
     }
-    @PostMapping("/queryType")
-    public Object pageUser(PageParam param, String type,String status, String value) {
+
+    /**
+     * 查询管理用户
+     */
+    @PostMapping("/svnStatus")
+    public Object pageUser(PageParam param, String type, String status, String value) {
         try {
-        return    service.page(param,type,status,value);
+            return service.page(param, type, status, value);
         } catch (Exception e) {
             e.printStackTrace();
             return "1";

@@ -3,9 +3,6 @@
 <mapper namespace="com.signs.mapper.waterCard.WaterCardMapper">
     <resultMap id="BaseResultMap" type="com.signs.model.waterCard.WaterCard">
 
-        <!--
-          WARNING - @mbg.generated
-        -->
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="code" property="code" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
@@ -18,12 +15,12 @@
         SELECT * FROM tb_water_card WHERE code=#{code}
     </select>
     <select id="getWaterCard" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-          SELECT *
+        SELECT *
         FROM tb_water_card
         WHERE 1=1
-              <if test="type!=null">
-                   AND    type = #{type}
-              </if>
+        <if test="type!=null">
+            AND type = #{type}
+        </if>
         <if test="status!=null">
             AND status=#{status}
         </if>

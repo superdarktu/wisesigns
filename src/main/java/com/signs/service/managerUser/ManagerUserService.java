@@ -2,11 +2,9 @@ package com.signs.service.managerUser;
 
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.managerUser.ManagerUserMapper;
-import com.signs.mapper.waterCard.WaterCardMapper;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.managerUser.ManagerUser;
-import com.signs.model.waterCard.WaterCard;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +21,11 @@ public class ManagerUserService {
 
 
     /**
-     * 创水卡
+     * 创管理用户
      */
     @Transactional
     public boolean createCard(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price) {
-        //账号是否重复
+//        账号是否重复
         List<ManagerUser> ManagerUsers = mapper.selectCode(account);
         if (ManagerUsers == null || ManagerUsers.size() > 0) return false;
         ManagerUser managerUser = new ManagerUser();
@@ -71,7 +69,6 @@ public class ManagerUserService {
         managerUser.setIvisionProportion(newDivide);
         managerUser.setWaterPrice(newPrice);
         mapper.updateByPrimaryKeySelective(managerUser);
-
         return managerUser;
     }
 
@@ -80,7 +77,6 @@ public class ManagerUserService {
      */
     @Transactional
     public boolean delete(String idstr) {
-
         String ids[] = idstr.split(",");
         for (String id : ids) {
             ManagerUser managerUser = mapper.selectByPrimaryKey(id);
@@ -94,21 +90,14 @@ public class ManagerUserService {
     /**
      * 分页查询
      */
-    public PageInfo<ManagerUser>
-    page(PageParam page, String type, String status, String value) {
+    public PageInfo<ManagerUser> page(PageParam page, String type, String status, String value) {
         if (page.getPageNo() != null && page.getPageSize() != null)
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         HashMap<String, String> hashMap = new HashMap<>();
-        if (type != null) {
-            hashMap.put("type", type);
-        }
-        if (status != null) {
-            hashMap.put("status", status);
-        }
-        if (value != null) {
-            hashMap.put("value", "%" + value + "%");
-        }
-        return null;
+        if (type != null) hashMap.put("type", type);
+        if (status != null) hashMap.put("status", status);
+        if (value != null) hashMap.put("value", "%" + value + "%");
+        return new PageInfo(mapper.getManagerUser(hashMap));
     }
 
 
