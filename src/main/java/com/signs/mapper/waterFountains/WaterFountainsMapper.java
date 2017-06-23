@@ -15,6 +15,9 @@ public interface WaterFountainsMapper extends MyMapper<WaterFountains> {
      *
      */
     List<WaterFountains> getDispenser(HashMap hashMap);
-
+/**
+ * 获取最后一条
+ */
+    WaterFountains getLastDispenser();
 
 }

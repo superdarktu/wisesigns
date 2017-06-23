@@ -23,4 +23,6 @@ public interface ManagerUserMapper extends MyMapper<ManagerUser> {
      */
     List<ManagerUser> getManagerUser(HashMap hashMap);
 
+
+
 }

@@ -1,9 +1,11 @@
 package com.signs.controller.managerUser;
 
 import com.github.pagehelper.util.StringUtil;
+import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.model.managerUser.ManagerUser;
+import com.signs.service.collector.CollectorService;
 import com.signs.service.managerUser.ManagerUserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,8 @@ public class ManagerUserController {
 
     @Resource
     private ManagerUserService service;
+@Resource
+    private CollectorService service1;
 
     /**
      * 添加水卡
@@ -90,6 +94,43 @@ public class ManagerUserController {
     public Object pageUser(PageParam param, String type, String status, String value) {
         try {
             return service.page(param, type, status, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "1";
+        }
+    }
+    /**
+     * 查询下属采集器
+     */
+    @PostMapping("/branchInquiry")
+    public Object branchInquiry(String id) {
+        try {
+            return service1.findByManager(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "1";
+        }
+    }
+    /**
+     * 采集器分配提交
+     */
+    @PostMapping("/submit")
+    public Object submit() {
+        try {
+       return   service1.findWithNoProperty();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "1";
+        }
+    }
+    /**
+     * 采集器模糊查询
+     */
+    @PostMapping("/inquiry")
+    public Object inquiry(PageParam param, String id) {
+        try {
+            return "0";
+//            return service.page(param, type, status, value);
         } catch (Exception e) {
             e.printStackTrace();
             return "1";
