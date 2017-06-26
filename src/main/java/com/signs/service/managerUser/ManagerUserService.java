@@ -24,10 +24,11 @@ public class ManagerUserService {
      * 创管理用户
      */
     @Transactional
-    public boolean createCard(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price) {
+    public boolean createUser(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price) {
 //        账号是否重复
         List<ManagerUser> ManagerUsers = mapper.selectCode(account);
         if (ManagerUsers == null || ManagerUsers.size() > 0) return false;
+
         ManagerUser managerUser = new ManagerUser();
         managerUser.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
         managerUser.setCtime(new Date());

@@ -3,11 +3,6 @@
 <mapper namespace="com.signs.mapper.waterFountains.WaterFountainsMapper">
     <resultMap id="BaseResultMap" type="com.signs.model.waterFountains.WaterFountains">
 
-
-
-        <!--
-          WARNING - @mbg.generated
-        -->
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="code" property="code" jdbcType="VARCHAR"/>
         <result column="place" property="place" jdbcType="VARCHAR"/>
@@ -23,20 +18,20 @@
     <select id="selectCode" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * FROM tb_water_fountains WHERE code=#{code}
     </select>
-  
+
     <select id="getDispenser" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT *
         FROM tb_water_fountains
         WHERE 1=1
-            <if test="type!=null">
-                AND     type = #{type}
-            </if>
-        <if test="value!=null">
-            AND   code LIKE #{value} OR place LIKE #{value}
+        <if test="type!=null">
+            AND type = #{type}
         </if>
-
+        <if test="value!=null">
+            AND code LIKE #{value} OR place LIKE #{value}
+        </if>
+         ORDER BY ctime
     </select>
     <select id="getLastDispenser" resultMap="BaseResultMap">
-        select * from tb_water_fountains  ORDER BY id DESC limit 0,1
+        select * from tb_water_fountains  ORDER BY ctime DESC limit 0,1
     </select>
 </mapper>

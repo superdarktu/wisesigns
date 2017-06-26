@@ -29,9 +29,9 @@ public class WaterFountainsService {
      */
     @Transactional
     public boolean createFountains(String waterPosition, String tableNumber, Integer waterType, Float longitude, Float latitude) {
-//        卡号不重复
+
         WaterFountains lastDispenser = mapper.getLastDispenser();
-        String waterNumber=""+(Integer.parseInt(lastDispenser.getCode())+1);
+        String waterNumber=lastDispenser == null?"0":""+(Integer.parseInt(lastDispenser.getCode())+1);
         List<WaterFountains> fountains = mapper.selectCode(waterNumber);
         if (fountains == null || fountains.size() > 0) return false;
         ManagerUser managerUser = mapper1.selectPrice(tableNumber);

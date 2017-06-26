@@ -23,7 +23,7 @@ public class WaterFountainController {
      */
 
     @PostMapping("/addDispenser")
-    public Result addDispenser(String waterNumber, String waterPosition, String tableNumber, Integer waterType, Float longitude, Float latitude) {
+    public Result addDispenser(String waterPosition, String tableNumber, Integer waterType, Float longitude, Float latitude) {
         Result dto = new Result();
         try {
             boolean b = service.createFountains(waterPosition,tableNumber,waterType,longitude,latitude);
