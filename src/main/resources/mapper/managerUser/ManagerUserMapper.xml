@@ -18,8 +18,8 @@
     <select id="selectPrice" resultMap="BaseResultMap" parameterType="java.lang.String"> 
  SELECT tmu.water_price, tmu.cost_scale FROM tb_watermeter as tw left JOIN tb_collector AS tc ON tw.collector_code=tc.code 
   LEFT JOIN tb_manager_user AS tmu ON tmu.id=tc.property_id WHERE tw.code=#{tableNumber} </select>
-    <select id="selectCode" parameterType="java.lang.String" resultMap="BaseResultMap">
-        (select * from tb_manager_user WHERE account=#{account}) UNION (select * from tb_manager WHERE user_name=#{account})
+    <select id="selectCode" parameterType="java.lang.String" resultType="java.lang.String">
+        (select id from tb_manager_user WHERE account=#{account}) UNION (select id from tb_manager WHERE user_name=#{account})
     </select>
 <select id="getManagerUser" parameterType="java.util.HashMap" resultMap="BaseResultMap">
     select id,account,password,name,user_type,cost_scale,ivision_proportion,phone ,ctime,(SELECT count(*) FROM tb_collector AS tc WHERE tc.property_id=tmu.id) AS 'count'

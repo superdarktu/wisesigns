@@ -55,7 +55,7 @@ public class ManagerUserController {
     public Result addUser(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price, String collector) {
         Result dto = new Result();
         try {
-            boolean b = service.createUser(account, password, userName, userType, tel, prime, divide, price);
+            boolean b = service.createUser(account, password, userName, userType, tel, prime, divide, price,collector);
             String content = b ? "0" : "1";
             dto.setData(content);
         } catch (Exception ex) {
@@ -103,7 +103,7 @@ public class ManagerUserController {
     public String updateUser(String id, String newAccount, String newPassword, String newUserName, Integer newUserType, String newTel, Float newPrime, Float newDivide, Float newPrice, String newcollector) {
         try {
             if (StringUtil.isEmpty(id)) return "2";
-            ManagerUser save = service.save(id, newAccount, newPassword, newUserName, newUserType, newTel, newPrime, newDivide, newPrice);
+            ManagerUser save = service.save(id, newAccount, newPassword, newUserName, newUserType, newTel, newPrime, newDivide, newPrice,newcollector);
             if (save == null) return "1";
         } catch (Exception e) {
             return "1";
@@ -142,9 +142,12 @@ public class ManagerUserController {
      * 采集器模糊查询
      */
     @PostMapping("/inquiry")
-    public Object inquiry() {
+    public Object inquiry(PageParam param, String value) {
         try {
-            return "0";
+            Collector collector=new Collector();
+            collector.setName(value);
+            PageInfo<CollectorVO> page = service1.page(param, collector);
+            return page;
         } catch (Exception e) {
             e.printStackTrace();
             return "1";
