@@ -49,7 +49,7 @@ public class UserController {
     public TwoDataResult pageBill(PageParam param, String id) {
         TwoDataResult result = new TwoDataResult();
         try {
-            result.setConsume(service1.page(param, id));
+            result.setConsume(service1.page(param, id,null,null,null));
             result.setRecharge(service2.page(param, id));
         } catch (Exception e) {
             e.printStackTrace();
