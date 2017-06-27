@@ -24,38 +24,7 @@ public class ManagerController {
     @Resource
     private ManagerUserService managerUserService;
 
-    @PostMapping("/login")
-    public Result loginIn(Manager model, HttpSession httpSession) {
 
-        Result dto = new Result();
-        try {
-            if (!service.isHaveUsername(model.getUserName())) {
-                dto.setResult(2);
-            } else {
-                Manager manager = service.login(model.getUserName(), model.getPassword());
-
-                if (manager == null) {
-                    ManagerUser managerUser = managerUserService.login(model.getUserName(), model.getPassword());
-                    if(managerUser == null) {
-                        dto.setResult(1);
-                    }else {
-                        dto.setData(managerUser);
-                        dto.setInfo("2");
-                        httpSession.setAttribute("id",managerUser.getId());
-                        httpSession.setAttribute("type","2");
-                    }
-                } else {
-                    dto.setData(manager);
-                    dto.setInfo("1");
-                    httpSession.setAttribute("id",manager.getId());
-                    httpSession.setAttribute("type","1");
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return dto;
-    }
 
     /**
      * 添加用户
@@ -77,27 +46,7 @@ public class ManagerController {
         return "0";
     }
 
-    /**
-     * 修改用户
-     *
-     * @param manager
-     * @return
-     */
-    @PostMapping("/updateUser")
-    public String updateUser(Manager manager) {
-        try {
-            if (StringUtil.isEmpty(manager.getId())) {
-                return "2";
-            }
-            if (!StringUtil.isEmpty(manager.getUserName()) && service.isHaveUsername(manager.getUserName())) {
-                return "2";
-            }
-            service.save(manager);
-        } catch (Exception e) {
-            return "1";
-        }
-        return "0";
-    }
+
 
     /**
      * 根据传过来的一串id删除
