@@ -28,7 +28,6 @@ public class UserPurchaseRecordService {
         if (date1 != null) hashMap.put("date1",date1);
         if (date2 != null) hashMap.put("date2",date2);
         if (value != null) hashMap.put("value","%" + value + "%");
-        System.out.println(id);
         return mapper.selectByUserId(hashMap);
     }
 

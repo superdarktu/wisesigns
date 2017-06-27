@@ -19,7 +19,7 @@ public class UserRechargeRecordController {
     /**
      * 查询消费
      */
-    @PostMapping("/svnStatus")
+    @PostMapping("/recharge")
     public Object pageCard(PageParam param, SearchVO dto) {
         try {
         return service.page(param,dto.getId(),dto.getDate1(),dto.getDate2(),dto.getValue());

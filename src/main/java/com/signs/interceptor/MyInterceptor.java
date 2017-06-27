@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,15 +17,11 @@ public class MyInterceptor implements HandlerInterceptor{
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         HttpSession session = httpServletRequest.getSession();
         String id = (String)session.getAttribute("id");
-        PrintWriter writer = httpServletResponse.getWriter();
+        ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+        System.out.println(id);
         if (id == null){
-            writer.append("0");
-            return false;
+            httpServletRequest.getRequestDispatcher("/api/error/error").forward(httpServletRequest,httpServletResponse);
         }
-        else writer.append(id);
-        writer.flush();
-        writer.close();
-        System.out.println(11111);
         return true;
     }
 
