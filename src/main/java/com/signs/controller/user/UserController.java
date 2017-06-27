@@ -149,9 +149,17 @@ public class UserController {
             String type = httpSession.getAttribute("type").toString();
 
             if (type.equals("1")) {
-                result.setData(service.query(id));
+                Manager manager = service.query(id);
+                result.setInfo(manager.getType().equals("admin") ? "0" : "1");
+                result.setData(manager);
             } else {
-                result.setData(managerUserService.gain(id));
+                ManagerUser managerUser = managerUserService.gain(id);
+                if (managerUser.getUserType() == 1) {
+                    result.setInfo("2");
+                } else {
+                    result.setInfo("3");
+                }
+                result.setData(managerUser);
             }
         } catch (Exception e) {
             result.setResult(1);
