@@ -6,6 +6,7 @@ import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
+import com.signs.model.commons.TwoDataResult;
 import com.signs.model.managerUser.ManagerUser;
 import com.signs.service.collector.CollectorService;
 import com.signs.service.managerUser.ManagerUserService;
@@ -46,6 +47,27 @@ public class ManagerUserController {
             dto.setData("1");
         }
         return dto;
+    }
+    /**
+     * 修改用户所需采集器
+     */
+    @PostMapping("/modifyUser")
+    public TwoDataResult modifyUser(String id){
+        TwoDataResult twoDataResult=new TwoDataResult();
+        try{
+            List<Collector> notyet = service1.findWithNoProperty();
+            List<String> already = service1.findByManager(id);
+            if (already != null) {
+                twoDataResult.setRecharge(already);
+            }
+            twoDataResult.setConsume(notyet);
+
+            twoDataResult.setResult(0);
+        }catch (Exception e){
+            e.printStackTrace();
+            twoDataResult.setResult(1);
+        }
+        return twoDataResult;
     }
 
 
