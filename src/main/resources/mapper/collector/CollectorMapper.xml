@@ -17,7 +17,6 @@
     </resultMap>
 
 
-
     <select id="findData" parameterType="com.signs.model.collector.Collector" resultMap="BaseResultMapVO">
         select c.id,c.code,c.name,c.status,c.property_name,c.property_id,c.ctime,
         (select count(*) from tb_manager_user_collector where collector_id = c.id and manager_user_type = 1) as tuiguan,

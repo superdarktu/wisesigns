@@ -1,7 +1,9 @@
 package com.signs.controller.managerUser;
 
 import com.github.pagehelper.util.StringUtil;
+import com.signs.dto.Collector.CollectorVO;
 import com.signs.model.collector.Collector;
+import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.model.managerUser.ManagerUser;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/manageUser")
@@ -19,19 +22,40 @@ public class ManagerUserController {
 
     @Resource
     private ManagerUserService service;
-@Resource
+    @Resource
     private CollectorService service1;
 
     /**
-     * 添加水卡
+     * 用户类型
      */
-
     @PostMapping("/addUser")
-    public Result addUser(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price) {
+    public Result gainUser(PageParam param, Integer userType) {
 
         Result dto = new Result();
         try {
-            boolean b = service.createCard(account, password, userName, userType, tel, prime, divide, price);
+            if (userType == 3) {
+                List<Collector> collectors1 = service1.findWithNoProperty();
+                dto.setData(collectors1);
+            } else {
+                PageInfo<CollectorVO> collectors2 = service1.page(param, new Collector());
+                dto.setData(collectors2);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            dto.setData("1");
+        }
+        return dto;
+    }
+
+
+    /**
+     * 添加用户
+     */
+    @PostMapping("/submit")
+    public Result addUser(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price, String collector) {
+        Result dto = new Result();
+        try {
+            boolean b = service.createUser(account, password, userName, userType, tel, prime, divide, price,collector);
             String content = b ? "0" : "1";
             dto.setData(content);
         } catch (Exception ex) {
@@ -76,10 +100,10 @@ public class ManagerUserController {
      * 修改管理用户
      */
     @PostMapping("/reviseUser")
-    public String updateUser(String id, String newAccount, String newPassword, String newUserName, Integer newUserType, String newTel, Float newPrime, Float newDivide, Float newPrice) {
+    public String updateUser(String id, String newAccount, String newPassword, String newUserName, Integer newUserType, String newTel, Float newPrime, Float newDivide, Float newPrice, String newcollector) {
         try {
             if (StringUtil.isEmpty(id)) return "2";
-            ManagerUser save = service.save(id, newAccount, newPassword, newUserName, newUserType, newTel, newPrime, newDivide, newPrice);
+            ManagerUser save = service.save(id, newAccount, newPassword, newUserName, newUserType, newTel, newPrime, newDivide, newPrice,newcollector);
             if (save == null) return "1";
         } catch (Exception e) {
             return "1";
@@ -99,6 +123,7 @@ public class ManagerUserController {
             return "1";
         }
     }
+
     /**
      * 查询下属采集器
      */
@@ -111,26 +136,18 @@ public class ManagerUserController {
             return "1";
         }
     }
-    /**
-     * 采集器分配提交
-     */
-    @PostMapping("/submit")
-    public Object submit() {
-        try {
-       return   service1.findWithNoProperty();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "1";
-        }
-    }
+
+
     /**
      * 采集器模糊查询
      */
     @PostMapping("/inquiry")
-    public Object inquiry(PageParam param, String id) {
+    public Object inquiry(PageParam param, String value) {
         try {
-            return "0";
-//            return service.page(param, type, status, value);
+            Collector collector=new Collector();
+            collector.setName(value);
+            PageInfo<CollectorVO> page = service1.page(param, collector);
+            return page;
         } catch (Exception e) {
             e.printStackTrace();
             return "1";

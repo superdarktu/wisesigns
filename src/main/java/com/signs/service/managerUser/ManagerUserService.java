@@ -2,9 +2,11 @@ package com.signs.service.managerUser;
 
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.managerUser.ManagerUserMapper;
+import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.managerUser.ManagerUser;
+import com.signs.service.collector.CollectorService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +14,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ManagerUserService {
@@ -19,17 +22,29 @@ public class ManagerUserService {
     @Resource
     private ManagerUserMapper mapper;
 
+    @Resource
+    private CollectorService service;
 
     /**
      * 创管理用户
      */
     @Transactional
-    public boolean createCard(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price) {
+    public boolean createUser(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price, String collectorIds) {
 //        账号是否重复
         List<ManagerUser> ManagerUsers = mapper.selectCode(account);
         if (ManagerUsers == null || ManagerUsers.size() > 0) return false;
+        String id = UUID.randomUUID().toString().replace("-", "");
+        //        修改采集器归属
+        String[] splits = collectorIds.split(",");
+        Collector collector = new Collector();
+        for (String collectorId : splits) {
+            collector.setId(collectorId);
+            collector.setPropertyId(id);
+            collector.setPropertyName(userName);
+            service.update(collector);
+        }
         ManagerUser managerUser = new ManagerUser();
-        managerUser.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
+        managerUser.setId(id);
         managerUser.setCtime(new Date());
         managerUser.setAccount(account);
         managerUser.setPassword(password);
@@ -44,19 +59,28 @@ public class ManagerUserService {
     }
 
     /**
-     * 查询修改的饮水机信息
+     * 查询修改的管理用户信息
      */
     public ManagerUser gain(String id) {
         return mapper.selectByPrimaryKey(id);
     }
 
     /**
-     * 修改饮水机信息
+     * 修改管理用户信息
      */
-    public ManagerUser save(String id, String newAccount, String newPassword, String newUserName, Integer newUserType, String newTel, Float newPrime, Float newDivide, Float newPrice) {
+    @Transactional
+    public ManagerUser save(String id, String newAccount, String newPassword, String newUserName, Integer newUserType, String newTel, Float newPrime, Float newDivide, Float newPrice, String collectorIds) {
 //        卡号不重复
         ManagerUser user = mapper.selectByPrimaryKey(id);
         if (user == null) return null;
+        String[] splits = collectorIds.split(",");
+        Collector collector = new Collector();
+        for (String collectorId : splits) {
+            collector.setId(collectorId);
+            collector.setPropertyId(id);
+            collector.setPropertyName(newUserName);
+            service.update(collector);
+        }
         ManagerUser managerUser = new ManagerUser();
         managerUser.setId(id);
         managerUser.setCtime(new Date());
@@ -99,6 +123,4 @@ public class ManagerUserService {
         if (value != null) hashMap.put("value", "%" + value + "%");
         return new PageInfo(mapper.getManagerUser(hashMap));
     }
-
-
 }
