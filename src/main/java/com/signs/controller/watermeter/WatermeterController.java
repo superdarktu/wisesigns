@@ -1,15 +1,23 @@
 package com.signs.controller.watermeter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.signs.dto.watermeter.WatermeterExcel;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.model.watermeter.Watermeter;
 import com.signs.service.watermeter.WatermeterService;
+import com.signs.util.BigExcelUtil;
+import com.signs.util.BigSheetContentsHandler;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -155,6 +163,53 @@ public class WatermeterController {
         }catch (Exception e){
             result.setResult(1);
         }
+        return result;
+    }
+
+    /**
+     * 上传excel
+     * @param file
+     * @return
+     */
+    @PostMapping("/leadingExcel")
+    public Result excel(@RequestParam("file") MultipartFile file) {
+
+        Result result = new Result();
+        List<Integer> errorList = new ArrayList<>();
+        try {
+            String name = file.getOriginalFilename();
+            if (!name.endsWith(".xls") && !name.endsWith(".xlsx")) {
+                result.setError("请上传excel文件");
+                return result;
+            }
+            new BigExcelUtil(file.getInputStream()).setHandler(new BigSheetContentsHandler(WatermeterExcel.class){
+                @Override
+                public void endRow(int i) {
+                    try {
+                        if (flag) {
+                            errorList.add(i);
+                        } else if (i > 0) {
+                            WatermeterExcel watermeterExcel = (WatermeterExcel) model;
+                            if (service.isHaveCode(watermeterExcel.getCode())) {
+                                errorList.add(i);
+                            } else {
+                                Watermeter watermeter = new Watermeter();
+                                watermeter.setCode(watermeterExcel.getCode());
+                                watermeter.setCollectorCode(watermeterExcel.getCollectorCode());
+                                watermeter.setTotalCode(watermeterExcel.getTotalCode());
+                                service.insert(watermeter);
+                            }
+                        }
+                    }catch (Exception e){
+                        errorList.add(i);
+                    }
+                }
+
+            }).parse();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        result.setData(errorList);
         return result;
     }
 
