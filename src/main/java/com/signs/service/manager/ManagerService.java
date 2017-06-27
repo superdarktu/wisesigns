@@ -1,6 +1,5 @@
 package com.signs.service.manager;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.manager.ManagerMapper;
 import com.signs.mapper.managerUser.ManagerUserMapper;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.print.attribute.standard.MediaName;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -163,10 +161,11 @@ public class ManagerService {
 
     /**
      * 根据ID查询
+     *
      * @param id
      * @return
      */
-    public Manager query(String id){
+    public Manager query(String id) {
 
         return mapper.selectByPrimaryKey(id);
     }

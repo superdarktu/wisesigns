@@ -9,6 +9,7 @@ import java.util.List;
 public interface UserMapper extends MyMapper<User> {
     /**
      * 分页模糊查询用户
+     *
      * @param hashMap
      * @return
      */

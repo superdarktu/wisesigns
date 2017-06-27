@@ -12,12 +12,12 @@ public interface WaterFountainsMapper extends MyMapper<WaterFountains> {
 
     /**
      * 分页查询饮水机信息
-     *
      */
     List<WaterFountains> getDispenser(HashMap hashMap);
-/**
- * 获取最后一条
- */
+
+    /**
+     * 获取最后一条
+     */
     WaterFountains getLastDispenser();
 
 }

@@ -1,6 +1,8 @@
 package com.signs.model.managerUserCollector;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Table(name = "tb_manager_user_collector")
 public class ManagerUserCollector {

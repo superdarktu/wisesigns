@@ -39,10 +39,11 @@ public class WatermeterService {
 
     /**
      * 添加水表
+     *
      * @param watermeter
      * @return
      */
-    public boolean insert(Watermeter watermeter){
+    public boolean insert(Watermeter watermeter) {
 
         watermeter.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
         watermeter.setCtime(new Date());
@@ -50,29 +51,31 @@ public class WatermeterService {
         watermeter.setFlowDay(0);
         watermeter.setFlowMonth(0);
         watermeter.setTapStatus(1);
-        if(mapper.insert(watermeter) > 0) return true;
+        if (mapper.insert(watermeter) > 0) return true;
         return false;
     }
 
     /**
      * 修改水表
+     *
      * @param watermeter
      * @return
      */
-    public boolean update(Watermeter watermeter){
+    public boolean update(Watermeter watermeter) {
 
-        if(mapper.updateByPrimaryKeySelective(watermeter)>0) return true;
+        if (mapper.updateByPrimaryKeySelective(watermeter) > 0) return true;
 
         return false;
     }
 
     /**
      * 分页条件查询
+     *
      * @param page
      * @param map
      * @return
      */
-    public PageInfo<Watermeter> page(PageParam page, Map<String,Object> map){
+    public PageInfo<Watermeter> page(PageParam page, Map<String, Object> map) {
 
         if (page.getPageNo() != null && page.getPageSize() != null) {
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
@@ -83,37 +86,50 @@ public class WatermeterService {
 
     /**
      * 根据id查询水表信息
+     *
      * @param id
      * @return
      */
-    public Watermeter query(String id){
+    public Watermeter query(String id) {
 
         return mapper.selectByPrimaryKey(id);
     }
 
     /**
      * 修改水表阀门开关
+     *
      * @param id
      * @return
      */
-    public boolean changeTap(String id){
+    public boolean changeTap(String id) {
 
         Watermeter watermeter = mapper.selectByPrimaryKey(id);
 
-        Assert.notNull(watermeter,"该ID水表不存在");
+        Assert.notNull(watermeter, "该ID水表不存在");
         watermeter.setTapStatus(watermeter.getTapStatus() == 0 ? 1 : 0);
 
-        if(mapper.updateByPrimaryKeySelective(watermeter) > 0) return true;
-        return  false;
+        if (mapper.updateByPrimaryKeySelective(watermeter) > 0) return true;
+        return false;
     }
 
     /**
      * 根据采集器获取所有的表编号
+     *
      * @param collectorCode
      * @return
      */
-    public List<String> queryByCollector(String collectorCode){
+    public List<String> queryByCollector(String collectorCode) {
 
         return mapper.queryByCollector(collectorCode);
+    }
+
+    /**
+     * 编号唯一
+     * @param code
+     * @return
+     */
+    public boolean isHaveCode(String code){
+
+        return mapper.isHaveUsername(code) == null ? false : true;
     }
 }

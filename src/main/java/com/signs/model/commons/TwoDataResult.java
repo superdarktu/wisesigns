@@ -7,7 +7,7 @@ public class TwoDataResult {
     private Object consume;
 
     public TwoDataResult() {
-        this.result=1;
+        this.result = 1;
     }
 
     public int getResult() {
@@ -24,7 +24,7 @@ public class TwoDataResult {
 
     public void setRecharge(Object recharge) {
         this.recharge = recharge;
-        this.result=0;
+        this.result = 0;
     }
 
     public Object getConsume() {
@@ -33,6 +33,6 @@ public class TwoDataResult {
 
     public void setConsume(Object consume) {
         this.consume = consume;
-        this.result=0;
+        this.result = 0;
     }
 }

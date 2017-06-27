@@ -22,7 +22,7 @@ public class UserPurchaseRecordController {
     @PostMapping("/consumption")
     public Object pageCard(PageParam param, SearchVO dto) {
         try {
-        return service.page(param,dto.getId(),dto.getDate1(),dto.getDate2(),dto.getValue());
+            return service.page(param, dto.getId(), dto.getDate1(), dto.getDate2(), dto.getValue());
         } catch (Exception e) {
             e.printStackTrace();
             return "1";

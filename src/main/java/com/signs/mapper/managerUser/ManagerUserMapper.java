@@ -29,5 +29,4 @@ public interface ManagerUserMapper extends MyMapper<ManagerUser> {
     ManagerUser login(HashMap hashMap);
 
 
-
 }

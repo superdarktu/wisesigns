@@ -5,10 +5,6 @@ import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.service.collector.CollectorService;
 import com.signs.service.watermeter.WatermeterService;
-//import com.signs.util.BigExcelUtil;
-//import com.signs.util.test;
-//import org.apache.poi.ss.usermodel.Row;
-//import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -26,6 +22,11 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+//import com.signs.util.BigExcelUtil;
+//import com.signs.util.test;
+//import org.apache.poi.ss.usermodel.Row;
+//import org.apache.poi.ss.usermodel.Sheet;
+
 @RestController
 @RequestMapping("/api/collector")
 public class collectorController {
@@ -38,22 +39,23 @@ public class collectorController {
 
     /**
      * 添加采集器
+     *
      * @param collectorNumber
      * @param collectorName
      * @return
      */
     @PostMapping("/addCollectorNews")
-    public Result addCollectorNews(String collectorNumber,String collectorName){
+    public Result addCollectorNews(String collectorNumber, String collectorName) {
         Result result = new Result();
 
         Collector collector = new Collector();
         collector.setCode(collectorNumber);
         collector.setName(collectorName);
 
-        try{
-            if(service.insert(collector))
+        try {
+            if (service.insert(collector))
                 result.setResult(0);
-        }catch (Exception e){
+        } catch (Exception e) {
             result.setResult(1);
         }
         return result;
@@ -61,21 +63,22 @@ public class collectorController {
 
     /**
      * 查询采集器信息
+     *
      * @param id
      * @return
      */
     @PostMapping("/gainCollectorNews")
-    public Result gainCollectorNews(String id){
+    public Result gainCollectorNews(String id) {
         Result result = new Result();
-        try{
+        try {
             Collector collector = service.query(id);
-            Assert.notNull(collector,"该采集器不存在");
+            Assert.notNull(collector, "该采集器不存在");
 
-            Map<String,String> map = new HashMap<>();
-            map.put("collectorNumber",collector.getCode());
-            map.put("collectorName",collector.getName());
+            Map<String, String> map = new HashMap<>();
+            map.put("collectorNumber", collector.getCode());
+            map.put("collectorName", collector.getName());
             result.setData(map);
-        }catch (Exception e){
+        } catch (Exception e) {
             result.setResult(1);
         }
         return result;
@@ -84,13 +87,14 @@ public class collectorController {
 
     /**
      * 修改采集器
+     *
      * @param id
      * @param newCollectorNumber
      * @param newCollectorName
      * @return
      */
     @PostMapping("/reviseCollectorNews")
-    public Result reviseCollectorNews(String id,String newCollectorNumber,String newCollectorName){
+    public Result reviseCollectorNews(String id, String newCollectorNumber, String newCollectorName) {
         Result result = new Result();
 
         Collector collector = new Collector();
@@ -98,10 +102,10 @@ public class collectorController {
         collector.setName(newCollectorName);
         collector.setId(id);
 
-        try{
-            if(service.update(collector))
+        try {
+            if (service.update(collector))
                 result.setResult(0);
-        }catch (Exception e){
+        } catch (Exception e) {
             result.setResult(1);
         }
         return result;
@@ -110,20 +114,21 @@ public class collectorController {
 
     /**
      * 分页查询
+     *
      * @param param
      * @param deviceStatus
      * @param tableNumber
      * @return
      */
     @PostMapping("/allEquipmentStatus")
-    public Result allEquipmentStatus(PageParam param,Integer deviceStatus, String tableNumber){
+    public Result allEquipmentStatus(PageParam param, Integer deviceStatus, String tableNumber) {
         Result result = new Result();
-        try{
+        try {
             Collector collector = new Collector();
             collector.setStatus(deviceStatus);
             collector.setName(tableNumber);
-            result.setData(service.page(param,collector));
-        }catch (Exception e){
+            result.setData(service.page(param, collector));
+        } catch (Exception e) {
             e.printStackTrace();
             result.setResult(1);
         }
@@ -132,15 +137,16 @@ public class collectorController {
 
     /**
      * 查询链接表编号
+     *
      * @param
      * @return
      */
     @PostMapping("/linkNumber")
-    public Result linkNumber(String collectorNumber){
+    public Result linkNumber(String collectorNumber) {
         Result result = new Result();
-        try{
+        try {
             result.setData(watermeterService.queryByCollector(collectorNumber));
-        }catch (Exception e){
+        } catch (Exception e) {
             result.setResult(1);
         }
         return result;
@@ -148,6 +154,7 @@ public class collectorController {
 
     /**
      * 删除采集器
+     *
      * @param id
      * @return
      */
@@ -170,7 +177,7 @@ public class collectorController {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         XSSFWorkbook workbook = new XSSFWorkbook();
-        String TITLES[] = { "时间",  "类型 | 收支流水号 ", "金额(元)", "支付渠道 | 单号" };
+        String TITLES[] = {"时间", "类型 | 收支流水号 ", "金额(元)", "支付渠道 | 单号"};
         XSSFSheet sheet = workbook.createSheet("第1页");
         XSSFRow titleRow = sheet.createRow(0);
         for (int k = 0; k < TITLES.length; k++) {
@@ -178,13 +185,13 @@ public class collectorController {
             titleCell.setCellValue(TITLES[k]);
         }
         OutputStream output = response.getOutputStream();
-        response.setHeader("Content-Disposition","attachment;filename=" + new String("订单导出.xlsx".getBytes("UTF-8"), "ISO-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String("订单导出.xlsx".getBytes("UTF-8"), "ISO-8859-1"));
         workbook.write(output);
         output.close();
     }
 
     @PostMapping("/excel")
-    public Result excel(){
+    public Result excel() {
 
         Result result = new Result();
         return result;

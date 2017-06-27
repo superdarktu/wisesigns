@@ -3,8 +3,6 @@ package com.signs.controller.user;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.model.commons.TwoDataResult;
-import com.signs.model.userPurchaseRecord.UserPurchaseRecord;
-import com.signs.model.userRechargeRecord.UserRechargeRecord;
 import com.signs.service.user.UserService;
 import com.signs.service.userPurchaseRecord.UserPurchaseRecordService;
 import com.signs.service.userRechargeRecord.UserRechargeRecordService;
@@ -49,8 +47,8 @@ public class EndUserController {
     public TwoDataResult pageBill(PageParam param, String id) {
         TwoDataResult result = new TwoDataResult();
         try {
-            result.setConsume(service1.page(param, id,null,null,null));
-            result.setRecharge(service2.page(param, id,null,null,null));
+            result.setConsume(service1.page(param, id, null, null, null));
+            result.setRecharge(service2.page(param, id, null, null, null));
         } catch (Exception e) {
             e.printStackTrace();
         }

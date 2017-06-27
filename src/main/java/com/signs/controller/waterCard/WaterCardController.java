@@ -25,7 +25,7 @@ public class WaterCardController {
         Result dto = new Result();
         try {
             boolean b = service.createCard(cardNumberi, password, type);
-            String content=b?"0":"1";
+            String content = b ? "0" : "1";
             dto.setData(content);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -54,9 +54,9 @@ public class WaterCardController {
      * 查询水卡
      */
     @PostMapping("/queryType")
-    public Object pageCard(PageParam param, String type,String status, String value) {
+    public Object pageCard(PageParam param, String type, String status, String value) {
         try {
-        return service.page(param,type,status,value);
+            return service.page(param, type, status, value);
         } catch (Exception e) {
             e.printStackTrace();
             return "1";

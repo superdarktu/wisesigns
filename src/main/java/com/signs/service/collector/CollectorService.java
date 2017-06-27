@@ -9,7 +9,6 @@ import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.managerUser.ManagerUser;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,10 +31,11 @@ public class CollectorService {
 
     /**
      * 添加采集器
+     *
      * @param collector
      * @return
      */
-    public boolean insert(Collector collector){
+    public boolean insert(Collector collector) {
 
         collector.setCtime(new Date());
         collector.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
@@ -46,26 +46,29 @@ public class CollectorService {
 
     /**
      * 修改采集器
+     *
      * @param collector
      * @return
      */
-    public boolean update(Collector collector){
+    public boolean update(Collector collector) {
 
         return mapper.updateByPrimaryKeySelective(collector) > 0 ? true : false;
     }
 
     /**
      * 根据ID查询
+     *
      * @param id
      * @return
      */
-    public Collector query(String id){
+    public Collector query(String id) {
 
         return mapper.selectByPrimaryKey(id);
     }
 
     /**
      * 删除采集器
+     *
      * @param idstr
      * @return
      */
@@ -81,6 +84,7 @@ public class CollectorService {
 
     /**
      * 分页条件查询
+     *
      * @param page
      * @param collector
      * @return
@@ -96,26 +100,28 @@ public class CollectorService {
 
     /**
      * 获取没有分配过物业的采集器
+     *
      * @return
      */
-    public List<Collector> findWithNoProperty(){
+    public List<Collector> findWithNoProperty() {
 
         return mapper.findWithNoProperty();
     }
 
     /**
      * 根据管理用户ID获取采集器编号
+     *
      * @param managerId
      * @return
      */
-    public List<String> findByManager(String managerId){
+    public List<String> findByManager(String managerId) {
 
-        ManagerUser managerUser =  managerUserMapper.selectByPrimaryKey(managerId);
+        ManagerUser managerUser = managerUserMapper.selectByPrimaryKey(managerId);
 
-        if(managerUser.getUserType() == 1){
+        if (managerUser.getUserType() == 1) {
 
             return mapper.findByManager(managerId);
-        }else{
+        } else {
 
             return managerUserCollectorMapper.findByManager(managerId);
         }

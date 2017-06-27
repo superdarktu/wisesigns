@@ -29,10 +29,10 @@ public class ManagerUserService {
     /**
      * 管理用户登录
      */
-    public ManagerUser login(String userName,String password) {
-        HashMap hashMap=new HashMap();
-        hashMap.put("userName",userName);
-        hashMap.put("password",password);
+    public ManagerUser login(String userName, String password) {
+        HashMap hashMap = new HashMap();
+        hashMap.put("userName", userName);
+        hashMap.put("password", password);
         return mapper.login(hashMap);
     }
 
@@ -97,11 +97,11 @@ public class ManagerUserService {
     }
 
 
-    public Boolean modifyPassword(String id,String oldPassword,String newPassword) {
+    public Boolean modifyPassword(String id, String oldPassword, String newPassword) {
         ManagerUser managerUser = mapper.selectByPrimaryKey(id);
         if (managerUser == null) return false;
-        if (managerUser.getPassword().equals(oldPassword)){
-            ManagerUser user=new ManagerUser();
+        if (managerUser.getPassword().equals(oldPassword)) {
+            ManagerUser user = new ManagerUser();
             user.setPassword(newPassword);
             user.setId(id);
             mapper.updateByPrimaryKeySelective(user);
