@@ -128,7 +128,7 @@ public class ManagerUserController {
      */
     @PostMapping("/svnStatus")
     public Result pageUser(PageParam param, String type, String status, String value) {
-        Result result=new Result();
+        Result result = new Result();
         try {
             result.setData(service.page(param, type, status, value));
 
@@ -144,16 +144,15 @@ public class ManagerUserController {
      */
     @PostMapping("/branchInquiry")
     public Result branchInquiry(String id) {
-        Result result=new Result();
+        Result result = new Result();
         try {
             result.setData(service1.findByManager(id));
         } catch (Exception e) {
             e.printStackTrace();
             result.setData("1");
         }
-    return  result;
+        return result;
     }
-
 
 
     /**
@@ -161,7 +160,7 @@ public class ManagerUserController {
      */
     @PostMapping("/inquiry")
     public Result inquiry(PageParam param, String value) {
-        Result result=new Result();
+        Result result = new Result();
         try {
             Collector collector = new Collector();
             collector.setName(value);
