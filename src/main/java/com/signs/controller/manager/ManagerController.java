@@ -3,13 +3,16 @@ package com.signs.controller.manager;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.model.manager.Manager;
+import com.signs.model.managerUser.ManagerUser;
 import com.signs.service.manager.ManagerService;
+import com.signs.service.managerUser.ManagerUserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.util.StringUtil;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/manager")
@@ -18,10 +21,11 @@ public class ManagerController {
     @Resource
     private ManagerService service;
 
-
+    @Resource
+    private ManagerUserService managerUserService;
 
     @PostMapping("/login")
-    public Result loginIn(Manager model) {
+    public Result loginIn(Manager model, HttpSession httpSession) {
 
         Result dto = new Result();
         try {
@@ -31,9 +35,20 @@ public class ManagerController {
                 Manager manager = service.login(model.getUserName(), model.getPassword());
 
                 if (manager == null) {
-                    dto.setResult(1);
+                    ManagerUser managerUser = managerUserService.login(model.getUserName(), model.getPassword());
+                    if(managerUser == null) {
+                        dto.setResult(1);
+                    }else {
+                        dto.setData(managerUser);
+                        dto.setInfo("2");
+                        httpSession.setAttribute("id",managerUser.getId());
+                        httpSession.setAttribute("type","2");
+                    }
                 } else {
                     dto.setData(manager);
+                    dto.setInfo("1");
+                    httpSession.setAttribute("id",manager.getId());
+                    httpSession.setAttribute("type","1");
                 }
             }
         } catch (Exception ex) {
