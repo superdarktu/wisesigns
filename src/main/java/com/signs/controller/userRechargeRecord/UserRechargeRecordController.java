@@ -28,7 +28,7 @@ public class UserRechargeRecordController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            result.setData("1");
+            result.setResult(1);
         }
         return result;
     }

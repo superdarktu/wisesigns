@@ -57,8 +57,8 @@ public class ManagerUserController {
         Result dto = new Result();
         try {
             boolean b = service.createUser(account, password, userName, userType, tel, prime, divide, price, collector);
-            String content = b ? "0" : "1";
-            dto.setData(content);
+            int content = b ? 0 : 1;
+            dto.setResult(content);
         } catch (Exception ex) {
             ex.printStackTrace();
             dto.setData("1");
@@ -74,10 +74,10 @@ public class ManagerUserController {
         Result dto = new Result();
         try {
             service.delete(id);
-            dto.setData("0");
+            dto.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
-            dto.setData("1");
+            dto.setResult(1);
         }
         return dto;
     }
@@ -91,7 +91,7 @@ public class ManagerUserController {
         try {
             dto.setData(service.gain(id));
         } catch (Exception e) {
-            dto.setData("1");
+            dto.setResult(1);
         }
         return dto;
     }
@@ -134,7 +134,7 @@ public class ManagerUserController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            result.setData("1");
+            result.setResult(1);
         }
         return result;
     }
@@ -149,7 +149,7 @@ public class ManagerUserController {
             result.setData(service1.findByManager(id));
         } catch (Exception e) {
             e.printStackTrace();
-            result.setData("1");
+            result.setResult(1);
         }
         return result;
     }
@@ -167,7 +167,7 @@ public class ManagerUserController {
             result.setData(service1.page(param, collector));
         } catch (Exception e) {
             e.printStackTrace();
-            result.setData("1");
+            result.setResult(1);
         }
         return result;
     }
