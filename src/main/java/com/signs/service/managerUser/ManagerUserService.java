@@ -25,6 +25,17 @@ public class ManagerUserService {
     @Resource
     private CollectorService service;
 
+
+    /**
+     * 管理用户登录
+     */
+    public ManagerUser login(String userName,String password) {
+        HashMap hashMap=new HashMap();
+        hashMap.put("userName",userName);
+        hashMap.put("password",password);
+        return mapper.login(hashMap);
+    }
+
     /**
      * 创管理用户
      */
@@ -123,4 +134,5 @@ public class ManagerUserService {
         if (value != null) hashMap.put("value", "%" + value + "%");
         return new PageInfo(mapper.getManagerUser(hashMap));
     }
+
 }

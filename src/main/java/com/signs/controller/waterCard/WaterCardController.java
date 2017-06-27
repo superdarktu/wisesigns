@@ -1,29 +1,62 @@
 package com.signs.controller.waterCard;
 
 import com.signs.model.commons.PageParam;
-import com.signs.service.userPurchaseRecord.UserPurchaseRecordService;
+import com.signs.model.commons.Result;
+import com.signs.service.waterCard.WaterCardService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 @RestController
-@RequestMapping("/api/inventory")
+@RequestMapping("/api/waterCard")
 public class WaterCardController {
 
     @Resource
-    private UserPurchaseRecordService service;
+    private WaterCardService service;
 
+    /**
+     * 添加水卡
+     */
+    @PostMapping("/addWaterCard")
+    public Result addWaterCard(String cardNumberi, String password, Integer type) {
+
+        Result dto = new Result();
+        try {
+            boolean b = service.createCard(cardNumberi, password, type);
+            String content=b?"0":"1";
+            dto.setData(content);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            dto.setData("1");
+        }
+        return dto;
+    }
+
+    /**
+     * 根据传过来的一串id删除
+     */
+    @PostMapping("/deleteCard")
+    public Result deleteCard(String id) {
+        Result dto = new Result();
+        try {
+            service.delete(id);
+            dto.setData("0");
+        } catch (Exception e) {
+            e.printStackTrace();
+            dto.setData("1");
+        }
+        return dto;
+    }
 
     /**
      * 查询水卡
      */
-    @PostMapping("/svnStatus")
-    public Object pageCard(PageParam param, String userId, Date date1, Date date2,String value) {
+    @PostMapping("/queryType")
+    public Object pageCard(PageParam param, String type,String status, String value) {
         try {
-        return service.page(param,userId,date1,date2,value);
+        return service.page(param,type,status,value);
         } catch (Exception e) {
             e.printStackTrace();
             return "1";

@@ -23,6 +23,9 @@ public interface ManagerUserMapper extends MyMapper<ManagerUser> {
      */
     List<ManagerUser> getManagerUser(HashMap hashMap);
 
-
+    /**
+     * 管理用户登录
+     */
+    ManagerUser login(HashMap hashMap);
 
 }
