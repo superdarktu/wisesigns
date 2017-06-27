@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.print.attribute.standard.MediaName;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -158,6 +159,16 @@ public class ManagerService {
         }
 
         return b;
+    }
+
+    /**
+     * 根据ID查询
+     * @param id
+     * @return
+     */
+    public Manager query(String id){
+
+        return mapper.selectByPrimaryKey(id);
     }
 
 
