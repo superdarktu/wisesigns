@@ -10,9 +10,10 @@ public interface WatermeterMapper extends MyMapper<Watermeter> {
 
     /**
      * 分页条件查询
-     *
      */
-     List<Watermeter> pageData(Map<String,Object> map);
+    List<Watermeter> pageData(Map<String, Object> map);
 
-     List<String> queryByCollector(String collectorCode);
+    List<String> queryByCollector(String collectorCode);
+
+    Watermeter isHaveUsername(String code);
 }

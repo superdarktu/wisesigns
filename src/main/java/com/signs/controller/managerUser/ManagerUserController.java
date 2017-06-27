@@ -56,7 +56,7 @@ public class ManagerUserController {
     public Result addUser(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price, String collector) {
         Result dto = new Result();
         try {
-            boolean b = service.createUser(account, password, userName, userType, tel, prime, divide, price,collector);
+            boolean b = service.createUser(account, password, userName, userType, tel, prime, divide, price, collector);
             String content = b ? "0" : "1";
             dto.setData(content);
         } catch (Exception ex) {
@@ -115,7 +115,7 @@ public class ManagerUserController {
             managerUser.setCostScale(newPrime);
             managerUser.setIvisionProportion(newDivide);
             managerUser.setWaterPrice(newPrice);
-            ManagerUser save = service.save(managerUser,newcollector);
+            ManagerUser save = service.save(managerUser, newcollector);
             if (save == null) return "1";
         } catch (Exception e) {
             return "1";
@@ -163,7 +163,7 @@ public class ManagerUserController {
     public Result inquiry(PageParam param, String value) {
         Result result=new Result();
         try {
-            Collector collector=new Collector();
+            Collector collector = new Collector();
             collector.setName(value);
             result.setData(service1.page(param, collector));
         } catch (Exception e) {

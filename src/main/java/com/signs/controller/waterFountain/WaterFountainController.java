@@ -26,7 +26,7 @@ public class WaterFountainController {
     public Result addDispenser(String waterPosition, String tableNumber, Integer waterType, Float longitude, Float latitude) {
         Result dto = new Result();
         try {
-            boolean b = service.createFountains(waterPosition,tableNumber,waterType,longitude,latitude);
+            boolean b = service.createFountains(waterPosition, tableNumber, waterType, longitude, latitude);
             String content = b ? "0" : "1";
             dto.setData(content);
         } catch (Exception ex) {

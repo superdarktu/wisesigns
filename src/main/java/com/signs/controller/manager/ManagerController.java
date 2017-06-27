@@ -36,19 +36,19 @@ public class ManagerController {
 
                 if (manager == null) {
                     ManagerUser managerUser = managerUserService.login(model.getUserName(), model.getPassword());
-                    if(managerUser == null) {
+                    if (managerUser == null) {
                         dto.setResult(1);
-                    }else {
+                    } else {
                         dto.setData(managerUser);
                         dto.setInfo("2");
-                        httpSession.setAttribute("id",managerUser.getId());
-                        httpSession.setAttribute("type","2");
+                        httpSession.setAttribute("id", managerUser.getId());
+                        httpSession.setAttribute("type", "2");
                     }
                 } else {
                     dto.setData(manager);
                     dto.setInfo("1");
-                    httpSession.setAttribute("id",manager.getId());
-                    httpSession.setAttribute("type","1");
+                    httpSession.setAttribute("id", manager.getId());
+                    httpSession.setAttribute("type", "1");
                 }
             }
         } catch (Exception ex) {
@@ -122,7 +122,7 @@ public class ManagerController {
     public Result pageUser(PageParam param, String keyWord) {
         Result dto = new Result();
         try {
-            if(StringUtil.isEmpty(keyWord))
+            if (StringUtil.isEmpty(keyWord))
                 keyWord = "";
             dto.setData(service.page(param, keyWord));
         } catch (Exception e) {
@@ -156,6 +156,7 @@ public class ManagerController {
 
     /**
      * 修改密码
+     *
      * @param id
      * @param oldPassword
      * @param newPassword
@@ -166,7 +167,7 @@ public class ManagerController {
         Result dto = new Result();
         dto.setData("1");
         try {
-            if (service.updatePassword(id,oldPassword,newPassword)) {
+            if (service.updatePassword(id, oldPassword, newPassword)) {
                 dto.setData("0");
             }
         } catch (Exception e) {
@@ -177,6 +178,7 @@ public class ManagerController {
 
     /**
      * 重置密码为123456
+     *
      * @param id
      * @return
      */

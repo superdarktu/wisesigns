@@ -22,26 +22,28 @@ public class WatermeterController {
 
     /**
      * 阀门控制
+     *
      * @param id
      * @return
      */
     @RequestMapping("/control")
-    public Result control(String id){
+    public Result control(String id) {
         Result result = new Result();
         result.setResult(1);
-        if(service.changeTap(id)) result.setResult(0);
-        return  result;
+        if (service.changeTap(id)) result.setResult(0);
+        return result;
     }
 
     /**
      * 添加表信息
+     *
      * @param outsideNumber
      * @param tableNumber
      * @param collecotrNumber
      * @return
      */
     @RequestMapping("/addTableNews")
-    public Result control(String outsideNumber,String tableNumber,String collecotrNumber){
+    public Result control(String outsideNumber, String tableNumber, String collecotrNumber) {
         Result result = new Result();
         result.setResult(1);
 
@@ -50,12 +52,13 @@ public class WatermeterController {
         watermeter.setCode(outsideNumber);
         watermeter.setTotalCode(tableNumber);
 
-        if(service.insert(watermeter)) result.setResult(0);
-        return  result;
+        if (service.insert(watermeter)) result.setResult(0);
+        return result;
     }
 
     /**
      * 修改表信息
+     *
      * @param id
      * @param newOutsideNumber
      * @param newTableNumber
@@ -63,7 +66,7 @@ public class WatermeterController {
      * @return
      */
     @RequestMapping("/reviseTableNews")
-    public Result reviseTableNews(String id,String newOutsideNumber,String newTableNumber,String newCollecotrNumber){
+    public Result reviseTableNews(String id, String newOutsideNumber, String newTableNumber, String newCollecotrNumber) {
         Result result = new Result();
         result.setResult(1);
 
@@ -73,44 +76,47 @@ public class WatermeterController {
         watermeter.setCode(newOutsideNumber);
         watermeter.setTotalCode(newTableNumber);
 
-        if(service.update(watermeter)) result.setResult(0);
-        return  result;
+        if (service.update(watermeter)) result.setResult(0);
+        return result;
     }
 
     /**
      * 修改获取表信息
+     *
      * @param id
      * @return
      */
     @RequestMapping("/gainTableNews")
-    public Result gainTableNews(String id){
+    public Result gainTableNews(String id) {
 
         Result result = new Result();
         Watermeter watermeter = service.query(id);
 
         JSONObject object = new JSONObject();
-        object.put("outsideNumber",watermeter.getCode());
-        object.put("tableNumber",watermeter.getTotalCode());
-        object.put("collecotrNumber",watermeter.getCollectorCode());
+        object.put("outsideNumber", watermeter.getCode());
+        object.put("tableNumber", watermeter.getTotalCode());
+        object.put("collecotrNumber", watermeter.getCollectorCode());
         result.setData(object);
-        return  result;
+        return result;
     }
 
     /**
      * 删除表信息
+     *
      * @param id
      * @return
      */
     @RequestMapping("/deleteNetstat")
-    public Result deleteNetstat(String id){
+    public Result deleteNetstat(String id) {
         Result result = new Result();
         result.setResult(1);
-        if(service.delete(id)) result.setResult(0);
-        return  result;
+        if (service.delete(id)) result.setResult(0);
+        return result;
     }
 
     /**
      * 分页条件查询
+     *
      * @param param
      * @param deviceStatus
      * @param valveOperation
@@ -118,18 +124,38 @@ public class WatermeterController {
      * @return
      */
     @RequestMapping("/allEquipmentStatus")
-    public Result allEquipmentStatus(PageParam param, String deviceStatus, String valveOperation, String tableNumber){
+    public Result allEquipmentStatus(PageParam param, String deviceStatus, String valveOperation, String tableNumber) {
         Result result = new Result();
         result.setResult(1);
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
-        map.put("status",deviceStatus);
-        map.put("tapStatus",valveOperation);
-        map.put("code",tableNumber);
+        map.put("status", deviceStatus);
+        map.put("tapStatus", valveOperation);
+        map.put("code", tableNumber);
 
-        result.setData(service.page(param,map));
-        return  result;
+        result.setData(service.page(param, map));
+        return result;
     }
 
+    /**
+     * 表编号唯一确认
+     * @param code
+     * @return
+     */
+    @RequestMapping("/isHaveCode")
+    public Result isHaveCode(String code){
+
+        Result result  = new Result();
+        try{
+
+            if(service.isHaveCode(code))
+                result.setResult(1);
+            else
+                result.setResult(0);
+        }catch (Exception e){
+            result.setResult(1);
+        }
+        return result;
+    }
 
 }

@@ -1,7 +1,9 @@
 package com.signs.model.userRechargeRecord;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "tb_user_recharge_record")
 public class UserRechargeRecord {

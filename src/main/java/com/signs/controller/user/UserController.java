@@ -24,6 +24,7 @@ public class UserController {
 
     /**
      * 登录
+     *
      * @param model
      * @param httpSession
      * @return
@@ -40,23 +41,23 @@ public class UserController {
 
                 if (manager == null) {
                     ManagerUser managerUser = managerUserService.login(model.getUserName(), model.getPassword());
-                    if(managerUser == null) {
+                    if (managerUser == null) {
                         dto.setResult(1);
-                    }else {
+                    } else {
                         dto.setData(managerUser);
-                        if(managerUser.getUserType() == 1){
+                        if (managerUser.getUserType() == 1) {
                             dto.setInfo("2");
-                        }else{
+                        } else {
                             dto.setInfo("3");
                         }
-                        httpSession.setAttribute("id",managerUser.getId());
-                        httpSession.setAttribute("type","2");
+                        httpSession.setAttribute("id", managerUser.getId());
+                        httpSession.setAttribute("type", "2");
                     }
                 } else {
                     dto.setData(manager);
                     dto.setInfo("1");
-                    httpSession.setAttribute("id",manager.getId());
-                    httpSession.setAttribute("type","1");
+                    httpSession.setAttribute("id", manager.getId());
+                    httpSession.setAttribute("type", "1");
                 }
             }
         } catch (Exception ex) {
@@ -71,14 +72,14 @@ public class UserController {
      * @return
      */
     @PostMapping("/revise")
-    public Result updateUser(String  newTel ,String newName,HttpSession httpSession) {
+    public Result updateUser(String newTel, String newName, HttpSession httpSession) {
 
-        Result result =  new Result();
+        Result result = new Result();
         try {
             String id = httpSession.getAttribute("id").toString();
             String type = httpSession.getAttribute("type").toString();
 
-            if(type.equals("1")){
+            if (type.equals("1")) {
 
                 Manager manager = new Manager();
                 manager.setId(id);
@@ -86,13 +87,13 @@ public class UserController {
                 manager.setName(newName);
                 service.save(manager);
                 result.setData(manager);
-            }else{
+            } else {
 
                 ManagerUser managerUser = new ManagerUser();
                 managerUser.setId(id);
                 managerUser.setPhone(newTel);
                 managerUser.setName(newName);
-                managerUserService.save(managerUser,"");
+                managerUserService.save(managerUser, "");
                 result.setData(managerUser);
             }
         } catch (Exception e) {
@@ -107,23 +108,23 @@ public class UserController {
      * @return
      */
     @PostMapping("/removePassword")
-    public String removePassword(String  password  ,String newPassword,HttpSession httpSession) {
+    public String removePassword(String password, String newPassword, HttpSession httpSession) {
         try {
 
             String id = httpSession.getAttribute("id").toString();
             String type = httpSession.getAttribute("type").toString();
 
-            if(type.equals("1")){
+            if (type.equals("1")) {
 
-                if(service.updatePassword(id,password,newPassword)){
+                if (service.updatePassword(id, password, newPassword)) {
                     return "0";
-                }else{
+                } else {
                     return "1";
                 }
-            }else{
-                if(managerUserService.modifyPassword(id,password,newPassword)){
+            } else {
+                if (managerUserService.modifyPassword(id, password, newPassword)) {
                     return "0";
-                }else{
+                } else {
                     return "1";
                 }
             }
@@ -134,21 +135,22 @@ public class UserController {
 
     /**
      * 获取用户信息
+     *
      * @param httpSession
      * @return
      */
     @PostMapping("/message")
     public Result message(HttpSession httpSession) {
 
-        Result result =  new Result();
+        Result result = new Result();
         try {
 
             String id = httpSession.getAttribute("id").toString();
             String type = httpSession.getAttribute("type").toString();
 
-            if(type.equals("1")){
+            if (type.equals("1")) {
                 result.setData(service.query(id));
-            }else{
+            } else {
                 result.setData(managerUserService.gain(id));
             }
         } catch (Exception e) {

@@ -2,7 +2,7 @@ package com.signs.dto.Collector;
 
 import com.signs.model.collector.Collector;
 
-public class CollectorVO extends Collector{
+public class CollectorVO extends Collector {
 
     private Integer tuiguan;
 

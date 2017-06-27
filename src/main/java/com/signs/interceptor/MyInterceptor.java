@@ -8,19 +8,18 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 
 @Component
-public class MyInterceptor implements HandlerInterceptor{
+public class MyInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         HttpSession session = httpServletRequest.getSession();
-        String id = (String)session.getAttribute("id");
+        String id = (String) session.getAttribute("id");
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
         System.out.println(id);
-        if (id == null){
-            httpServletRequest.getRequestDispatcher("/api/error/error").forward(httpServletRequest,httpServletResponse);
+        if (id == null) {
+            httpServletRequest.getRequestDispatcher("/api/error/error").forward(httpServletRequest, httpServletResponse);
         }
         return true;
     }

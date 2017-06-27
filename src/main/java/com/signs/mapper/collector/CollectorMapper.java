@@ -13,4 +13,6 @@ public interface CollectorMapper extends MyMapper<Collector> {
     List<String> findByManager(String managerId);
 
     List<Collector> findWithNoProperty();
+
+    Collector isHaveUsername();
 }
