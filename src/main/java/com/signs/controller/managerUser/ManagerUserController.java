@@ -35,7 +35,7 @@ public class ManagerUserController {
 
         Result dto = new Result();
         try {
-            if (userType == 3) {
+            if (userType == 1) {
                 List<Collector> collectors1 = service1.findWithNoProperty();
                 dto.setData(collectors1);
             } else {
@@ -61,7 +61,6 @@ public class ManagerUserController {
                 twoDataResult.setRecharge(already);
             }
             twoDataResult.setConsume(notyet);
-
             twoDataResult.setResult(0);
         }catch (Exception e){
             e.printStackTrace();

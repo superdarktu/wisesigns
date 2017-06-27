@@ -50,6 +50,16 @@ public class WaterFountainsService {
         return true;
     }
 
+    /**
+     * 饮水机编号唯一
+     * @param waterNumber
+     * @return
+     */
+   public boolean selectCode(String waterNumber){
+       List<WaterFountains> waterFountains = mapper.selectCode(waterNumber);
+       return waterFountains != null;
+   }
+
 
     /**
      * 根据ids删除
