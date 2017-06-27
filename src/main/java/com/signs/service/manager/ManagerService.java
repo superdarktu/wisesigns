@@ -3,6 +3,7 @@ package com.signs.service.manager;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.manager.ManagerMapper;
+import com.signs.mapper.managerUser.ManagerUserMapper;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.manager.Manager;
@@ -25,6 +26,9 @@ public class ManagerService {
 
     @Resource
     private TokenManager tokenManager;
+
+    @Resource
+    private ManagerUserMapper managerUserMapper;
 
     /**
      * 登录
@@ -52,7 +56,7 @@ public class ManagerService {
      */
     public boolean isHaveUsername(String username) {
 
-        if (mapper.isHaveUsername(username) != null)
+        if (mapper.isHaveUsername(username) != null || managerUserMapper.selectCode(username) != null)
             return true;
         return false;
     }

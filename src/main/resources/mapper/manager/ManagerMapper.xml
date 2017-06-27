@@ -31,6 +31,7 @@
     SELECT * from tb_manager u
     where u.status=0 and  u.type = 'manager'
         and  ( "" = #{keyWord} or u.user_name like CONCAT('%',#{keyWord},'%') or u.name like CONCAT('%',#{keyWord},'%') or u.tel like CONCAT('%',#{keyWord},'%'))
+    order by u.ctime desc
   </select>
 
 </mapper>

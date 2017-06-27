@@ -30,6 +30,7 @@
         <if test="name != null and name != ''">
             and (c.name like CONCAT('%',#{name},'%') or c.code like CONCAT('%',#{name},'%'))
         </if>
+        order by c.ctime desc
     </select>
 
     <select id="findByManager" parameterType="java.lang.String" resultType="java.lang.String">
