@@ -8,6 +8,7 @@
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="user_type" property="userType" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="cost_scale" property="costScale" jdbcType="REAL"/>
         <result column="ivision_proportion" property="ivisionProportion" jdbcType="REAL"/>
