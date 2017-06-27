@@ -22,14 +22,13 @@
           AND  user_id=#{userId}
         </if>
         <if test="value!=null">
-           AND name LIKE #{value}
+           AND tb_user_purchase_record.name LIKE #{value}
         </if>
         <if test="date1!=null">
-           AND ctime >#{date1}
+           AND ctime > #{date1}
         </if>
         <if test="date2!=null">
-           AND   #{date1}>ctime
+           AND   #{date2}>ctime
         </if>
-
     </select>
 </mapper>

@@ -29,7 +29,7 @@ public class ManagerUser {
 
     @Column(name = "water_price")
     private Float waterPrice;
-private Integer count;
+    private Integer count;
     private Date ctime;
 
     /**

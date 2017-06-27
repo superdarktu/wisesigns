@@ -7,6 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface UserPurchaseRecordMapper extends MyMapper<UserPurchaseRecord> {
-    List<UserPurchaseRecord> selectByUserId(  HashMap hashMap);
+    List<UserPurchaseRecord> selectByUserId(HashMap hashMap);
 
 }

@@ -80,29 +80,18 @@ public class ManagerUserService {
      * 修改管理用户信息
      */
     @Transactional
-    public ManagerUser save(String id, String newAccount, String newPassword, String newUserName, Integer newUserType, String newTel, Float newPrime, Float newDivide, Float newPrice, String collectorIds) {
+    public ManagerUser save(ManagerUser managerUser, String collectorIds) {
 //        卡号不重复
-        ManagerUser user = mapper.selectByPrimaryKey(id);
+        ManagerUser user = mapper.selectByPrimaryKey(managerUser.getId());
         if (user == null) return null;
         String[] splits = collectorIds.split(",");
         Collector collector = new Collector();
         for (String collectorId : splits) {
             collector.setId(collectorId);
-            collector.setPropertyId(id);
-            collector.setPropertyName(newUserName);
+            collector.setPropertyId(managerUser.getId());
+            collector.setPropertyName(managerUser.getName());
             service.update(collector);
         }
-        ManagerUser managerUser = new ManagerUser();
-        managerUser.setId(id);
-        managerUser.setCtime(new Date());
-        managerUser.setAccount(newAccount);
-        managerUser.setPassword(newPassword);
-        managerUser.setUserType(newUserType);
-        managerUser.setName(newUserName);
-        managerUser.setPhone(newTel);
-        managerUser.setCostScale(newPrime);
-        managerUser.setIvisionProportion(newDivide);
-        managerUser.setWaterPrice(newPrice);
         mapper.updateByPrimaryKeySelective(managerUser);
         return managerUser;
     }

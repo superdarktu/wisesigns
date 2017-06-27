@@ -1,5 +1,6 @@
 package com.signs.controller.userPurchaseRecord;
 
+import com.signs.dto.commonSearch.SearchDto;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.service.userPurchaseRecord.UserPurchaseRecordService;
@@ -19,12 +20,12 @@ public class UserPurchaseRecordController {
     private UserPurchaseRecordService service;
 
     /**
-     * 查询水卡
+     * 查询消费
      */
     @PostMapping("/svnStatus")
-    public Object pageCard(PageParam param, String id, Date date1,Date date2, String value) {
+    public Object pageCard(PageParam param, SearchDto dto) {
         try {
-        return service.page(param,id,date1,date2,value);
+        return service.page(param,dto.getId(),dto.getDate1(),dto.getDate2(),dto.getValue());
         } catch (Exception e) {
             e.printStackTrace();
             return "1";

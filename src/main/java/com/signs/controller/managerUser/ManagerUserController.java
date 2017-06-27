@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -103,7 +104,18 @@ public class ManagerUserController {
     public String updateUser(String id, String newAccount, String newPassword, String newUserName, Integer newUserType, String newTel, Float newPrime, Float newDivide, Float newPrice, String newcollector) {
         try {
             if (StringUtil.isEmpty(id)) return "2";
-            ManagerUser save = service.save(id, newAccount, newPassword, newUserName, newUserType, newTel, newPrime, newDivide, newPrice,newcollector);
+            ManagerUser managerUser = new ManagerUser();
+            managerUser.setId(id);
+            managerUser.setCtime(new Date());
+            managerUser.setAccount(newAccount);
+            managerUser.setPassword(newPassword);
+            managerUser.setUserType(newUserType);
+            managerUser.setName(newUserName);
+            managerUser.setPhone(newTel);
+            managerUser.setCostScale(newPrime);
+            managerUser.setIvisionProportion(newDivide);
+            managerUser.setWaterPrice(newPrice);
+            ManagerUser save = service.save(managerUser,newcollector);
             if (save == null) return "1";
         } catch (Exception e) {
             return "1";
