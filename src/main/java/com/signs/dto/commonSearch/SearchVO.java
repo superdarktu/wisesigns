@@ -1,14 +1,17 @@
 package com.signs.dto.commonSearch;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
-public class SearchDto {
+public class SearchVO {
 
     private String id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date1;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date2;
 
     private String value;

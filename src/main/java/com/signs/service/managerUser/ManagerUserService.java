@@ -96,6 +96,22 @@ public class ManagerUserService {
         return managerUser;
     }
 
+
+    public Boolean modifyPassword(String id,String oldPassword,String newPassword) {
+        ManagerUser managerUser = mapper.selectByPrimaryKey(id);
+        if (managerUser == null) return false;
+        if (managerUser.getPassword().equals(oldPassword)){
+            ManagerUser user=new ManagerUser();
+            user.setPassword(newPassword);
+            user.setId(id);
+            mapper.updateByPrimaryKeySelective(user);
+            return true;
+        }
+        return false;
+
+
+    }
+
     /**
      * 根据ids删除
      */
