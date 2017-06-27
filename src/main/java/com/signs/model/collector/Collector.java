@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Table(name = "tb_collector")
 public class Collector {
+
     @Id
     private String id;
 

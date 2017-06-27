@@ -18,7 +18,7 @@
 
 
 
-    <select id="isHaveUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="isHaveCode" parameterType="java.lang.String" resultMap="BaseResultMap">
         select * from tb_collector where code = #{code}
     </select>
 

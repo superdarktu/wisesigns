@@ -1,35 +1,34 @@
 package com.signs.controller.collector;
 
+import com.signs.dto.Collector.CollectorExcel;
 import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.service.collector.CollectorService;
 import com.signs.service.watermeter.WatermeterService;
+import com.signs.util.BigExcelUtil;
+import com.signs.util.BigSheetContentsHandler;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-//import com.signs.util.BigExcelUtil;
-//import com.signs.util.test;
-//import org.apache.poi.ss.usermodel.Row;
-//import org.apache.poi.ss.usermodel.Sheet;
 
 @RestController
 @RequestMapping("/api/collector")
-public class collectorController {
+public class CollectorController {
 
     @Resource
     private CollectorService service;
@@ -178,7 +177,7 @@ public class collectorController {
         response.setContentType("multipart/form-data");
         XSSFWorkbook workbook = new XSSFWorkbook();
         String TITLES[] = {"时间", "类型 | 收支流水号 ", "金额(元)", "支付渠道 | 单号"};
-        XSSFSheet sheet = workbook.createSheet("第1页");
+        XSSFSheet sheet = workbook.createSheet("sheet1");
         XSSFRow titleRow = sheet.createRow(0);
         for (int k = 0; k < TITLES.length; k++) {
             XSSFCell titleCell = titleRow.createCell(k);
@@ -190,10 +189,72 @@ public class collectorController {
         output.close();
     }
 
-    @PostMapping("/excel")
-    public Result excel() {
+    /**
+     * 上传excel
+     * @param file
+     * @return
+     */
+    @PostMapping("/leadingExcel")
+    public Result excel(@RequestParam("file") MultipartFile file) {
 
         Result result = new Result();
+        List<Integer> errorList = new ArrayList<>();
+        try {
+            String name = file.getOriginalFilename();
+            if (!name.endsWith(".xls") && !name.endsWith(".xlsx")) {
+                result.setError("请上传excel文件");
+                return result;
+            }
+            new BigExcelUtil(file.getInputStream()).setHandler(new BigSheetContentsHandler(CollectorExcel.class){
+                @Override
+                public void endRow(int i) {
+                    try {
+                        if (flag) {
+                            errorList.add(i);
+                        } else if (i > 0) {
+                            CollectorExcel collectorExcel = (CollectorExcel) model;
+                            if (service.isHaveCode(collectorExcel.getCode())) {
+                                errorList.add(i);
+                            } else {
+                                Collector collector = new Collector();
+                                collector.setName(collectorExcel.getName());
+                                collector.setCode(collectorExcel.getCode());
+                                service.insert(collector);
+                            }
+                        }
+                    }catch (Exception e){
+                        errorList.add(i);
+                    }
+                }
+
+            }).parse();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        result.setData(errorList);
         return result;
     }
+
+    /**
+     * 表编号唯一确认
+     * @param code
+     * @return
+     */
+    @RequestMapping("/isHaveCode")
+    public Result isHaveCode(String code){
+
+        Result result  = new Result();
+        try{
+
+            if(service.isHaveCode(code))
+                result.setResult(1);
+            else
+                result.setResult(0);
+        }catch (Exception e){
+            result.setResult(1);
+        }
+        return result;
+    }
+
+
 }
