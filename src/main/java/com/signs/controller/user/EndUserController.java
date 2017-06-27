@@ -50,7 +50,7 @@ public class EndUserController {
         TwoDataResult result = new TwoDataResult();
         try {
             result.setConsume(service1.page(param, id,null,null,null));
-            result.setRecharge(service2.page(param, id));
+            result.setRecharge(service2.page(param, id,null,null,null));
         } catch (Exception e) {
             e.printStackTrace();
         }
