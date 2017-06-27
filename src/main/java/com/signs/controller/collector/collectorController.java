@@ -5,12 +5,24 @@ import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.service.collector.CollectorService;
 import com.signs.service.watermeter.WatermeterService;
+import com.signs.util.BigExcelUtil;
+import com.signs.util.test;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -150,5 +162,31 @@ public class collectorController {
             dto.setResult(1);
         }
         return dto;
+    }
+
+    @GetMapping("/down")
+    public void down(HttpServletResponse response) throws IOException {
+
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        String TITLES[] = { "时间",  "类型 | 收支流水号 ", "金额(元)", "支付渠道 | 单号" };
+        XSSFSheet sheet = workbook.createSheet("第1页");
+        XSSFRow titleRow = sheet.createRow(0);
+        for (int k = 0; k < TITLES.length; k++) {
+            XSSFCell titleCell = titleRow.createCell(k);
+            titleCell.setCellValue(TITLES[k]);
+        }
+        OutputStream output = response.getOutputStream();
+        response.setHeader("Content-Disposition","attachment;filename=" + new String("订单导出.xlsx".getBytes("UTF-8"), "ISO-8859-1"));
+        workbook.write(output);
+        output.close();
+    }
+
+    @PostMapping("/excel")
+    public Result excel(){
+
+        Result result = new Result();
+        return result;
     }
 }

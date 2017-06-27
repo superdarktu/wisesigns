@@ -19,6 +19,7 @@ public class ManagerController {
     private ManagerService service;
 
 
+
     @PostMapping("/login")
     public Result loginIn(Manager model) {
 
