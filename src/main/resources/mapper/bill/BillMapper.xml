@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.signs.mapper.bill.BillMapper">
+    <resultMap id="BaseResultMap" type="com.signs.model.bill.Bill">
+
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="income_day" jdbcType="REAL" property="incomeDay" />
+        <result column="income_month" jdbcType="REAL" property="incomeMonth" />
+        <result column="income" jdbcType="REAL" property="income" />
+        <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    </resultMap>
+    <select id="getBills" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT * FROM tb_bill WHERE 1=1
+        <if test="type!=null">
+            AND type=${type}
+        </if>
+
+        <if test="value!=null">
+            AND name LIKE #{value}
+        </if>
+        ORDER BY ctime DESC
+    </select>
+</mapper>

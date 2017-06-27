@@ -6,6 +6,7 @@ import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
+import com.signs.model.commons.TwoDataResult;
 import com.signs.model.managerUser.ManagerUser;
 import com.signs.service.collector.CollectorService;
 import com.signs.service.managerUser.ManagerUserService;
@@ -34,7 +35,7 @@ public class ManagerUserController {
 
         Result dto = new Result();
         try {
-            if (userType == 3) {
+            if (userType == 1) {
                 List<Collector> collectors1 = service1.findWithNoProperty();
                 dto.setData(collectors1);
             } else {
@@ -47,6 +48,26 @@ public class ManagerUserController {
         }
         return dto;
     }
+    /**
+     * 修改用户所需采集器
+     */
+    @PostMapping("/modifyUser")
+    public TwoDataResult modifyUser(String id){
+        TwoDataResult twoDataResult=new TwoDataResult();
+        try{
+            List<Collector> notyet = service1.findWithNoProperty();
+            List<String> already = service1.findByManager(id);
+            if (already != null) {
+                twoDataResult.setRecharge(already);
+            }
+            twoDataResult.setConsume(notyet);
+            twoDataResult.setResult(0);
+        }catch (Exception e){
+            e.printStackTrace();
+            twoDataResult.setResult(1);
+        }
+        return twoDataResult;
+    }
 
 
     /**
@@ -57,8 +78,8 @@ public class ManagerUserController {
         Result dto = new Result();
         try {
             boolean b = service.createUser(account, password, userName, userType, tel, prime, divide, price, collector);
-            String content = b ? "0" : "1";
-            dto.setData(content);
+            int content = b ? 0 : 1;
+            dto.setResult(content);
         } catch (Exception ex) {
             ex.printStackTrace();
             dto.setData("1");
@@ -74,10 +95,10 @@ public class ManagerUserController {
         Result dto = new Result();
         try {
             service.delete(id);
-            dto.setData("0");
+            dto.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
-            dto.setData("1");
+            dto.setResult(1);
         }
         return dto;
     }
@@ -91,7 +112,7 @@ public class ManagerUserController {
         try {
             dto.setData(service.gain(id));
         } catch (Exception e) {
-            dto.setData("1");
+            dto.setResult(1);
         }
         return dto;
     }
@@ -128,13 +149,13 @@ public class ManagerUserController {
      */
     @PostMapping("/svnStatus")
     public Result pageUser(PageParam param, String type, String status, String value) {
-        Result result=new Result();
+        Result result = new Result();
         try {
             result.setData(service.page(param, type, status, value));
 
         } catch (Exception e) {
             e.printStackTrace();
-            result.setData("1");
+            result.setResult(1);
         }
         return result;
     }
@@ -144,16 +165,15 @@ public class ManagerUserController {
      */
     @PostMapping("/branchInquiry")
     public Result branchInquiry(String id) {
-        Result result=new Result();
+        Result result = new Result();
         try {
             result.setData(service1.findByManager(id));
         } catch (Exception e) {
             e.printStackTrace();
-            result.setData("1");
+            result.setResult(1);
         }
-    return  result;
+        return result;
     }
-
 
 
     /**
@@ -161,14 +181,14 @@ public class ManagerUserController {
      */
     @PostMapping("/inquiry")
     public Result inquiry(PageParam param, String value) {
-        Result result=new Result();
+        Result result = new Result();
         try {
             Collector collector = new Collector();
             collector.setName(value);
             result.setData(service1.page(param, collector));
         } catch (Exception e) {
             e.printStackTrace();
-            result.setData("1");
+            result.setResult(1);
         }
         return result;
     }

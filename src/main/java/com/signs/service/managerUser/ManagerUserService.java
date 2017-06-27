@@ -46,13 +46,15 @@ public class ManagerUserService {
         if (ManagerUsers == null || ManagerUsers.size() > 0) return false;
         String id = UUID.randomUUID().toString().replace("-", "");
         //        修改采集器归属
-        String[] splits = collectorIds.split(",");
-        Collector collector = new Collector();
-        for (String collectorId : splits) {
-            collector.setId(collectorId);
-            collector.setPropertyId(id);
-            collector.setPropertyName(userName);
-            service.update(collector);
+        if (collectorIds != null) {
+            String[] splits = collectorIds.split(",");
+            Collector collector = new Collector();
+            for (String collectorId : splits) {
+                collector.setId(collectorId);
+                collector.setPropertyId(id);
+                collector.setPropertyName(userName);
+                service.update(collector);
+            }
         }
         ManagerUser managerUser = new ManagerUser();
         managerUser.setId(id);

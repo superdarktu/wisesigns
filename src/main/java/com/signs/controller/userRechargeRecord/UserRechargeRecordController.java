@@ -3,7 +3,6 @@ package com.signs.controller.userRechargeRecord;
 import com.signs.dto.commonSearch.SearchVO;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
-import com.signs.service.userPurchaseRecord.UserPurchaseRecordService;
 import com.signs.service.userRechargeRecord.UserRechargeRecordService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,7 @@ public class UserRechargeRecordController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            result.setData("1");
+            result.setResult(1);
         }
         return result;
     }

@@ -29,7 +29,7 @@ public class WaterCardController {
             dto.setData(content);
         } catch (Exception ex) {
             ex.printStackTrace();
-            dto.setData("1");
+            dto.setResult(1);
         }
         return dto;
     }
