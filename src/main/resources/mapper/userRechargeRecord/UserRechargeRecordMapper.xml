@@ -12,7 +12,20 @@
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
   </resultMap>
-    <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT * FROM tb_user_recharge_record WHERE user_id=#{userId}
+    <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+      SELECT * FROM tb_user_recharge_record WHERE 1=1
+      <if test="id!=null">
+        AND  user_id=#{id}
+      </if>
+      <if test="value!=null">
+        AND tb_user_recharge_record.name LIKE #{value}
+      </if>
+      <if test="date1!=null">
+        AND ctime > #{date1}
+      </if>
+      <if test="date2!=null">
+        AND   #{date2}>ctime
+      </if>
+       ORDER BY ctime DESC
     </select>
 </mapper>

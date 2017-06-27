@@ -127,42 +127,49 @@ public class ManagerUserController {
      * 查询管理用户
      */
     @PostMapping("/svnStatus")
-    public Object pageUser(PageParam param, String type, String status, String value) {
+    public Result pageUser(PageParam param, String type, String status, String value) {
+        Result result=new Result();
         try {
-            return service.page(param, type, status, value);
+            result.setData(service.page(param, type, status, value));
+
         } catch (Exception e) {
             e.printStackTrace();
-            return "1";
+            result.setData("1");
         }
+        return result;
     }
 
     /**
      * 查询下属采集器
      */
     @PostMapping("/branchInquiry")
-    public Object branchInquiry(String id) {
+    public Result branchInquiry(String id) {
+        Result result=new Result();
         try {
-            return service1.findByManager(id);
+            result.setData(service1.findByManager(id));
         } catch (Exception e) {
             e.printStackTrace();
-            return "1";
+            result.setData("1");
         }
+    return  result;
     }
+
 
 
     /**
      * 采集器模糊查询
      */
     @PostMapping("/inquiry")
-    public Object inquiry(PageParam param, String value) {
+    public Result inquiry(PageParam param, String value) {
+        Result result=new Result();
         try {
             Collector collector = new Collector();
             collector.setName(value);
-            PageInfo<CollectorVO> page = service1.page(param, collector);
-            return page;
+            result.setData(service1.page(param, collector));
         } catch (Exception e) {
             e.printStackTrace();
-            return "1";
+            result.setData("1");
         }
+        return result;
     }
 }

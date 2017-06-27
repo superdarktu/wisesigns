@@ -86,12 +86,14 @@ public class WaterFountainController {
      * 查询饮水机
      */
     @PostMapping("/queryType")
-    public Object pageWaterFountains(PageParam param, String type, String value) {
+    public Result pageWaterFountains(PageParam param, String type, String value) {
+        Result result=new Result();
         try {
-            return service.page(param, type, value);
+            result.setData(service.page(param, type, value));
         } catch (Exception e) {
             e.printStackTrace();
-            return "1";
+            result.setData("1");
         }
+        return result;
     }
 }
