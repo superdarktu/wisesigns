@@ -54,12 +54,14 @@ public class WaterCardController {
      * 查询水卡
      */
     @PostMapping("/queryType")
-    public Object pageCard(PageParam param, String type,String status, String value) {
+    public Result pageCard(PageParam param, String type,String status, String value) {
+        Result result=new Result();
         try {
-        return service.page(param,type,status,value);
+        result.setData(service.page(param,type,status,value));
         } catch (Exception e) {
             e.printStackTrace();
-            return "1";
+           result.setData("1");
         }
+        return result;
     }
 }

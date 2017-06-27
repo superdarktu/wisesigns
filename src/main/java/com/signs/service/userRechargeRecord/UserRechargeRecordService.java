@@ -22,12 +22,13 @@ public class UserRechargeRecordService {
      */
     public List<UserRechargeRecord>
     page(PageParam page, String id, Date date1, Date date2, String value) {
-        if (page.getPageNo() != null && page.getPageSize() != null) PageHelper.startPage(page.getPageNo(), page.getPageSize());
-        HashMap hashMap=new HashMap();
-        if (id != null) hashMap.put("id",id);
-        if (date1 != null) hashMap.put("date1",date1);
-        if (date2 != null) hashMap.put("date2",date2);
-        if (value != null) hashMap.put("value","%"+value+"%");
+        if (page.getPageNo() != null && page.getPageSize() != null)
+            PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        HashMap hashMap = new HashMap();
+        if (id != null) hashMap.put("id", id);
+        if (date1 != null) hashMap.put("date1", date1);
+        if (date2 != null) hashMap.put("date2", date2);
+        if (value != null) hashMap.put("value", "%" + value + "%");
         return mapper.selectByUserId(hashMap);
     }
 

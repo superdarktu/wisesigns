@@ -2,6 +2,7 @@ package com.signs.controller.userPurchaseRecord;
 
 import com.signs.dto.commonSearch.SearchVO;
 import com.signs.model.commons.PageParam;
+import com.signs.model.commons.Result;
 import com.signs.service.userPurchaseRecord.UserPurchaseRecordService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +21,14 @@ public class UserPurchaseRecordController {
      * 查询消费
      */
     @PostMapping("/consumption")
-    public Object pageCard(PageParam param, SearchVO dto) {
+    public Result pageCard(PageParam param, SearchVO dto) {
+        Result result = new Result();
         try {
-        return service.page(param,dto.getId(),dto.getDate1(),dto.getDate2(),dto.getValue());
+            result.setData(service.page(param,dto.getId(),dto.getDate1(),dto.getDate2(),dto.getValue()));
         } catch (Exception e) {
             e.printStackTrace();
-            return "1";
+            result.setData("1");
         }
+        return result;
     }
 }
