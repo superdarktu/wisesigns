@@ -25,7 +25,7 @@ public class UserRechargeRecordController {
         Result result = new Result();
         try {
             result.setData(service.page(param, dto.getId(), dto.getDate1(), dto.getDate2(), dto.getValue()));
-
+            result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
             result.setResult(1);

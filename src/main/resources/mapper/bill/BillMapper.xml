@@ -3,13 +3,13 @@
 <mapper namespace="com.signs.mapper.bill.BillMapper">
     <resultMap id="BaseResultMap" type="com.signs.model.bill.Bill">
 
-        <id column="id" jdbcType="VARCHAR" property="id" />
-        <result column="type" jdbcType="INTEGER" property="type" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="income_day" jdbcType="REAL" property="incomeDay" />
-        <result column="income_month" jdbcType="REAL" property="incomeMonth" />
-        <result column="income" jdbcType="REAL" property="income" />
-        <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="income_day" jdbcType="REAL" property="incomeDay"/>
+        <result column="income_month" jdbcType="REAL" property="incomeMonth"/>
+        <result column="income" jdbcType="REAL" property="income"/>
+        <result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
     </resultMap>
     <select id="getBills" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT * FROM tb_bill WHERE 1=1
@@ -21,5 +21,15 @@
             AND name LIKE #{value}
         </if>
         ORDER BY ctime DESC
+    </select>
+    <select id="pageMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT
+            sum(tmu.water_price) * (1 - tmu.cost_scale) * sum(tupr.water_consumption) AS 'income',
+            DATE_FORMAT(tupr.ctime, '%m')                                             AS 'name'
+        FROM tb_user_purchase_record tupr
+            JOIN tb_collector tc ON tupr.collector_id = tc.id
+            JOIN tb_manager_user tmu ON tmu.id = tc.property_id
+        WHERE tmu.id = #{id} AND year(tupr.ctime) = #{date}
+        GROUP BY DATE_FORMAT(tupr.ctime, '%m');
     </select>
 </mapper>

@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface BillMapper extends MyMapper<Bill> {
     List<Bill> getBills(HashMap map);
+    List<Bill> pageMonth(HashMap map);
 }

@@ -48,13 +48,14 @@ public class ManagerUserController {
         }
         return dto;
     }
+
     /**
      * 修改用户所需采集器
      */
     @PostMapping("/modifyUser")
-    public TwoDataResult modifyUser(String id){
-        TwoDataResult twoDataResult=new TwoDataResult();
-        try{
+    public TwoDataResult modifyUser(String id) {
+        TwoDataResult twoDataResult = new TwoDataResult();
+        try {
             List<Collector> notyet = service1.findWithNoProperty();
             List<String> already = service1.findByManager(id);
             if (already != null) {
@@ -62,7 +63,7 @@ public class ManagerUserController {
             }
             twoDataResult.setConsume(notyet);
             twoDataResult.setResult(0);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             twoDataResult.setResult(1);
         }
@@ -82,7 +83,7 @@ public class ManagerUserController {
             dto.setResult(content);
         } catch (Exception ex) {
             ex.printStackTrace();
-            dto.setData("1");
+            dto.setData("抛出异常");
         }
         return dto;
     }
@@ -111,6 +112,7 @@ public class ManagerUserController {
         Result dto = new Result();
         try {
             dto.setData(service.gain(id));
+            dto.setResult(0);
         } catch (Exception e) {
             dto.setResult(1);
         }
@@ -152,7 +154,7 @@ public class ManagerUserController {
         Result result = new Result();
         try {
             result.setData(service.page(param, type, status, value));
-
+            result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
             result.setResult(1);
@@ -168,6 +170,7 @@ public class ManagerUserController {
         Result result = new Result();
         try {
             result.setData(service1.findByManager(id));
+            result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
             result.setResult(1);
@@ -186,6 +189,7 @@ public class ManagerUserController {
             Collector collector = new Collector();
             collector.setName(value);
             result.setData(service1.page(param, collector));
+            result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
             result.setResult(1);
