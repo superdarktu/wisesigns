@@ -12,6 +12,7 @@ public class DateUtils {
     private static final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     private static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
+    private static final String ONLY_FORMAT = "yyyyMMddHHmmss";
 
     /**
      * 默认构造函数
@@ -67,6 +68,8 @@ public class DateUtils {
             format = TIMESTAMP_FORMAT;
         } else if ("Date".equals(format)) {
             format = DATE_FORMAT;
+        } else if ("only".equals(format)){
+            format = ONLY_FORMAT;
         }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(date);
