@@ -1,15 +1,31 @@
 package com.signs.controller.waterFountain;
 
+import com.signs.dto.waterFountain.WaterFountainExcel;
+import com.signs.dto.watermeter.WatermeterExcel;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.model.waterFountains.WaterFountains;
 import com.signs.service.waterFountains.WaterFountainsService;
+import com.signs.util.BigExcelUtil;
+import com.signs.util.BigSheetContentsHandler;
+import com.signs.util.DateUtils;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.util.StringUtil;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/water")
@@ -95,5 +111,95 @@ public class WaterFountainController {
             result.setData("1");
         }
         return result;
+    }
+
+    /**
+     * 上传excel
+     * @param file
+     * @return
+     */
+    @PostMapping("/leadingExcel")
+    public Result excel(@RequestParam("file") MultipartFile file) {
+
+        Result result = new Result();
+        List<Integer> errorList = new ArrayList<>();
+        try {
+            String name = file.getOriginalFilename();
+            if (!name.endsWith(".xls") && !name.endsWith(".xlsx")) {
+                result.setError("请上传excel文件");
+                return result;
+            }
+            new BigExcelUtil(file.getInputStream()).setHandler(new BigSheetContentsHandler(WaterFountainExcel.class){
+                @Override
+                public void endRow(int i) {
+                    try {
+                        if (flag) {
+                            errorList.add(i);
+                        } else if (i > 0) {
+                            WaterFountainExcel waterFountainExcel = (WaterFountainExcel) model;
+                            if (service.selectCode(waterFountainExcel.getCode())) {
+                                errorList.add(i);
+                            } else {
+                                service.createFountains(waterFountainExcel.getPosition(),waterFountainExcel.getTableCode()
+                                        ,waterFountainExcel.getType(),waterFountainExcel.getLongitude(),waterFountainExcel.getLatitude());
+                            }
+                        }
+                    }catch (Exception e){
+                        errorList.add(i);
+                    }
+                }
+
+            }).parse();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        result.setData(errorList);
+        return result;
+    }
+
+    /**
+     * excel下载
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping("/downExcel")
+    public void down(HttpServletResponse response) throws IOException {
+
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        String TITLES[] = {"饮水机序号", "饮水机位置","表编号", "类型", "安装时间","水价","成本占比"};
+        XSSFSheet sheet = workbook.createSheet("sheet1");
+        XSSFRow titleRow = sheet.createRow(0);
+        for (int k = 0; k < TITLES.length; k++) {
+            XSSFCell titleCell = titleRow.createCell(k);
+            titleCell.setCellValue(TITLES[k]);
+        }
+        List<WaterFountains> list  = service.page(null,null,null).getList();
+
+        XSSFCell cell = null;
+        for(int i=1;i<=list.size();i++){
+            WaterFountains waterFountains = list.get(i-1);
+            XSSFRow row = sheet.createRow(i);
+            cell = row.createCell(0);
+            cell.setCellValue(waterFountains.getCode());
+            cell = row.createCell(1);
+            cell.setCellValue(waterFountains.getPlace());
+            cell = row.createCell(2);
+            cell.setCellValue(waterFountains.getTableCode());
+            cell = row.createCell(3);
+            cell.setCellValue(waterFountains.getType()==0?"公用":"私用");
+            cell = row.createCell(4);
+            cell.setCellValue(DateUtils.dateToStr(waterFountains.getCtime()));
+            cell = row.createCell(5);
+            cell.setCellValue(waterFountains.getWaterPrice());
+            cell = row.createCell(6);
+            cell.setCellValue(waterFountains.getCostScale());
+        }
+
+        OutputStream output = response.getOutputStream();
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String("饮水机导出.xlsx".getBytes("UTF-8"), "ISO-8859-1"));
+        workbook.write(output);
+        output.close();
     }
 }

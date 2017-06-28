@@ -77,7 +77,7 @@ public class WatermeterService {
      */
     public PageInfo<Watermeter> page(PageParam page, Map<String, Object> map) {
 
-        if (page.getPageNo() != null && page.getPageSize() != null) {
+        if (page != null && page.getPageNo() != null && page.getPageSize() != null) {
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         }
 

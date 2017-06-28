@@ -8,6 +8,16 @@ public class CollectorVO extends Collector {
 
     private Integer touzi;
 
+    private Integer tablenum;
+
+    public Integer getTablenum() {
+        return tablenum;
+    }
+
+    public void setTablenum(Integer tablenum) {
+        this.tablenum = tablenum;
+    }
+
     public Integer getTuiguan() {
         return tuiguan;
     }

@@ -66,7 +66,7 @@ public class WaterCardService {
      * 分页查询
      */
     public PageInfo page(PageParam page, String type, String status, String value) {
-        if (page.getPageNo() != null && page.getPageSize() != null)
+        if (page != null && page.getPageNo() != null && page.getPageSize() != null)
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         HashMap<String, String> hashMap = new HashMap<>();
 //        type为0时表示搜索全部

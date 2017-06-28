@@ -1,6 +1,7 @@
 package com.signs.controller.collector;
 
 import com.signs.dto.Collector.CollectorExcel;
+import com.signs.dto.Collector.CollectorVO;
 import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
@@ -8,6 +9,7 @@ import com.signs.service.collector.CollectorService;
 import com.signs.service.watermeter.WatermeterService;
 import com.signs.util.BigExcelUtil;
 import com.signs.util.BigSheetContentsHandler;
+import com.signs.util.DateUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -170,21 +172,50 @@ public class CollectorController {
         return dto;
     }
 
-    @GetMapping("/down")
+    /**
+     * excel下载
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping("/downExcel")
     public void down(HttpServletResponse response) throws IOException {
 
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         XSSFWorkbook workbook = new XSSFWorkbook();
-        String TITLES[] = {"时间", "类型 | 收支流水号 ", "金额(元)", "支付渠道 | 单号"};
+        String TITLES[] = {"采集器编号", "采集器名称","设备状态 ", "所属物业", "推广方","投资方","链接注册时间","链接表个数"};
         XSSFSheet sheet = workbook.createSheet("sheet1");
         XSSFRow titleRow = sheet.createRow(0);
         for (int k = 0; k < TITLES.length; k++) {
             XSSFCell titleCell = titleRow.createCell(k);
             titleCell.setCellValue(TITLES[k]);
         }
+        List<CollectorVO> list  = service.page(null,null).getList();
+
+        XSSFCell cell = null;
+        for(int i=1;i<=list.size();i++){
+            CollectorVO collectorVO = list.get(i-1);
+            XSSFRow row = sheet.createRow(i);
+            cell = row.createCell(0);
+            cell.setCellValue(collectorVO.getCode());
+            cell = row.createCell(1);
+            cell.setCellValue(collectorVO.getName());
+            cell = row.createCell(2);
+            cell.setCellValue(collectorVO.getStatus()==1?"关":"开");
+            cell = row.createCell(3);
+            cell.setCellValue(collectorVO.getPropertyName());
+            cell = row.createCell(4);
+            cell.setCellValue(collectorVO.getTuiguan());
+            cell = row.createCell(5);
+            cell.setCellValue(collectorVO.getTouzi());
+            cell = row.createCell(6);
+            cell.setCellValue(DateUtils.dateToStr(collectorVO.getCtime()));
+            cell = row.createCell(7);
+            cell.setCellValue(collectorVO.getTablenum());
+        }
+
         OutputStream output = response.getOutputStream();
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String("订单导出.xlsx".getBytes("UTF-8"), "ISO-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String("采集器导出.xlsx".getBytes("UTF-8"), "ISO-8859-1"));
         workbook.write(output);
         output.close();
     }

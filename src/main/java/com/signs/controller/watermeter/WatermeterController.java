@@ -8,6 +8,11 @@ import com.signs.model.watermeter.Watermeter;
 import com.signs.service.watermeter.WatermeterService;
 import com.signs.util.BigExcelUtil;
 import com.signs.util.BigSheetContentsHandler;
+import com.signs.util.DateUtils;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -211,6 +219,52 @@ public class WatermeterController {
         }
         result.setData(errorList);
         return result;
+    }
+
+    /**
+     * excel下载
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping("/downExcel")
+    public void down(HttpServletResponse response) throws IOException {
+
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        String TITLES[] = {"表编号", "设备状态","采集器编号", "今日用水量（L）", "当月用水量（L）","累计流量（L）","阀门状态"};
+        XSSFSheet sheet = workbook.createSheet("sheet1");
+        XSSFRow titleRow = sheet.createRow(0);
+        for (int k = 0; k < TITLES.length; k++) {
+            XSSFCell titleCell = titleRow.createCell(k);
+            titleCell.setCellValue(TITLES[k]);
+        }
+        List<Watermeter> list  = service.page(null,null).getList();
+
+        XSSFCell cell = null;
+        for(int i=1;i<=list.size();i++){
+            Watermeter watermeter = list.get(i-1);
+            XSSFRow row = sheet.createRow(i);
+            cell = row.createCell(0);
+            cell.setCellValue(watermeter.getCode());
+            cell = row.createCell(1);
+            cell.setCellValue(watermeter.getStatus()==0?"正常":"故障");
+            cell = row.createCell(2);
+            cell.setCellValue(watermeter.getCollectorCode());
+            cell = row.createCell(3);
+            cell.setCellValue(watermeter.getFlowDay());
+            cell = row.createCell(4);
+            cell.setCellValue(watermeter.getFlowMonth());
+            cell = row.createCell(5);
+            cell.setCellValue(watermeter.getFlowTotal());
+            cell = row.createCell(6);
+            cell.setCellValue(watermeter.getTapStatus()==0?"开":"关");
+        }
+
+        OutputStream output = response.getOutputStream();
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String("水表导出.xlsx".getBytes("UTF-8"), "ISO-8859-1"));
+        workbook.write(output);
+        output.close();
     }
 
 }

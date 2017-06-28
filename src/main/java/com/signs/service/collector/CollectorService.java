@@ -91,7 +91,7 @@ public class CollectorService {
      */
     public PageInfo<CollectorVO> page(PageParam page, Collector collector) {
 
-        if (page.getPageNo() != null && page.getPageSize() != null) {
+        if (page != null && page.getPageNo() != null && page.getPageSize() != null) {
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         }
         List<CollectorVO> result = mapper.findData(collector);

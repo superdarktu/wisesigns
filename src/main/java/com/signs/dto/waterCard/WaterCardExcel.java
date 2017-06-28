@@ -1,10 +1,10 @@
 package com.signs.dto.waterCard;
 
-public class waterCardExcel {
+public class WaterCardExcel {
 
     private String code;
 
-    private Integer type;
+    private String type;
 
     public String getCode() {
         return code;
@@ -14,11 +14,11 @@ public class waterCardExcel {
         this.code = code;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 }

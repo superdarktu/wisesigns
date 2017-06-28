@@ -109,7 +109,7 @@ public class WaterFountainsService {
      */
     public PageInfo<WaterFountains>
     page(PageParam page, String type, String value) {
-        if (page.getPageNo() != null && page.getPageSize() != null)
+        if (page != null && page.getPageNo() != null && page.getPageSize() != null)
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         HashMap<String, String> hashMap = new HashMap<>();
         if (type != null) hashMap.put("type", type);
