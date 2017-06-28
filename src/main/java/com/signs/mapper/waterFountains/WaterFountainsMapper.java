@@ -9,6 +9,8 @@ import java.util.List;
 public interface WaterFountainsMapper extends MyMapper<WaterFountains> {
     List<WaterFountains> selectCode(String code);
 
+    List<WaterFountains> selectTableCode(String tableCode);
+
 
     /**
      * 分页查询饮水机信息
@@ -19,5 +21,7 @@ public interface WaterFountainsMapper extends MyMapper<WaterFountains> {
      * 获取最后一条
      */
     WaterFountains getLastDispenser();
+
+
 
 }

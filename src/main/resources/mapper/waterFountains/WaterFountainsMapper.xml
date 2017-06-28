@@ -19,6 +19,10 @@
         SELECT * FROM tb_water_fountains WHERE code=#{code}
     </select>
 
+    <select id="selectTableCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM tb_water_fountains WHERE table_code=#{tableCode}
+    </select>
+
     <select id="getDispenser" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT *
         FROM tb_water_fountains

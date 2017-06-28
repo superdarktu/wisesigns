@@ -148,6 +148,7 @@ public class WaterFountainController {
                             }
                         }
                     }catch (Exception e){
+                        e.printStackTrace();
                         errorList.add(i);
                     }
                 }

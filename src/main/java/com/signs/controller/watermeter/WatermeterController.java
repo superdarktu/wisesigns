@@ -182,7 +182,6 @@ public class WatermeterController {
         Result result = new Result();
         List<Integer> errorList = new ArrayList<>();
         List<Integer> temp = new ArrayList<>();
-        temp.add(0);
         try {
             String name = file.getOriginalFilename();
             if (!name.endsWith(".xls") && !name.endsWith(".xlsx")) {
