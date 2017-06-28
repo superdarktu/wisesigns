@@ -17,36 +17,36 @@ public class ConsumeController {
     @Resource
     private UserPurchaseRecordService service;
 
-    /**
-     * 查询消费
-     */
-    @PostMapping("/consumption")
-    public Result pageCard(PageParam param, SearchVO dto) {
-        Result result = new Result();
-        try {
-            result.setData(service.page(param,dto.getId(),dto.getDate1(),dto.getDate2(),dto.getValue()));
-            result.setResult(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setResult(1);
-        }
-        return result;
-    }
-
-    /**
-     * 查询消费
-     */
-    @PostMapping("/getUserCount")
-    public Result  getUserCount(SearchVO vo){
-        Result result = new Result();
-        try {
-            result.setData(service.getUserCount(vo.getDate1()));
-            result.setResult(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setResult(1);
-        }
-        return result;
-
-    }
+//    /**
+//     * 查询消费
+//     */
+//    @PostMapping("/consumption")
+//    public Result pageCard(PageParam param, SearchVO dto) {
+//        Result result = new Result();
+//        try {
+//            result.setData(service.page(param,dto.getId(),dto.getDate1(),dto.getDate2(),dto.getValue()));
+//            result.setResult(0);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            result.setResult(1);
+//        }
+//        return result;
+//    }
+//
+//    /**
+//     * 查询消费
+//     */
+//    @PostMapping("/getUserCount")
+//    public Result  getUserCount(SearchVO vo){
+//        Result result = new Result();
+//        try {
+//            result.setData(service.getUserCount(vo.getDate1()));
+//            result.setResult(0);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            result.setResult(1);
+//        }
+//        return result;
+//
+//    }
 }
