@@ -31,4 +31,7 @@
     <select id="login" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT * FROM tb_manager_user WHERE account=#{userName} AND password=#{password}
     </select>
+    <!--<insert id="insertMUC" parameterType="com.signs.model.managerUserCollector.ManagerUserCollector" >-->
+        <!--INSERT INTO tb_manager_user_collector VALUE (#{id},#{managerUserId},#{collectorId},#{collectorName})-->
+    <!--</insert>-->
 </mapper>

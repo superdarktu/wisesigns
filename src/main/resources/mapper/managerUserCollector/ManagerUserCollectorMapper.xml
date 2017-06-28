@@ -16,4 +16,7 @@
   <select id="findByManager" parameterType="java.lang.String" resultType="java.lang.String">
     select collector_code from tb_manager_user_collector where manager_user_id = #{managerId}
   </select>
+  <delete id="deleteByManager" parameterType="java.lang.String" >
+    DELETE FROM tb_manager_user_collector WHERE manager_user_id=#{managerId}
+  </delete>
 </mapper>

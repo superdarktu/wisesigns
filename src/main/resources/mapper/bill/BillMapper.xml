@@ -16,7 +16,6 @@
         <if test="type!=null">
             AND type=${type}
         </if>
-
         <if test="value!=null">
             AND name LIKE #{value}
         </if>

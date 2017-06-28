@@ -16,6 +16,12 @@
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
   </resultMap>
 
+    <select id="userCount" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        select hour(ctime) name,count(*) price
+        from tb_user_purchase_record
+        where DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
+        group by hour(ctime);
+    </select>
     <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT * FROM tb_user_purchase_record WHERE 1=1
         <if test="userId!=null">
@@ -31,4 +37,5 @@
            AND   #{date2}>ctime
         </if>
     </select>
+
 </mapper>
