@@ -47,4 +47,13 @@ public class UserPurchaseRecordService {
         return jmap;
     }
 
+    /**
+     * 查询用户数量，当天水流量，当月水流量，当日消费金额，当月消费金额
+     */
+    public JSONObject getTotal(Date date){
+        JSONObject jmap=new JSONObject();
+
+        return jmap;
+    }
+
 }

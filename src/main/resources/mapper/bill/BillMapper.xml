@@ -19,6 +19,9 @@
         <if test="value!=null">
             AND name LIKE #{value}
         </if>
+        <if test="status!=null">
+            AND type=#{status}
+        </if>
         ORDER BY ctime DESC
     </select>
     <select id="pageMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
@@ -29,6 +32,6 @@
             JOIN tb_collector tc ON tupr.collector_id = tc.id
             JOIN tb_manager_user tmu ON tmu.id = tc.property_id
         WHERE tmu.id = #{id} AND year(tupr.ctime) = #{date}
-        GROUP BY DATE_FORMAT(tupr.ctime, '%m');
+         GROUP BY DATE_FORMAT(tupr.ctime, '%m');
     </select>
 </mapper>

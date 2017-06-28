@@ -149,6 +149,7 @@ public class ManagerController {
                 dto.setData("0");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             dto.setData("1");
         }
         return dto;
