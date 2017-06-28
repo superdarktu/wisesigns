@@ -203,8 +203,10 @@ public class WatermeterController {
                                 watermeter.setCode(watermeterExcel.getCode());
                                 watermeter.setCollectorCode(watermeterExcel.getCollectorCode());
                                 watermeter.setTotalCode(watermeterExcel.getTotalCode());
-                                service.insert(watermeter);
-                                temp.add(i);
+                                if(service.insert(watermeter))
+                                    temp.add(i);
+                                else
+                                    errorList.add(i);
                             }
                         }
                     }catch (Exception e){

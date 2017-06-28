@@ -142,9 +142,13 @@ public class WaterFountainController {
                             if (service.selectCode(waterFountainExcel.getCode())) {
                                 errorList.add(i);
                             } else {
-                                service.createFountains(waterFountainExcel.getPosition(),waterFountainExcel.getTableCode()
-                                        ,waterFountainExcel.getType(),waterFountainExcel.getLongitude(),waterFountainExcel.getLatitude());
-                                temp.add(i);
+
+                                if(service.createFountains(waterFountainExcel.getPosition(),waterFountainExcel.getTableCode()
+                                        ,waterFountainExcel.getType(),waterFountainExcel.getLongitude(),waterFountainExcel.getLatitude())) {
+                                    temp.add(i);
+                                }else{
+                                    errorList.add(i);
+                                }
                             }
                         }
                     }catch (Exception e){

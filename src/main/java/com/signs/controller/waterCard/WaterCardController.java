@@ -120,8 +120,10 @@ public class WaterCardController {
                                 if(waterCardExcel.getType().equals("私用"))
                                     type = 1;
                                 if(type > -1) {
-                                    service.createCard(waterCardExcel.getCode(), password + "", type);
-                                    temp.add(i);
+                                    if(service.createCard(waterCardExcel.getCode(), password + "", type))
+                                        temp.add(i);
+                                    else
+                                        errorList.add(i);
                                 }else{
                                     errorList.add(i);}
                             }

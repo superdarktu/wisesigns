@@ -248,8 +248,10 @@ public class CollectorController {
                                 Collector collector = new Collector();
                                 collector.setName(collectorExcel.getName());
                                 collector.setCode(collectorExcel.getCode());
-                                service.insert(collector);
-                                temp.add(i);
+                                if(service.insert(collector))
+                                    temp.add(i);
+                                else
+                                    errorList.add(i);
                             }
                         }
                     }catch (Exception e){
