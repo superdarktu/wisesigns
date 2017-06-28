@@ -77,8 +77,17 @@ public class ManagerUserController {
     @PostMapping("/submit")
     public Result addUser(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price, String collector) {
         Result dto = new Result();
+        ManagerUser managerUser =new ManagerUser();
+        managerUser.setAccount(account);
+        managerUser.setPassword(password);
+        managerUser.setName(userName);
+        managerUser.setUserType(userType);
+        managerUser.setPhone(tel);
+        managerUser.setCostScale(prime);
+        managerUser.setIvisionProportion(divide);
+        managerUser.setWaterPrice(price);
         try {
-            boolean b = service.createUser(account, password, userName, userType, tel, prime, divide, price, collector);
+            boolean b = service.createUser(managerUser, collector);
             int content = b ? 0 : 1;
             dto.setResult(content);
         } catch (Exception ex) {

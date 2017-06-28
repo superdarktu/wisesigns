@@ -1,11 +1,15 @@
 package com.signs.service.managerUser;
 
 import com.github.pagehelper.PageHelper;
+import com.signs.mapper.collector.CollectorMapper;
 import com.signs.mapper.managerUser.ManagerUserMapper;
+import com.signs.mapper.managerUserCollector.ManagerUserCollectorMapper;
 import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
+import com.signs.model.manager.Manager;
 import com.signs.model.managerUser.ManagerUser;
+import com.signs.model.managerUserCollector.ManagerUserCollector;
 import com.signs.service.collector.CollectorService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +27,11 @@ public class ManagerUserService {
     private ManagerUserMapper mapper;
 
     @Resource
+    private ManagerUserCollectorMapper mapper1;
+    @Resource
+    private CollectorMapper mapper2;
+
+    @Resource
     private CollectorService service;
 
 
@@ -37,38 +46,47 @@ public class ManagerUserService {
     }
 
     /**
-     * 创管理用户
+     * 添加管理用户
      */
     @Transactional
-    public boolean createUser(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price, String collectorIds) {
-//        账号是否重复
-        List<ManagerUser> ManagerUsers = mapper.selectCode(account);
+    public boolean createUser(ManagerUser managerUser, String collectorIds) {
+        //账号是否重复
+        List<ManagerUser> ManagerUsers = mapper.selectCode(managerUser.getAccount());
         if (ManagerUsers == null || ManagerUsers.size() > 0) return false;
         String id = UUID.randomUUID().toString().replace("-", "");
-        //        修改采集器归属
+        managerUser.setId(id);
+        managerUser.setCtime(new Date());
+        mapper.insert(managerUser);
+        addMUC(managerUser, collectorIds);
+        return true;
+    }
+
+
+    private void addMUC(ManagerUser managerUser, String collectorIds) {
+        //修改采集器归属
         if (collectorIds != null) {
             String[] splits = collectorIds.split(",");
             Collector collector = new Collector();
             for (String collectorId : splits) {
                 collector.setId(collectorId);
-                collector.setPropertyId(id);
-                collector.setPropertyName(userName);
+                collector.setPropertyId(managerUser.getId());
+                collector.setPropertyName(managerUser.getName());
                 service.update(collector);
+
+                //添加关联表，修改时先删除managerId关联的关联表数据
+                mapper1.deleteByManager(managerUser.getId());
+                ManagerUserCollector managerUserCollector = new ManagerUserCollector();
+                String sid = UUID.randomUUID().toString().replace("-", "");
+                managerUserCollector.setId(sid);
+                managerUserCollector.setManagerUserId(managerUser.getId());
+                managerUserCollector.setManagerUserType(managerUser.getUserType());
+                Collector temp = mapper2.selectByPrimaryKey(collectorId);
+                managerUserCollector.setCollectorId(collectorId);
+                managerUserCollector.setCollectorId(temp.getName());
+                managerUserCollector.setCollectorCode(temp.getCode());
+                mapper1.insert(managerUserCollector);
             }
         }
-        ManagerUser managerUser = new ManagerUser();
-        managerUser.setId(id);
-        managerUser.setCtime(new Date());
-        managerUser.setAccount(account);
-        managerUser.setPassword(password);
-        managerUser.setUserType(userType);
-        managerUser.setName(userName);
-        managerUser.setPhone(tel);
-        managerUser.setCostScale(prime);
-        managerUser.setIvisionProportion(divide);
-        managerUser.setWaterPrice(price);
-        mapper.insert(managerUser);
-        return true;
     }
 
     /**
@@ -86,14 +104,7 @@ public class ManagerUserService {
 //        卡号不重复
         ManagerUser user = mapper.selectByPrimaryKey(managerUser.getId());
         if (user == null) return null;
-        String[] splits = collectorIds.split(",");
-        Collector collector = new Collector();
-        for (String collectorId : splits) {
-            collector.setId(collectorId);
-            collector.setPropertyId(managerUser.getId());
-            collector.setPropertyName(managerUser.getName());
-            service.update(collector);
-        }
+        addMUC(managerUser, collectorIds);
         mapper.updateByPrimaryKeySelective(managerUser);
         return managerUser;
     }

@@ -1,5 +1,6 @@
 package com.signs.service.userPurchaseRecord;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.userPurchaseRecord.UserPurchaseRecordMapper;
 import com.signs.model.commons.PageParam;
@@ -30,6 +31,20 @@ public class UserPurchaseRecordService {
         if (date2 != null) hashMap.put("date2", date2);
         if (value != null) hashMap.put("value", "%" + value + "%");
         return mapper.selectByUserId(hashMap);
+    }
+
+    /**
+     * 统计人数
+     */
+    public JSONObject getUserCount(Date date) {
+        HashMap hashMap = new HashMap();
+        hashMap.put("date",date);
+        List<UserPurchaseRecord> userCount = mapper.userCount(hashMap);
+        JSONObject jmap=new JSONObject();
+        for (UserPurchaseRecord record : userCount) {
+            jmap.put(record.getName(),record.getPrice());
+        }
+        return jmap;
     }
 
 }
