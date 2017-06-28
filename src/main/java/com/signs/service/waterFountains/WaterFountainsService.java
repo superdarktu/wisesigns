@@ -57,7 +57,7 @@ public class WaterFountainsService {
      */
    public boolean selectCode(String waterNumber){
        List<WaterFountains> waterFountains = mapper.selectCode(waterNumber);
-       return waterFountains != null;
+       return waterFountains.size()>0?true:false;
    }
 
 

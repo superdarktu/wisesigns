@@ -181,6 +181,8 @@ public class WatermeterController {
 
         Result result = new Result();
         List<Integer> errorList = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        temp.add(0);
         try {
             String name = file.getOriginalFilename();
             if (!name.endsWith(".xls") && !name.endsWith(".xlsx")) {
@@ -203,6 +205,7 @@ public class WatermeterController {
                                 watermeter.setCollectorCode(watermeterExcel.getCollectorCode());
                                 watermeter.setTotalCode(watermeterExcel.getTotalCode());
                                 service.insert(watermeter);
+                                temp.add(i);
                             }
                         }
                     }catch (Exception e){
@@ -215,6 +218,7 @@ public class WatermeterController {
             e.printStackTrace();
         }
         result.setData(errorList);
+        result.setInfo(temp.size()+"");
         return result;
     }
 

@@ -124,6 +124,7 @@ public class WaterFountainController {
 
         Result result = new Result();
         List<Integer> errorList = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
         try {
             String name = file.getOriginalFilename();
             if (!name.endsWith(".xls") && !name.endsWith(".xlsx")) {
@@ -143,6 +144,7 @@ public class WaterFountainController {
                             } else {
                                 service.createFountains(waterFountainExcel.getPosition(),waterFountainExcel.getTableCode()
                                         ,waterFountainExcel.getType(),waterFountainExcel.getLongitude(),waterFountainExcel.getLatitude());
+                                temp.add(i);
                             }
                         }
                     }catch (Exception e){
@@ -155,6 +157,7 @@ public class WaterFountainController {
             e.printStackTrace();
         }
         result.setData(errorList);
+        result.setInfo(temp.size()+"");
         return result;
     }
 
