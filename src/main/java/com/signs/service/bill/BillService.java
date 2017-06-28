@@ -1,6 +1,5 @@
 package com.signs.service.bill;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.bill.BillMapper;
@@ -24,7 +23,7 @@ public class BillService {
     /**
      * 查询账单
      */
-    public PageInfo<Bill> page(PageParam page, Integer type, String value) {
+    public PageInfo<Bill> page(PageParam page, Integer type, String value, String status) {
         if (page.getPageNo() != null && page.getPageSize() != null) {
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         }
@@ -35,11 +34,14 @@ public class BillService {
         if (value != null) {
             hashMap.put("value", "%" + value + "%");
         }
+        if (status != null) {
+            hashMap.put("status", "%" + status + "%");
+        }
         return new PageInfo(mapper.getBills(hashMap));
     }
 
     /**
-     * 查询用户下年账单
+     * 查询用户年账单
      */
     public JSONObject pageMonth(String id, Date date) {
         HashMap hashMap = new HashMap();
@@ -50,8 +52,32 @@ public class BillService {
         hashMap.put("date", date);
         List<Bill> bills = mapper.pageMonth(hashMap);
         JSONObject jmap = new JSONObject();
-        for (Bill bill : bills) {
-            jmap.put(bill.getName(), bill.getIncome());
+
+        for (int i = 1; i < 10; i++) {
+            boolean flag=false;
+            for (Bill bill : bills) {
+                if (("0" + i).equals(bill.getName())) {
+                    //name代表月份，income代表收入
+                    jmap.put(bill.getName(), bill.getIncome());
+                    flag=true;
+                }
+            }
+            if (!flag){
+                jmap.put("0" + i, 0);
+            }
+        }
+        for (int i = 10; i < 13; i++) {
+            boolean flag=false;
+            for (Bill bill : bills) {
+                if (("" + i).equals(bill.getName())) {
+                    //name代表月份，income代表收入
+                    jmap.put(bill.getName(), bill.getIncome());
+                    flag=true;
+                }
+            }
+            if (!flag){
+                jmap.put("" + i, 0);
+            }
         }
         return jmap;
     }

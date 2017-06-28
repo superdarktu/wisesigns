@@ -20,11 +20,11 @@ public class BillController {
     private BillService service;
 
     @PostMapping("/svnStatus")
-    public Result getBills(PageParam param, Integer type, String value) {
+    public Result getBills(PageParam param, Integer type, String value,String status) {
         Result result = new Result();
         try {
             result.setResult(0);
-            result.setData(service.page(param, type, value));
+            result.setData(service.page(param, type, value,status));
         } catch (Exception e) {
             e.printStackTrace();
             result.setResult(1);
