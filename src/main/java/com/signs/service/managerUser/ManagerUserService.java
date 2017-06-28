@@ -2,6 +2,7 @@ package com.signs.service.managerUser;
 
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.collector.CollectorMapper;
+import com.signs.mapper.manager.ManagerMapper;
 import com.signs.mapper.managerUser.ManagerUserMapper;
 import com.signs.mapper.managerUserCollector.ManagerUserCollectorMapper;
 import com.signs.model.collector.Collector;
@@ -11,6 +12,7 @@ import com.signs.model.manager.Manager;
 import com.signs.model.managerUser.ManagerUser;
 import com.signs.model.managerUserCollector.ManagerUserCollector;
 import com.signs.service.collector.CollectorService;
+import com.signs.service.manager.ManagerService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +32,12 @@ public class ManagerUserService {
     private ManagerUserCollectorMapper mapper1;
     @Resource
     private CollectorMapper mapper2;
+    @Resource
+    private ManagerService service1;
 
     @Resource
     private CollectorService service;
+
 
 
     /**
@@ -51,8 +56,9 @@ public class ManagerUserService {
     @Transactional
     public boolean createUser(ManagerUser managerUser, String collectorIds) {
         //账号是否重复
-        List<ManagerUser> ManagerUsers = mapper.selectCode(managerUser.getAccount());
-        if (ManagerUsers == null || ManagerUsers.size() > 0) return false;
+       if (service1.isHaveUsername(managerUser.getAccount()))return false;
+//        List<ManagerUser> ManagerUsers = mapper.selectCode(managerUser.getAccount());
+//        if (ManagerUsers == null || ManagerUsers.size() > 0)
         String id = UUID.randomUUID().toString().replace("-", "");
         managerUser.setId(id);
         managerUser.setCtime(new Date());
@@ -101,7 +107,7 @@ public class ManagerUserService {
      */
     @Transactional
     public ManagerUser save(ManagerUser managerUser, String collectorIds) {
-//        卡号不重复
+//        确认有无用户
         ManagerUser user = mapper.selectByPrimaryKey(managerUser.getId());
         if (user == null) return null;
         addMUC(managerUser, collectorIds);

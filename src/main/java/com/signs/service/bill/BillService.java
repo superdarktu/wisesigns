@@ -44,6 +44,9 @@ public class BillService {
     public JSONObject pageMonth(String id, Date date) {
         HashMap hashMap = new HashMap();
         hashMap.put("id", id);
+        if (date == null) {
+            hashMap.put("date", new Date());
+        }
         hashMap.put("date", date);
         List<Bill> bills = mapper.pageMonth(hashMap);
         JSONObject jmap = new JSONObject();
