@@ -33,21 +33,21 @@ public class UserPurchaseRecordController {
         }
         return result;
     }
-
-    /**
-     * 查询消费
-     */
-    @PostMapping("/getUserCount")
-    public Result  getUserCount(SearchVO vo){
-        Result result = new Result();
-        try {
-            result.setData(service.getUserCount(vo.getDate1()));
-            result.setResult(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setResult(1);
-        }
-        return result;
-
-    }
+//
+//    /**
+//     * 查询消费
+//     */
+//    @PostMapping("/getUserCount")
+//    public Result  getUserCount(SearchVO vo){
+//        Result result = new Result();
+//        try {
+//            result.setData(service.getUserCount(vo.getDate1()));
+//            result.setResult(0);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            result.setResult(1);
+//        }
+//        return result;
+//
+//    }
 }
