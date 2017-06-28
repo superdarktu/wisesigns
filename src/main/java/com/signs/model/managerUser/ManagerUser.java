@@ -30,6 +30,7 @@ public class ManagerUser {
     @Column(name = "water_price")
     private Float waterPrice;
     private Integer count;
+    private Integer status;
     private Date ctime;
 
     /**
@@ -178,5 +179,13 @@ public class ManagerUser {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }
