@@ -24,7 +24,7 @@ public class ConsumeController {
     public Result pageCard(SearchVO vo) {
         Result result = new Result();
         try {
-            service.getTotal(vo.getDate1(), vo.getId());
+          result.setData(service.getTotal(vo.getDate1(), vo.getId()));
             result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
