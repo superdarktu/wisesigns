@@ -150,10 +150,10 @@ public class UserPurchaseRecordService {
         UserPurchaseRecord divide2 = mapper.divide1(hashMap);
         Float price3 = divide2.getPrice();
 
-        object.put("0", price);
-        object.put("1", price1);
-        object.put("2", price2);
-        object.put("3", price3);
+        object.put("one", price);
+        object.put("two", price1);
+        object.put("three", price2);
+        object.put("four", price3);
 
         return object;
     }
