@@ -53,6 +53,12 @@ public class UserPurchaseRecordService {
         Integer userCount = mapper.totalCount(hashMap);
         UserPurchaseRecord day = mapper.totalDay(hashMap);//天
         UserPurchaseRecord month = mapper.totalMonth(hashMap);//月
+        if (day == null) {
+            day = new UserPurchaseRecord();
+        }
+        if (month == null) {
+            month = new UserPurchaseRecord();
+        }
         jmap.put("userCount", userCount);
         jmap.put("dayWater", day.getWaterConsumption());
         jmap.put("monthWater", month.getWaterConsumption());
@@ -84,15 +90,15 @@ public class UserPurchaseRecordService {
         JSONArray arr3 = new JSONArray();
         JSONArray arr4 = new JSONArray();
         for (UserPurchaseRecord record : userCount) {
-            arr1.add(record.getName()+":00");//日期
+            arr1.add(record.getName() + ":00");//日期
             arr2.add(record.getPrice());//消费金额
             arr3.add(record.getTotalPrice());//人数
             arr4.add(record.getWaterConsumption());//用水量
         }
-        day.put("hourTime",arr1);
-        day.put("dayCost",arr2);
-        day.put("userCount",arr3);
-        day.put("dayWater",arr4);
+        day.put("hourTime", arr1);
+        day.put("dayCost", arr2);
+        day.put("userCount", arr3);
+        day.put("dayWater", arr4);
 
 //        每月数据
         List<UserPurchaseRecord> waterAndMoneyMonth = mapper.getWaterAndMoneyMonth(hashMap);
@@ -111,7 +117,7 @@ public class UserPurchaseRecordService {
         month.put("dayTime", array4);
         month.put("monthWater", array5);
         month.put("monthCost", array6);
-        object.put("day",day);
+        object.put("day", day);
         object.put("month", month);
         return object;
     }
