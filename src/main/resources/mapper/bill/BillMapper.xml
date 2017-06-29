@@ -19,9 +19,9 @@
         <if test="value!=null">
             AND name LIKE #{value}
         </if>
-        <if test="status!=null">
-            AND type=#{status}
-        </if>
+        <!--<if test="status!=null">-->
+            <!--AND type=#{status}-->
+        <!--</if>-->
         ORDER BY ctime DESC
     </select>
     <select id="pageMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">

@@ -23,7 +23,7 @@ public class BillService {
     /**
      * 查询账单
      */
-    public PageInfo<Bill> page(PageParam page, Integer type, String value, String status) {
+    public PageInfo<Bill> page(PageParam page, Integer type, String value) {
         if (page.getPageNo() != null && page.getPageSize() != null) {
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         }
@@ -33,9 +33,6 @@ public class BillService {
         }
         if (value != null) {
             hashMap.put("value", "%" + value + "%");
-        }
-        if (status != null) {
-            hashMap.put("status", "%" + status + "%");
         }
         return new PageInfo(mapper.getBills(hashMap));
     }

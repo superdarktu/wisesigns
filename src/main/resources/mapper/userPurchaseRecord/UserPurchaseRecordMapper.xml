@@ -1,40 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.signs.mapper.userPurchaseRecord.UserPurchaseRecordMapper">
-  <resultMap id="BaseResultMap" type="com.signs.model.userPurchaseRecord.UserPurchaseRecord">
+    <resultMap id="BaseResultMap" type="com.signs.model.userPurchaseRecord.UserPurchaseRecord">
 
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="price" jdbcType="REAL" property="price" />
-    <result column="total_price" jdbcType="REAL" property="totalPrice" />
-    <result column="water_consumption" jdbcType="REAL" property="waterConsumption" />
-    <result column="total_consumption" jdbcType="REAL" property="totalConsumption" />
-    <result column="unit_cost" jdbcType="REAL" property="unitCost" />
-    <result column="balance" jdbcType="REAL" property="balance" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="place" jdbcType="VARCHAR" property="place" />
-    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
-  </resultMap>
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="price" jdbcType="REAL" property="price"/>
+        <result column="total_price" jdbcType="REAL" property="totalPrice"/>
+        <result column="water_consumption" jdbcType="REAL" property="waterConsumption"/>
+        <result column="total_consumption" jdbcType="REAL" property="totalConsumption"/>
+        <result column="unit_cost" jdbcType="REAL" property="unitCost"/>
+        <result column="balance" jdbcType="REAL" property="balance"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="place" jdbcType="VARCHAR" property="place"/>
+        <result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
+    </resultMap>
+    <select id="totalMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT sum(water_consumption) AS water_consumption, sum(unit_cost * tb_user_purchase_record.water_consumption)
+        AS unit_cost
+        FROM tb_user_purchase_record WHERE DATE_FORMAT(ctime, '%Y-%m')=DATE_FORMAT(#{date}, '%Y-%m')
+        <if test="id!=null">
+            AND user_id=#{id}
+        </if>
+    </select>
+    <select id="totalDay" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT sum(water_consumption) AS water_consumption, sum(unit_cost*tb_user_purchase_record.water_consumption) AS
+        unit_cost
+        FROM tb_user_purchase_record WHERE 1=1
+        <if test="date!=null">
+            and DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
+        </if>
+
+        <if test="id!=null">
+            AND user_id=#{id}
+        </if>
+    </select>
+    <select id="totalCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        SELECT count(*) FROM tb_user_purchase_record WHERE 1=1
+        <if test="date!=null">
+            and DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
+        </if>
+
+    </select>
 
     <select id="userCount" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        select hour(ctime) name,count(*) price
-        from tb_user_purchase_record
-        where DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
-        group by hour(ctime);
+        SELECT
+            hour(ctime) name,
+            count(*)    price
+        FROM tb_user_purchase_record
+        WHERE DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')
+        GROUP BY hour(ctime);
     </select>
     <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT * FROM tb_user_purchase_record WHERE 1=1
         <if test="userId!=null">
-          AND  user_id=#{userId}
+            AND user_id=#{userId}
         </if>
         <if test="value!=null">
-           AND tb_user_purchase_record.name LIKE #{value}
+            AND tb_user_purchase_record.name LIKE #{value}
         </if>
         <if test="date1!=null">
-           AND ctime > #{date1}
+            AND ctime > #{date1}
         </if>
         <if test="date2!=null">
-           AND   #{date2}>ctime
+            AND #{date2}>ctime
         </if>
     </select>
 

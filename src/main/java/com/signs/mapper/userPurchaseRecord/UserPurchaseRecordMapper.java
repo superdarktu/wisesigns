@@ -12,4 +12,12 @@ public interface UserPurchaseRecordMapper extends MyMapper<UserPurchaseRecord> {
 
     List<UserPurchaseRecord> userCount(HashMap hashMap);
 
+    Integer totalCount(HashMap hashMap);
+
+    UserPurchaseRecord totalDay(HashMap hashMap);
+
+    UserPurchaseRecord totalMonth(HashMap hashMap);
+
+
+
 }

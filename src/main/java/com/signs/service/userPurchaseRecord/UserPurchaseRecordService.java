@@ -50,9 +50,24 @@ public class UserPurchaseRecordService {
     /**
      * 查询用户数量，当天水流量，当月水流量，当日消费金额，当月消费金额
      */
-    public JSONObject getTotal(Date date){
+    public JSONObject getTotal(Date date,String id){
+        HashMap hashMap=new HashMap();
         JSONObject jmap=new JSONObject();
-
+        if (date == null) {
+            date=new Date();
+        }
+        hashMap.put("date",date);
+        if (id != null) {
+            hashMap.put("id",id);
+        }
+        Integer userCount = mapper.totalCount(hashMap);
+        UserPurchaseRecord day = mapper.totalDay(hashMap);//天
+        UserPurchaseRecord month = mapper.totalMonth(hashMap);//月
+        jmap.put("1",userCount);
+        jmap.put("2", day.getWaterConsumption());
+        jmap.put("3",month.getWaterConsumption());
+        jmap.put("4",day.getUnitCost());
+        jmap.put("5", month.getUnitCost());
         return jmap;
     }
 

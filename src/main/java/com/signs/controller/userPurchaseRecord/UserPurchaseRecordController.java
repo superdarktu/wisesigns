@@ -35,7 +35,7 @@ public class UserPurchaseRecordController {
     }
 
     /**
-     * 查询消费
+     * 查询
      */
     @PostMapping("/getUserCount")
     public Result  getUserCount(SearchVO vo){
@@ -48,6 +48,20 @@ public class UserPurchaseRecordController {
             result.setResult(1);
         }
         return result;
-
+    }
+    /**
+     * 查询
+     */
+    @PostMapping("/getTotal")
+    public Result  getTotal(SearchVO vo){
+        Result result = new Result();
+        try {
+            result.setData(service.getTotal(vo.getDate1(),vo.getId()));
+            result.setResult(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setResult(1);
+        }
+        return result;
     }
 }
