@@ -34,11 +34,18 @@ public class UserPurchaseRecordService {
     }
 
     /**
-     * 统计人数
+     * 统计24小时或30天
      */
     public JSONObject getUserCount(Date date,Integer type,String dayOrMonth) {
         HashMap hashMap = new HashMap();
-        hashMap.put("date",date);
+        if (date!= null) {
+            hashMap.put("date",date);
+        }   if (type!= null) {
+            hashMap.put("type",type);
+        }   if (dayOrMonth!= null) {
+            hashMap.put("dayOrMonth",dayOrMonth);
+        }
+
         List<UserPurchaseRecord> userCount = mapper.userCount(hashMap);
         JSONObject jmap=new JSONObject();
         for (UserPurchaseRecord record : userCount) {
