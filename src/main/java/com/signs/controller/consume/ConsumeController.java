@@ -56,6 +56,21 @@ public class ConsumeController {
     /**
      * 统计
      */
+    @PostMapping("/income")
+    public Result income(SearchVO vo, String type) {
+        Result result = new Result();
+        try {
+            result.setData(service.divide(vo.getDate1(),type));
+            result.setResult(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setResult(1);
+        }
+        return result;
+    }
+    /**
+     * 充值
+     */
     @PostMapping("/cumulative")
     public Result getRecharge(HttpSession session, SearchVO vo, Integer type) {
         Result result = new Result();

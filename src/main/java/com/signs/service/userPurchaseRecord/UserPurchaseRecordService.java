@@ -122,5 +122,40 @@ public class UserPurchaseRecordService {
         return object;
     }
 
+    /**
+     * 分成
+     */
+
+    public JSONObject divide(Date date, String type) {
+        JSONObject object = new JSONObject();
+        HashMap hashMap = new HashMap();
+        if (date == null) {
+            date = new Date();
+        }
+        if ("day".equals(type)) {
+            hashMap.put("day", 1);
+        } else {
+            hashMap.put("month", 2);
+
+        }
+        hashMap.put("date", date);
+
+        UserPurchaseRecord divide = mapper.divide(hashMap);
+        Float price = divide.getTotalPrice();//总收入
+        Float price1 = divide.getPrice();//物业收入
+        hashMap.put("type", 2);
+        UserPurchaseRecord divide1 = mapper.divide1(hashMap);
+        Float price2 = divide1.getPrice();
+        hashMap.put("type", 3);
+        UserPurchaseRecord divide2 = mapper.divide1(hashMap);
+        Float price3 = divide2.getPrice();
+
+        object.put("0", price);
+        object.put("1", price1);
+        object.put("2", price2);
+        object.put("3", price3);
+
+        return object;
+    }
 
 }
