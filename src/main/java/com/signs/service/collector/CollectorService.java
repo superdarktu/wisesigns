@@ -39,7 +39,7 @@ public class CollectorService {
 
         collector.setCtime(new Date());
         collector.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
-        collector.setStatus(0);
+        collector.setStatus(1);
         mapper.insert(collector);
         return true;
     }
