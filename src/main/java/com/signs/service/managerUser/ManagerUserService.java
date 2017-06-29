@@ -5,6 +5,7 @@ import com.signs.mapper.collector.CollectorMapper;
 import com.signs.mapper.manager.ManagerMapper;
 import com.signs.mapper.managerUser.ManagerUserMapper;
 import com.signs.mapper.managerUserCollector.ManagerUserCollectorMapper;
+import com.signs.mapper.waterFountains.WaterFountainsMapper;
 import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
@@ -38,6 +39,8 @@ public class ManagerUserService {
     @Resource
     private CollectorService service;
 
+    @Resource
+    private WaterFountainsMapper mapper3;
 
 
     /**
@@ -56,7 +59,7 @@ public class ManagerUserService {
     @Transactional
     public boolean createUser(ManagerUser managerUser, String collectorIds) {
         //账号是否重复
-       if (service1.isHaveUsername(managerUser.getAccount()))return false;
+        if (service1.isHaveUsername(managerUser.getAccount())) return false;
 //        List<ManagerUser> ManagerUsers = mapper.selectCode(managerUser.getAccount());
 //        if (ManagerUsers == null || ManagerUsers.size() > 0)
         String id = UUID.randomUUID().toString().replace("-", "");
@@ -78,6 +81,11 @@ public class ManagerUserService {
                 collector.setPropertyId(managerUser.getId());
                 collector.setPropertyName(managerUser.getName());
                 service.update(collector);
+                //修改饮水机价格
+                HashMap hashMap=new HashMap();
+                hashMap.put("managerUserId",managerUser.getId());
+                hashMap.put("collectorId",collectorId);
+                mapper3.updateWaterFountain(hashMap);
 
                 //添加关联表，修改时先删除managerId关联的关联表数据
                 mapper1.deleteByManager(managerUser.getId());

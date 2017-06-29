@@ -36,7 +36,7 @@ public class UserPurchaseRecordService {
     /**
      * 统计人数
      */
-    public JSONObject getUserCount(Date date) {
+    public JSONObject getUserCount(Date date,Integer type,String dayOrMonth) {
         HashMap hashMap = new HashMap();
         hashMap.put("date",date);
         List<UserPurchaseRecord> userCount = mapper.userCount(hashMap);

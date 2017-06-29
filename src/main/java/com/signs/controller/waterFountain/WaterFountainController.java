@@ -38,7 +38,6 @@ public class WaterFountainController {
     /**
      * 添加饮水机
      */
-
     @PostMapping("/addDispenser")
     public Result addDispenser(String waterPosition, String tableNumber, Integer waterType, Float longitude, Float latitude) {
         Result dto = new Result();

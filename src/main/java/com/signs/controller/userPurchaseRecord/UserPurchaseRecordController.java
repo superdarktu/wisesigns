@@ -25,7 +25,23 @@ public class UserPurchaseRecordController {
     public Result pageCard(PageParam param, SearchVO dto) {
         Result result = new Result();
         try {
-            result.setData(service.page(param,dto.getId(),dto.getDate1(),dto.getDate2(),dto.getValue()));
+            result.setData(service.page(param, dto.getId(), dto.getDate1(), dto.getDate2(), dto.getValue()));
+            result.setResult(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setResult(1);
+        }
+        return result;
+    }
+
+    /**
+     * 统计
+     */
+    @PostMapping("/getUserCount")
+    public Result getUserCount(SearchVO vo,Integer type,String dayOrMonth) {
+        Result result = new Result();
+        try {
+            result.setData(service.getUserCount(vo.getDate1(),type,dayOrMonth));
             result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,26 +53,11 @@ public class UserPurchaseRecordController {
     /**
      * 查询
      */
-    @PostMapping("/getUserCount")
-    public Result  getUserCount(SearchVO vo){
-        Result result = new Result();
-        try {
-            result.setData(service.getUserCount(vo.getDate1()));
-            result.setResult(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setResult(1);
-        }
-        return result;
-    }
-    /**
-     * 查询
-     */
     @PostMapping("/getTotal")
-    public Result  getTotal(SearchVO vo){
+    public Result getTotal(SearchVO vo) {
         Result result = new Result();
         try {
-            result.setData(service.getTotal(vo.getDate1(),vo.getId()));
+            result.setData(service.getTotal(vo.getDate1(), vo.getId()));
             result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();

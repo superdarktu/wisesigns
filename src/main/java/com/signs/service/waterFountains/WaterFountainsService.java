@@ -45,8 +45,8 @@ public class WaterFountainsService {
         waterFountains.setLatitude(latitude);
         waterFountains.setLongitude(longitude);
         waterFountains.setType(waterType);
-        waterFountains.setWaterPrice(managerUser.getWaterPrice());
-        waterFountains.setCostScale(managerUser.getCostScale());
+//        waterFountains.setWaterPrice(managerUser.getWaterPrice());
+//        waterFountains.setCostScale(managerUser.getCostScale());
         mapper.insert(waterFountains);
         return true;
     }

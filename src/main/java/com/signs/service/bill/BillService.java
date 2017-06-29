@@ -9,6 +9,10 @@ import com.signs.model.commons.PageParam;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +53,6 @@ public class BillService {
         hashMap.put("date", date);
         List<Bill> bills = mapper.pageMonth(hashMap);
         JSONObject jmap = new JSONObject();
-
         for (int i = 1; i < 10; i++) {
             boolean flag=false;
             for (Bill bill : bills) {
@@ -78,4 +81,6 @@ public class BillService {
         }
         return jmap;
     }
+
+
 }

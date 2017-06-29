@@ -16,11 +16,15 @@
     </resultMap>
 
     <select id="selectCode" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT * FROM tb_water_fountains WHERE code=#{code}
+        SELECT *
+        FROM tb_water_fountains
+        WHERE code = #{code}
     </select>
 
     <select id="selectTableCode" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT * FROM tb_water_fountains WHERE table_code=#{tableCode}
+        SELECT *
+        FROM tb_water_fountains
+        WHERE table_code = #{tableCode}
     </select>
 
     <select id="getDispenser" parameterType="java.util.HashMap" resultMap="BaseResultMap">
@@ -33,9 +37,26 @@
         <if test="value!=null">
             AND code LIKE #{value} OR place LIKE #{value}
         </if>
-         ORDER BY ctime
+        ORDER BY ctime
     </select>
     <select id="getLastDispenser" resultMap="BaseResultMap">
-        select * from tb_water_fountains  ORDER BY ctime DESC limit 0,1
+        SELECT *
+        FROM tb_water_fountains
+        ORDER BY ctime DESC
+        LIMIT 0, 1
     </select>
+
+    <update id="updateWaterFountain" parameterType="java.util.HashMap">
+        UPDATE tb_water_fountains AS twf
+        SET water_price   = (SELECT tmu.water_price
+                           FROM tb_manager_user AS tmu
+        WHERE tmu.id = #{managerUserId}),
+            cost_scale    = (SELECT tmu.cost_scale
+                             FROM tb_manager_user AS tmu
+        WHERE tmu.id = #{managerUserId})
+        WHERE twf.table_code=(SELECT tb_watermeter.code FROM tb_watermeter
+        WHERE collector_code=(SELECT code FROM tb_collector
+        WHERE tb_collector.id=#{collectorId}
+        ))
+    </update>
 </mapper>
