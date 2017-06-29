@@ -39,7 +39,7 @@ public class ManagerUserController {
                 List<Collector> collectors1 = service1.findWithNoProperty();
                 dto.setData(collectors1);
             } else {
-                PageInfo<CollectorVO> collectors2 = service1.page(param, new Collector());
+                List<CollectorVO> collectors2 = service1.page(param, new Collector()).getList();
                 dto.setData(collectors2);
             }
         } catch (Exception ex) {

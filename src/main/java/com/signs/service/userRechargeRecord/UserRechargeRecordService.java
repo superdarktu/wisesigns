@@ -35,6 +35,7 @@ public class UserRechargeRecordService {
         if (value != null) hashMap.put("value", "%" + value + "%");
         return new PageInfo(mapper.selectByUserId(hashMap));
     }
+
     /**
      * 统计24小时或30天
      */
@@ -56,11 +57,11 @@ public class UserRechargeRecordService {
         JSONArray arr1 = new JSONArray();
         JSONArray arr2 = new JSONArray();
         for (UserRechargeRecord record : waterAndMoneyDay) {
-            arr1.add(record.getName()+":00");//日期
+            arr1.add(record.getName() + ":00");//日期
             arr2.add(record.getPrice());//消费金额
         }
-        day.put("几点",arr1);
-        day.put("充值金额",arr2);
+        day.put("hourTime", arr1);
+        day.put("dayCost", arr2);
 
 //        每月数据
         List<UserRechargeRecord> waterAndMoneyMonth = mapper.getWaterAndMoneyMonth(hashMap);
@@ -73,10 +74,10 @@ public class UserRechargeRecordService {
             array1.add(name);
             array2.add(price);
         }
-        month.put("几号", array1);
-        month.put("月充值金额", array2);
-        object.put("当天用量",day);
-        object.put("当月用量", month);
+        month.put("dayTime", array1);
+        month.put("monthCost", array2);
+        object.put("day", day);
+        object.put("month", month);
         return object;
     }
 
