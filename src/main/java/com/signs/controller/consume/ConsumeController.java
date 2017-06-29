@@ -20,11 +20,11 @@ public class ConsumeController {
     /**
      * 查询用户数量，当天水流量，当月水流量，当日消费金额，当月消费金额
      */
-    @PostMapping("/getDate")
-    public Result pageCard() {
+    @PostMapping("/getData")
+    public Result pageCard(SearchVO vo) {
         Result result = new Result();
         try {
-
+            service.getTotal(vo.getDate1(), vo.getId());
             result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,20 +33,5 @@ public class ConsumeController {
         return result;
     }
 
-//    /**
-//     * 查询消费
-//     */
-//    @PostMapping("/getUserCount")
-//    public Result  getUserCount(SearchVO vo){
-//        Result result = new Result();
-//        try {
-//            result.setData(service.getUserCount(vo.getDate1()));
-//            result.setResult(0);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            result.setResult(1);
-//        }
-//        return result;
-//
-//    }
+
 }

@@ -1,5 +1,6 @@
 package com.signs.service.userPurchaseRecord;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.userPurchaseRecord.UserPurchaseRecordMapper;
@@ -35,29 +36,6 @@ public class UserPurchaseRecordService {
     }
 
     /**
-     * 统计24小时或30天
-     */
-    public JSONObject getUserCount(Date date, Integer type, String dayOrMonth) {
-        HashMap hashMap = new HashMap();
-        if (date != null) {
-            hashMap.put("date", date);
-        }
-        if (type != null) {
-            hashMap.put("type", type);
-        }
-        if (dayOrMonth != null) {
-            hashMap.put("dayOrMonth", dayOrMonth);
-        }
-
-        List<UserPurchaseRecord> userCount = mapper.userCount(hashMap);
-        JSONObject jmap = new JSONObject();
-        for (UserPurchaseRecord record : userCount) {
-            jmap.put(record.getName(), record.getPrice());
-        }
-        return jmap;
-    }
-
-    /**
      * 查询用户数量，当天水流量，当月水流量，当日消费金额，当月消费金额
      */
     public JSONObject getTotal(Date date, String id) {
@@ -73,12 +51,73 @@ public class UserPurchaseRecordService {
         Integer userCount = mapper.totalCount(hashMap);
         UserPurchaseRecord day = mapper.totalDay(hashMap);//天
         UserPurchaseRecord month = mapper.totalMonth(hashMap);//月
-        jmap.put("1", userCount);
-        jmap.put("2", day.getWaterConsumption());
-        jmap.put("3", month.getWaterConsumption());
-        jmap.put("4", day.getUnitCost());
-        jmap.put("5", month.getUnitCost());
+        jmap.put("用户数量", userCount);
+        jmap.put("今日用水量", day.getWaterConsumption());
+        jmap.put("当月用水量", month.getWaterConsumption());
+        jmap.put("今日消费金额", day.getUnitCost());
+        jmap.put("当月消费金额", month.getUnitCost());
         return jmap;
     }
+
+    /**
+     * 统计24小时或30天
+     */
+    public JSONObject getUserCount(String id, Date date, Integer type) {
+        HashMap hashMap = new HashMap();
+        JSONObject object = new JSONObject();
+        if (id != null) {
+            hashMap.put("id", id);
+        }
+        if (date != null) {
+            hashMap.put("date", date);
+        }
+        if (type != null) {
+            hashMap.put("type", type);
+        }
+        List<UserPurchaseRecord> userCount = mapper.userCount(hashMap);
+        JSONObject jmap = new JSONObject();
+        for (UserPurchaseRecord record : userCount) {
+
+            for (int i = 0; i < 24; i++) {
+                if (("" + i).equals(record.getName())) {
+
+                }
+            }
+
+            jmap.put(record.getName(), record.getPrice());
+        }
+        //每天数据
+        List<UserPurchaseRecord> waterAndMoneyDay = mapper.getWaterAndMoneyDay(hashMap);
+        JSONObject jmap1 = new JSONObject();
+        JSONObject jmap2 = new JSONObject();
+        for (UserPurchaseRecord userPurchaseRecord : waterAndMoneyDay) {
+            String name = userPurchaseRecord.getName();//时间
+            Float waterConsumption = userPurchaseRecord.getWaterConsumption();//水量
+            Float price = userPurchaseRecord.getPrice();//金额
+
+            jmap1.put(name, waterConsumption);
+            jmap2.put(name, price);
+
+        }
+//        每月数据
+        List<UserPurchaseRecord> waterAndMoneyMonth = mapper.getWaterAndMoneyMonth(hashMap);
+        JSONObject jmap3 = new JSONObject();
+        JSONObject jmap4 = new JSONObject();
+        for (UserPurchaseRecord userPurchaseRecord : waterAndMoneyMonth) {
+            String name = userPurchaseRecord.getName();//时间
+            Float waterConsumption = userPurchaseRecord.getWaterConsumption();//水量
+            Float price = userPurchaseRecord.getPrice();//金额
+            jmap3.put(name, waterConsumption);
+            jmap4.put(name, price);
+        }
+        object.put("用户数量", jmap);
+        object.put("当日用水量", jmap1);
+        object.put("当日消费金额", jmap2);
+        object.put("当月用水量", jmap3);
+        object.put("当月消费金额", jmap4);
+
+        return object;
+    }
+
 
 }

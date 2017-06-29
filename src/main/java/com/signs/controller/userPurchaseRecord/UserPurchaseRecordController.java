@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 @RestController
@@ -38,10 +39,11 @@ public class UserPurchaseRecordController {
      * 统计
      */
     @PostMapping("/getUserCount")
-    public Result getUserCount(SearchVO vo,Integer type,String dayOrMonth) {
+    public Result getUserCount(HttpSession session, SearchVO vo, Integer type) {
         Result result = new Result();
         try {
-            result.setData(service.getUserCount(vo.getDate1(),type,dayOrMonth));
+            String id = (String) session.getAttribute("id");
+            result.setData(service.getUserCount(id,vo.getDate1(),type));
             result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();

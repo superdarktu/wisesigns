@@ -15,6 +15,7 @@
         <result column="place" jdbcType="VARCHAR" property="place"/>
         <result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
     </resultMap>
+    <!--月数据-->
     <select id="totalMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT sum(water_consumption) AS water_consumption, sum(unit_cost * tb_user_purchase_record.water_consumption)
         AS unit_cost
@@ -23,6 +24,7 @@
             AND user_id=#{id}
         </if>
     </select>
+    <!--当天数据-->
     <select id="totalDay" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT sum(water_consumption) AS water_consumption, sum(unit_cost*tb_user_purchase_record.water_consumption) AS
         unit_cost
@@ -35,14 +37,14 @@
             AND user_id=#{id}
         </if>
     </select>
+    <!--统计当天消费次数-->
     <select id="totalCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
         SELECT count(*) FROM tb_user_purchase_record WHERE 1=1
         <if test="date!=null">
-            and DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
+            And DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
         </if>
-
     </select>
-
+    <!--当天不同时段用户-->
     <select id="userCount" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT
             hour(ctime) name,
@@ -51,6 +53,33 @@
         WHERE DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')
         GROUP BY hour(ctime);
     </select>
+    <!--当天不同时段用水量和消费金额-->
+    <select id="getWaterAndMoneyDay" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT
+        hour(ctime) name,
+        sum(price)   price,
+        sum(water_consumption) AS water_consumption
+        FROM tb_user_purchase_record
+        WHERE DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')
+        <if test="id!=null">
+            AND
+        </if>
+        GROUP BY hour(ctime)
+    </select>
+    <!--当月不同时段用水量和消费金额-->
+    <select id="getWaterAndMoneyMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT
+        day(ctime) name,
+        sum(price)   price,
+        sum(water_consumption) AS water_consumption
+        FROM tb_user_purchase_record
+        WHERE DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(#{date}, '%Y-%m')
+        <if test="id!=null">
+            AND
+        </if>
+        GROUP BY hour(ctime)
+    </select>
+    <!--通过时间和用户id查询消费记录-->
     <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT * FROM tb_user_purchase_record WHERE 1=1
         <if test="userId!=null">

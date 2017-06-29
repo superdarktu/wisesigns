@@ -9,6 +9,9 @@ import java.util.List;
 public interface UserPurchaseRecordMapper extends MyMapper<UserPurchaseRecord> {
     List<UserPurchaseRecord> selectByUserId(HashMap hashMap);
 
+    List<UserPurchaseRecord> getWaterAndMoneyDay(HashMap hashMap);
+
+    List<UserPurchaseRecord> getWaterAndMoneyMonth(HashMap hashMap);
 
     List<UserPurchaseRecord> userCount(HashMap hashMap);
 
@@ -17,7 +20,6 @@ public interface UserPurchaseRecordMapper extends MyMapper<UserPurchaseRecord> {
     UserPurchaseRecord totalDay(HashMap hashMap);
 
     UserPurchaseRecord totalMonth(HashMap hashMap);
-
 
 
 }
