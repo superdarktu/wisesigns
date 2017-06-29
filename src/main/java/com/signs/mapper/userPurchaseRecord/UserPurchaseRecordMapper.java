@@ -22,4 +22,9 @@ public interface UserPurchaseRecordMapper extends MyMapper<UserPurchaseRecord> {
     UserPurchaseRecord totalMonth(HashMap hashMap);
 
 
+    UserPurchaseRecord divide(HashMap hashMap);
+
+
+
+
 }

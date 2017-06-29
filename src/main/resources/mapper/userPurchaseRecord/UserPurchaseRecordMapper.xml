@@ -46,19 +46,19 @@
     </select>
     <!--&lt;!&ndash;当天不同时段用户&ndash;&gt;-->
     <!--<select id="userCount" parameterType="java.util.HashMap" resultMap="BaseResultMap">-->
-        <!--SELECT-->
-            <!--DATE_FORMAT(ctime,'%H') name,-->
-            <!--count(*)    price-->
-        <!--FROM tb_user_purchase_record-->
-        <!--WHERE DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')-->
-        <!--GROUP BY hour(ctime);-->
+    <!--SELECT-->
+    <!--DATE_FORMAT(ctime,'%H') name,-->
+    <!--count(*)    price-->
+    <!--FROM tb_user_purchase_record-->
+    <!--WHERE DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')-->
+    <!--GROUP BY hour(ctime);-->
     <!--</select>-->
     <!--当天不同时段用户人数、用水量和消费金额-->
     <select id="getWaterAndMoneyDay" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT
         DATE_FORMAT(ctime,'%H') name,
         count(*) total_price,
-        sum(price)   price,
+        sum(price) price,
         sum(water_consumption) AS water_consumption
         FROM tb_user_purchase_record
         WHERE DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')
@@ -71,7 +71,7 @@
     <select id="getWaterAndMoneyMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT
         day(ctime) name,
-        sum(price)   price,
+        sum(price) price,
         sum(water_consumption) AS water_consumption
         FROM tb_user_purchase_record
         WHERE DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(#{date}, '%Y-%m')
@@ -97,4 +97,21 @@
         </if>
     </select>
 
+    <!--分成,income物业收入，推广-->
+    <select id="divide" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT
+        sum((1 - tmu.cost_scale) * tupr.price) AS 'total_price',
+        sum((1 - tmu.cost_scale) * tupr.price * tmu.ivision_proportion) 'income',
+        DATE_FORMAT(tupr.ctime, '%m') AS 'name'
+        FROM tb_user_purchase_record tupr
+        JOIN tb_collector tc ON tupr.collector_id = tc.id
+        JOIN tb_manager_user tmu ON tmu.id = tc.property_id
+        WHERE 1=1
+        <if test="day!=null">
+            AND DATE_FORMAT(tupr.ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')
+        </if>
+        <if test="month!=null">
+            AND DATE_FORMAT(tupr.ctime, '%Y-%m') = DATE_FORMAT(#{date}, '%Y-%m')
+        </if>
+    </select>
 </mapper>
