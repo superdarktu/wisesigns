@@ -93,6 +93,7 @@ public class WaterCardController {
 
         Result result = new Result();
         List<Integer> errorList = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
         try {
             String name = file.getOriginalFilename();
             if (!name.endsWith(".xls") && !name.endsWith(".xlsx")) {
@@ -118,10 +119,13 @@ public class WaterCardController {
                                     type = 0;
                                 if(waterCardExcel.getType().equals("私用"))
                                     type = 1;
-                                if(type > -1)
-                                    service.createCard(waterCardExcel.getCode(),password+"",type);
-                                else
-                                    errorList.add(i);
+                                if(type > -1) {
+                                    if(service.createCard(waterCardExcel.getCode(), password + "", type))
+                                        temp.add(i);
+                                    else
+                                        errorList.add(i);
+                                }else{
+                                    errorList.add(i);}
                             }
                         }
                     }catch (Exception e){
@@ -134,6 +138,7 @@ public class WaterCardController {
             e.printStackTrace();
         }
         result.setData(errorList);
+        result.setInfo(temp.size()+"");
         return result;
     }
 
@@ -176,7 +181,7 @@ public class WaterCardController {
         }
 
         OutputStream output = response.getOutputStream();
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("水卡导出-"+DateUtils.dateToStr(new Date(),"Date")+".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("水卡导出-"+DateUtils.dateToStr(new Date(),"only")+".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
         workbook.write(output);
         output.close();
     }

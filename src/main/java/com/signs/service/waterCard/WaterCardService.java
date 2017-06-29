@@ -59,7 +59,7 @@ public class WaterCardService {
      */
     public boolean selectCode(String code){
         List<WaterCard> waterCards = mapper.selectCode(code);
-        return waterCards != null;
+        return waterCards.size()>0?true:false;
     }
 
     /**

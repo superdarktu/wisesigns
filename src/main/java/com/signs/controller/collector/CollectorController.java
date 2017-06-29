@@ -212,7 +212,7 @@ public class CollectorController {
         }
 
         OutputStream output = response.getOutputStream();
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("采集器导出-"+DateUtils.dateToStr(new Date(),"Date")+".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("采集器导出-"+DateUtils.dateToStr(new Date(),"only")+".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
         workbook.write(output);
         output.close();
     }
@@ -227,6 +227,7 @@ public class CollectorController {
 
         Result result = new Result();
         List<Integer> errorList = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
         try {
             String name = file.getOriginalFilename();
             if (!name.endsWith(".xls") && !name.endsWith(".xlsx")) {
@@ -247,7 +248,10 @@ public class CollectorController {
                                 Collector collector = new Collector();
                                 collector.setName(collectorExcel.getName());
                                 collector.setCode(collectorExcel.getCode());
-                                service.insert(collector);
+                                if(service.insert(collector))
+                                    temp.add(i);
+                                else
+                                    errorList.add(i);
                             }
                         }
                     }catch (Exception e){
@@ -260,6 +264,7 @@ public class CollectorController {
             e.printStackTrace();
         }
         result.setData(errorList);
+        result.setInfo(temp.size()+"");
         return result;
     }
 

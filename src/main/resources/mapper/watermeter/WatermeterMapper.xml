@@ -36,7 +36,7 @@
         SELECT code from tb_watermeter where collector_code = #{collectorCode}
     </select>
 
-    <select id="isHaveUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="isHaveCode" parameterType="java.lang.String" resultMap="BaseResultMap">
         select * from tb_watermeter where code = #{code}
     </select>
 

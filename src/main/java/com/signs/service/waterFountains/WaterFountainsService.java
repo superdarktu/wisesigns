@@ -34,6 +34,7 @@ public class WaterFountainsService {
         String waterNumber = lastDispenser == null ? "0" : "" + (Integer.parseInt(lastDispenser.getCode()) + 1);
         List<WaterFountains> fountains = mapper.selectCode(waterNumber);
         if (fountains == null || fountains.size() > 0) return false;
+        if(mapper.selectTableCode(tableNumber).size()>0) return  false;
         ManagerUser managerUser = mapper1.selectPrice(tableNumber);
         WaterFountains waterFountains = new WaterFountains();
         waterFountains.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
@@ -57,7 +58,7 @@ public class WaterFountainsService {
      */
    public boolean selectCode(String waterNumber){
        List<WaterFountains> waterFountains = mapper.selectCode(waterNumber);
-       return waterFountains != null;
+       return waterFountains.size()>0?true:false;
    }
 
 

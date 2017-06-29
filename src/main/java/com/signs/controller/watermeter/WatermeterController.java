@@ -181,6 +181,7 @@ public class WatermeterController {
 
         Result result = new Result();
         List<Integer> errorList = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
         try {
             String name = file.getOriginalFilename();
             if (!name.endsWith(".xls") && !name.endsWith(".xlsx")) {
@@ -202,7 +203,10 @@ public class WatermeterController {
                                 watermeter.setCode(watermeterExcel.getCode());
                                 watermeter.setCollectorCode(watermeterExcel.getCollectorCode());
                                 watermeter.setTotalCode(watermeterExcel.getTotalCode());
-                                service.insert(watermeter);
+                                if(service.insert(watermeter))
+                                    temp.add(i);
+                                else
+                                    errorList.add(i);
                             }
                         }
                     }catch (Exception e){
@@ -215,6 +219,7 @@ public class WatermeterController {
             e.printStackTrace();
         }
         result.setData(errorList);
+        result.setInfo(temp.size()+"");
         return result;
     }
 
@@ -259,7 +264,7 @@ public class WatermeterController {
         }
 
         OutputStream output = response.getOutputStream();
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("水表导出-"+DateUtils.dateToStr(new Date(),"Date")+".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("水表导出-"+DateUtils.dateToStr(new Date(),"only")+".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
         workbook.write(output);
         output.close();
     }

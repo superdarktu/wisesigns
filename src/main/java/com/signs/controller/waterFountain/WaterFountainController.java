@@ -124,6 +124,7 @@ public class WaterFountainController {
 
         Result result = new Result();
         List<Integer> errorList = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
         try {
             String name = file.getOriginalFilename();
             if (!name.endsWith(".xls") && !name.endsWith(".xlsx")) {
@@ -141,11 +142,17 @@ public class WaterFountainController {
                             if (service.selectCode(waterFountainExcel.getCode())) {
                                 errorList.add(i);
                             } else {
-                                service.createFountains(waterFountainExcel.getPosition(),waterFountainExcel.getTableCode()
-                                        ,waterFountainExcel.getType(),waterFountainExcel.getLongitude(),waterFountainExcel.getLatitude());
+
+                                if(service.createFountains(waterFountainExcel.getPosition(),waterFountainExcel.getTableCode()
+                                        ,waterFountainExcel.getType(),waterFountainExcel.getLongitude(),waterFountainExcel.getLatitude())) {
+                                    temp.add(i);
+                                }else{
+                                    errorList.add(i);
+                                }
                             }
                         }
                     }catch (Exception e){
+                        e.printStackTrace();
                         errorList.add(i);
                     }
                 }
@@ -155,6 +162,7 @@ public class WaterFountainController {
             e.printStackTrace();
         }
         result.setData(errorList);
+        result.setInfo(temp.size()+"");
         return result;
     }
 
@@ -199,7 +207,7 @@ public class WaterFountainController {
         }
 
         OutputStream output = response.getOutputStream();
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("饮水机导出-"+DateUtils.dateToStr(new Date(),"Date")+".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("饮水机导出-"+DateUtils.dateToStr(new Date(),"only")+".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
         workbook.write(output);
         output.close();
     }
