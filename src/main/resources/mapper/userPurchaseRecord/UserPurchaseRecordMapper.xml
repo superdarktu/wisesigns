@@ -44,19 +44,20 @@
             And DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
         </if>
     </select>
-    <!--当天不同时段用户-->
-    <select id="userCount" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        SELECT
-            hour(ctime) name,
-            count(*)    price
-        FROM tb_user_purchase_record
-        WHERE DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')
-        GROUP BY hour(ctime);
-    </select>
-    <!--当天不同时段用水量和消费金额-->
+    <!--&lt;!&ndash;当天不同时段用户&ndash;&gt;-->
+    <!--<select id="userCount" parameterType="java.util.HashMap" resultMap="BaseResultMap">-->
+        <!--SELECT-->
+            <!--DATE_FORMAT(ctime,'%H') name,-->
+            <!--count(*)    price-->
+        <!--FROM tb_user_purchase_record-->
+        <!--WHERE DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')-->
+        <!--GROUP BY hour(ctime);-->
+    <!--</select>-->
+    <!--当天不同时段用户人数、用水量和消费金额-->
     <select id="getWaterAndMoneyDay" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT
-        hour(ctime) name,
+        DATE_FORMAT(ctime,'%H') name,
+        count(*) total_price,
         sum(price)   price,
         sum(water_consumption) AS water_consumption
         FROM tb_user_purchase_record

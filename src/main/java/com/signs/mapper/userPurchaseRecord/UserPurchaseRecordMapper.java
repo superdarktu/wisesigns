@@ -13,7 +13,7 @@ public interface UserPurchaseRecordMapper extends MyMapper<UserPurchaseRecord> {
 
     List<UserPurchaseRecord> getWaterAndMoneyMonth(HashMap hashMap);
 
-    List<UserPurchaseRecord> userCount(HashMap hashMap);
+//    List<UserPurchaseRecord> userCount(HashMap hashMap);
 
     Integer totalCount(HashMap hashMap);
 

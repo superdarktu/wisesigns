@@ -10,6 +10,8 @@ import com.signs.model.userPurchaseRecord.UserPurchaseRecord;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -74,47 +76,84 @@ public class UserPurchaseRecordService {
         if (type != null) {
             hashMap.put("type", type);
         }
-        List<UserPurchaseRecord> userCount = mapper.userCount(hashMap);
-        JSONObject jmap = new JSONObject();
-        for (UserPurchaseRecord record : userCount) {
-
-            for (int i = 0; i < 24; i++) {
-                if (("" + i).equals(record.getName())) {
-
-                }
-            }
-
-            jmap.put(record.getName(), record.getPrice());
-        }
         //每天数据
-        List<UserPurchaseRecord> waterAndMoneyDay = mapper.getWaterAndMoneyDay(hashMap);
-        JSONObject jmap1 = new JSONObject();
-        JSONObject jmap2 = new JSONObject();
-        for (UserPurchaseRecord userPurchaseRecord : waterAndMoneyDay) {
-            String name = userPurchaseRecord.getName();//时间
-            Float waterConsumption = userPurchaseRecord.getWaterConsumption();//水量
-            Float price = userPurchaseRecord.getPrice();//金额
-
-            jmap1.put(name, waterConsumption);
-            jmap2.put(name, price);
-
+        List<UserPurchaseRecord> userCount = mapper.getWaterAndMoneyDay(hashMap);
+        JSONObject day = new JSONObject();
+        JSONArray arr1 = new JSONArray();
+        JSONArray arr2 = new JSONArray();
+        JSONArray arr3 = new JSONArray();
+        JSONArray arr4 = new JSONArray();
+        for (UserPurchaseRecord record : userCount) {
+            arr1.add(record.getName()+":00");//日期
+            arr2.add(record.getPrice());//消费金额
+            arr3.add(record.getTotalPrice());//人数
+            arr4.add(record.getWaterConsumption());//用水量
         }
+        day.put("几点",arr1);
+        day.put("消费金额",arr2);
+        day.put("人数",arr3);
+        day.put("用水量",arr4);
+
+
+//        for (int i = 0; i < 24; i++) {
+//            boolean flag = false;
+//            for (UserPurchaseRecord record : waterAndMoneyDay) {
+//                if (("" + i).equals(record.getName())) {
+//                    array2.add(record.getWaterConsumption());
+//                    array3.add(record.getPrice());
+//                    flag = true;
+//                }
+//            }
+//            if (!flag) {
+//                array2.add(0);
+//                array3.add(0);
+//            }
+//        }
+//        for (UserPurchaseRecord userPurchaseRecord : waterAndMoneyDay) {
+//            String name = userPurchaseRecord.getName();//时间
+//            Float waterConsumption = userPurchaseRecord.getWaterConsumption();//水量
+//            Float price = userPurchaseRecord.getPrice();//金额
+//
+//            jmap1.put(name, waterConsumption);
+//            jmap2.put(name, price);
+//
+//        }
 //        每月数据
         List<UserPurchaseRecord> waterAndMoneyMonth = mapper.getWaterAndMoneyMonth(hashMap);
-        JSONObject jmap3 = new JSONObject();
-        JSONObject jmap4 = new JSONObject();
+
+
+//        for (int i = 1; i < 32; i++) {
+//            boolean flag = false;
+//            for (UserPurchaseRecord record : waterAndMoneyMonth) {
+//                if (("" + i).equals(record.getName())) {
+//                    jmap3.put(record.getName(), record.getWaterConsumption());
+//                    jmap4.put(record.getName(), record.getPrice());
+//                    flag = true;
+//                }
+//            }
+//            if (!flag) {
+//                jmap3.put("" + i, 0);
+//                jmap4.put("" + i, 0);
+//            }
+//        }
+        JSONObject month = new JSONObject();
+        JSONArray array4 = new JSONArray();
+        JSONArray array5 = new JSONArray();
+        JSONArray array6 = new JSONArray();
         for (UserPurchaseRecord userPurchaseRecord : waterAndMoneyMonth) {
             String name = userPurchaseRecord.getName();//时间
             Float waterConsumption = userPurchaseRecord.getWaterConsumption();//水量
             Float price = userPurchaseRecord.getPrice();//金额
-            jmap3.put(name, waterConsumption);
-            jmap4.put(name, price);
+            array4.add(name);
+            array5.add(waterConsumption);
+            array6.add(price);
+
         }
-        object.put("用户数量", jmap);
-        object.put("当日用水量", jmap1);
-        object.put("当日消费金额", jmap2);
-        object.put("当月用水量", jmap3);
-        object.put("当月消费金额", jmap4);
+        month.put("几号", array4);
+        month.put("月流水量", array5);
+        month.put("月消费金额", array6);
+        object.put("当天用量",day);
+        object.put("当月用量", month);
 
         return object;
     }
