@@ -63,7 +63,7 @@
         FROM tb_user_purchase_record
         WHERE DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')
         <if test="id!=null">
-            AND
+            AND user_id=#{id}
         </if>
         GROUP BY hour(ctime)
     </select>
@@ -76,7 +76,7 @@
         FROM tb_user_purchase_record
         WHERE DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(#{date}, '%Y-%m')
         <if test="id!=null">
-            AND
+            AND user_id=#{id}
         </if>
         GROUP BY day(ctime)
     </select>

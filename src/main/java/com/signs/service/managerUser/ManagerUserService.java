@@ -148,7 +148,8 @@ public class ManagerUserService {
         for (String id : ids) {
             ManagerUser managerUser = mapper.selectByPrimaryKey(id);
             if (managerUser == null) continue;
-            mapper.delete(managerUser);
+            managerUser.setStatus(1);
+            mapper.updateByPrimaryKeySelective(managerUser);
         }
         return true;
     }
