@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/reports")
@@ -32,6 +33,37 @@ public class ConsumeController {
         }
         return result;
     }
-
+    /**
+     * 统计
+     */
+    @PostMapping("/concrete")
+    public Result getUserCount(HttpSession session, SearchVO vo, Integer type) {
+        Result result = new Result();
+        try {
+            String id = (String) session.getAttribute("id");
+            result.setData(service.getUserCount(id,vo.getDate1(),type));
+            result.setResult(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setResult(1);
+        }
+        return result;
+    }
+//    /**
+//     * 统计
+//     */
+//    @PostMapping("/concrete")
+//    public Result getRecharge(HttpSession session, SearchVO vo, Integer type) {
+//        Result result = new Result();
+//        try {
+//            String id = (String) session.getAttribute("id");
+//            result.setData(service.getUserCount(id,vo.getDate1(),type));
+//            result.setResult(0);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            result.setResult(1);
+//        }
+//        return result;
+//    }
 
 }

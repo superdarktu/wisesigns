@@ -1,31 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.signs.mapper.userRechargeRecord.UserRechargeRecordMapper">
-  <resultMap id="BaseResultMap" type="com.signs.model.userRechargeRecord.UserRechargeRecord">
+    <resultMap id="BaseResultMap" type="com.signs.model.userRechargeRecord.UserRechargeRecord">
 
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="price" jdbcType="REAL" property="price" />
-    <result column="total_price" jdbcType="REAL" property="totalPrice" />
-    <result column="balance" jdbcType="REAL" property="balance" />
-    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
-    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
-  </resultMap>
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="price" jdbcType="REAL" property="price"/>
+        <result column="total_price" jdbcType="REAL" property="totalPrice"/>
+        <result column="balance" jdbcType="REAL" property="balance"/>
+        <result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+    </resultMap>
     <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-      SELECT * FROM tb_user_recharge_record WHERE 1=1
-      <if test="id!=null">
-        AND  user_id=#{id}
-      </if>
-      <if test="value!=null">
-        AND tb_user_recharge_record.name LIKE #{value}
-      </if>
-      <if test="date1!=null">
-        AND ctime > #{date1}
-      </if>
-      <if test="date2!=null">
-        AND   #{date2}>ctime
-      </if>
-       ORDER BY ctime DESC
+        SELECT * FROM tb_user_recharge_record WHERE 1=1
+        <if test="id!=null">
+            AND user_id=#{id}
+        </if>
+        <if test="value!=null">
+            AND tb_user_recharge_record.name LIKE #{value}
+        </if>
+        <if test="date1!=null">
+            AND ctime > #{date1}
+        </if>
+        <if test="date2!=null">
+            AND #{date2}>ctime
+        </if>
+        ORDER BY ctime DESC
+    </select>
+    <!--当天充值记录-->
+    <select id="getWaterAndMoneyDay" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT
+        DATE_FORMAT(ctime,'%H') name,
+        sum(price) price
+        FROM tb_user_recharge_record
+        WHERE DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')
+        <if test="id!=null">
+            AND
+        </if>
+        GROUP BY hour(ctime)
+    </select>
+    <!--当月充值记录-->
+    <select id="getWaterAndMoneyMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT
+        day(ctime) name,
+        sum(price) price
+        FROM tb_user_recharge_record
+        WHERE DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(#{date}, '%Y-%m')
+        <if test="id!=null">
+            AND
+        </if>
+        GROUP BY day(ctime)
     </select>
 </mapper>
