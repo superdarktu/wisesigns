@@ -2,6 +2,7 @@ package com.signs.service.userRechargeRecord;
 
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.userRechargeRecord.UserRechargeRecordMapper;
+import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.userRechargeRecord.UserRechargeRecord;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class UserRechargeRecordService {
     /**
      * 分页查询
      */
-    public List<UserRechargeRecord>
+    public PageInfo<UserRechargeRecord>
     page(PageParam page, String id, Date date1, Date date2, String value) {
         if (page.getPageNo() != null && page.getPageSize() != null)
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
@@ -29,7 +30,7 @@ public class UserRechargeRecordService {
         if (date1 != null) hashMap.put("date1", date1);
         if (date2 != null) hashMap.put("date2", date2);
         if (value != null) hashMap.put("value", "%" + value + "%");
-        return mapper.selectByUserId(hashMap);
+        return new PageInfo(mapper.selectByUserId(hashMap));
     }
 
 
