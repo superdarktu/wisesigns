@@ -35,7 +35,7 @@
         SELECT wf.*
         FROM tb_water_fountains as wf
         left join tb_watermeter as wm on wf.table_code = wm.code
-        left join tb_collector as c on wm.collector_code.  = c.code
+        left join tb_collector as c on wm.collector_code = c.code
         WHERE 1=1
         <if test="type!=null">
             AND wf.type = #{type}
