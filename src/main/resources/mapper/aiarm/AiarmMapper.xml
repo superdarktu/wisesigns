@@ -25,4 +25,18 @@
             <if test="end != null"> and ctime <![CDATA[<= ]]> #{end} </if>
         </where>
     </select>
+
+    <select id="countDay" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tb_aiarm where property_id = #{id} and DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(now(),'%Y-%m-%d')
+    </select>
+
+    <select id="countMonth" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tb_aiarm where property_id = #{id} and DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(),'%Y-%m')
+    </select>
+
+    <select id="countMonthDevcie" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tb_aiarm where property_id = #{id} and DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(),'%Y-%m') group by water_fountains_code
+    </select>
+
+
 </mapper>
