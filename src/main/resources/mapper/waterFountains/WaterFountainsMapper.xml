@@ -55,7 +55,7 @@
                              FROM tb_manager_user AS tmu
         WHERE tmu.id = #{managerUserId})
 
-        WHERE twf.table_code=(SELECT tb_watermeter.code FROM tb_watermeter
+        WHERE twf.table_code IN (SELECT tb_watermeter.code FROM tb_watermeter
         WHERE collector_code=(SELECT code FROM tb_collector
         WHERE tb_collector.id=#{collectorId}
         ))

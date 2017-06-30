@@ -59,13 +59,15 @@ public class WaterFountainController {
     public Result validate(String value) {
         Result dto = new Result();
         try {
-            dto.setData("");
+
+            dto.setData(service.validate(value));
         } catch (Exception ex) {
             ex.printStackTrace();
-            dto.setData("1");
+            dto.setData("异常");
         }
         return dto;
     }
+
     /**
      * 修改用户前获取信息
      */
@@ -117,7 +119,7 @@ public class WaterFountainController {
      */
     @PostMapping("/queryType")
     public Result pageWaterFountains(PageParam param, String type, String value) {
-        Result result=new Result();
+        Result result = new Result();
         try {
             result.setData(service.page(param, type, value));
         } catch (Exception e) {
@@ -129,6 +131,7 @@ public class WaterFountainController {
 
     /**
      * 上传excel
+     *
      * @param file
      * @return
      */
@@ -144,7 +147,7 @@ public class WaterFountainController {
                 result.setError("请上传excel文件");
                 return result;
             }
-            new BigExcelUtil(file.getInputStream()).setHandler(new BigSheetContentsHandler(WaterFountainExcel.class){
+            new BigExcelUtil(file.getInputStream()).setHandler(new BigSheetContentsHandler(WaterFountainExcel.class) {
                 @Override
                 public void endRow(int i) {
                     try {
@@ -156,31 +159,32 @@ public class WaterFountainController {
                                 errorList.add(i);
                             } else {
 
-                                if(service.createFountains(waterFountainExcel.getPosition(),waterFountainExcel.getTableCode()
-                                        ,waterFountainExcel.getType(),waterFountainExcel.getLongitude(),waterFountainExcel.getLatitude())) {
+                                if (service.createFountains(waterFountainExcel.getPosition(), waterFountainExcel.getTableCode()
+                                        , waterFountainExcel.getType(), waterFountainExcel.getLongitude(), waterFountainExcel.getLatitude())) {
                                     temp.add(i);
-                                }else{
+                                } else {
                                     errorList.add(i);
                                 }
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                         errorList.add(i);
                     }
                 }
 
             }).parse();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         result.setData(errorList);
-        result.setInfo(temp.size()+"");
+        result.setInfo(temp.size() + "");
         return result;
     }
 
     /**
      * excel下载
+     *
      * @param response
      * @throws IOException
      */
@@ -190,18 +194,18 @@ public class WaterFountainController {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         XSSFWorkbook workbook = new XSSFWorkbook();
-        String TITLES[] = {"饮水机序号", "饮水机位置","表编号", "类型", "安装时间","水价","成本占比"};
+        String TITLES[] = {"饮水机序号", "饮水机位置", "表编号", "类型", "安装时间", "水价", "成本占比"};
         XSSFSheet sheet = workbook.createSheet("sheet1");
         XSSFRow titleRow = sheet.createRow(0);
         for (int k = 0; k < TITLES.length; k++) {
             XSSFCell titleCell = titleRow.createCell(k);
             titleCell.setCellValue(TITLES[k]);
         }
-        List<WaterFountains> list  = service.page(null,null,null).getList();
+        List<WaterFountains> list = service.page(null, null, null).getList();
 
         XSSFCell cell = null;
-        for(int i=1;i<=list.size();i++){
-            WaterFountains waterFountains = list.get(i-1);
+        for (int i = 1; i <= list.size(); i++) {
+            WaterFountains waterFountains = list.get(i - 1);
             XSSFRow row = sheet.createRow(i);
             cell = row.createCell(0);
             cell.setCellValue(waterFountains.getCode());
@@ -210,7 +214,7 @@ public class WaterFountainController {
             cell = row.createCell(2);
             cell.setCellValue(waterFountains.getTableCode());
             cell = row.createCell(3);
-            cell.setCellValue(waterFountains.getType()==0?"公用":"私用");
+            cell.setCellValue(waterFountains.getType() == 0 ? "公用" : "私用");
             cell = row.createCell(4);
             cell.setCellValue(DateUtils.dateToStr(waterFountains.getCtime()));
             cell = row.createCell(5);
@@ -220,7 +224,7 @@ public class WaterFountainController {
         }
 
         OutputStream output = response.getOutputStream();
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("饮水机导出-"+DateUtils.dateToStr(new Date(),"only")+".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("饮水机导出-" + DateUtils.dateToStr(new Date(), "only") + ".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
         workbook.write(output);
         output.close();
     }
