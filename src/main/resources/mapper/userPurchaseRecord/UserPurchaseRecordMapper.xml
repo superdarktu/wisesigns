@@ -15,6 +15,26 @@
         <result column="place" jdbcType="VARCHAR" property="place"/>
         <result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
     </resultMap>
+
+    <!--通过时间和用户id查询消费记录-->
+    <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT id,user_id,price,water_consumption,unit_cost,balance,name,place,ctime,
+        (SELECT sum(price) FROM tb_user_purchase_record GROUP BY user_id) as 'total_price',
+        (SELECT sum(water_consumption) FROM tb_user_purchase_record GROUP BY user_id) as 'total_consumption'
+        FROM tb_user_purchase_record WHERE 1=1
+        <if test="userId!=null">
+            AND user_id=#{userId}
+        </if>
+        <if test="value!=null">
+            AND tb_user_purchase_record.name LIKE #{value}
+        </if>
+        <if test="date1!=null">
+            AND ctime > #{date1}
+        </if>
+        <if test="date2!=null">
+            AND DATE_FORMAT(#{date2}, '%Y-%m-%d')>=DATE_FORMAT(ctime, '%Y-%m-%d')
+        </if>
+    </select>
     <!--月数据-->
     <select id="totalMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT sum(water_consumption) AS water_consumption, sum(unit_cost * tb_user_purchase_record.water_consumption)
@@ -72,22 +92,7 @@
         </if>
         GROUP BY day(ctime)
     </select>
-    <!--通过时间和用户id查询消费记录-->
-    <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        SELECT * FROM tb_user_purchase_record WHERE 1=1
-        <if test="userId!=null">
-            AND user_id=#{userId}
-        </if>
-        <if test="value!=null">
-            AND tb_user_purchase_record.name LIKE #{value}
-        </if>
-        <if test="date1!=null">
-            AND ctime > #{date1}
-        </if>
-        <if test="date2!=null">
-            AND DATE_FORMAT(#{date2}, '%Y-%m-%d')>=DATE_FORMAT(ctime, '%Y-%m-%d')
-        </if>
-    </select>
+
 
     <!--分成,income物业收入-->
     <select id="divide" parameterType="java.util.HashMap" resultMap="BaseResultMap">
