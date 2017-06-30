@@ -119,7 +119,7 @@ public class WaterFountainsService {
     /**
      * 查询公用
      */
-    public List<WaterFountains> getPublicWaterFountains(String id) {
+    public List<WaterFountains> getPublicWaterFountains() {
         return page(null, "1", null).getList();
     }
 
