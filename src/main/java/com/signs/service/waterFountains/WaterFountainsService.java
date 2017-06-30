@@ -20,7 +20,6 @@ public class WaterFountainsService {
     private WaterFountainsMapper mapper;
 
 
-
     /**
      * 创饮水机
      */
@@ -30,7 +29,7 @@ public class WaterFountainsService {
         String waterNumber = lastDispenser == null ? "0" : "" + (Integer.parseInt(lastDispenser.getCode()) + 1);
         List<WaterFountains> fountains = mapper.selectCode(waterNumber);
         if (fountains == null || fountains.size() > 0) return false;
-        if(mapper.selectTableCode(tableNumber).size()>0) return  false;
+        if (mapper.selectTableCode(tableNumber).size() > 0) return false;
         WaterFountains waterFountains = new WaterFountains();
         waterFountains.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
         waterFountains.setCtime(new Date());
@@ -45,15 +44,13 @@ public class WaterFountainsService {
     }
 
 
-
-
     /**
      * 饮水机编号唯一
      */
-   public boolean selectCode(String waterNumber){
-       List<WaterFountains> waterFountains = mapper.selectCode(waterNumber);
-       return waterFountains.size() > 0;
-   }
+    public boolean selectCode(String waterNumber) {
+        List<WaterFountains> waterFountains = mapper.selectCode(waterNumber);
+        return waterFountains.size() > 0;
+    }
 
 
     /**
@@ -111,29 +108,33 @@ public class WaterFountainsService {
         if (value != null) hashMap.put("value", "%" + value + "%");
         return new PageInfo(mapper.getDispenser(hashMap));
     }
+
     /**
      * 单个饮水机
      */
-    public WaterFountains getSingleWaterFountains(String id){
-        return  mapper.selectByPrimaryKey(id);
+    public WaterFountains getSingleWaterFountains(String id) {
+        return mapper.selectByPrimaryKey(id);
     }
+
     /**
      * 查询公用
      */
-    public List<WaterFountains> getPublicWaterFountains(String id){
+    public List<WaterFountains> getPublicWaterFountains(String id) {
         return page(null, "1", null).getList();
     }
 
     /**
      * 表编号正确
      */
-    public Integer validate(String id){
+    public Integer validate(String id) {
         String s = mapper.tableCodeUsed(id);
         String s1 = mapper.tableCodeExist(id);
-        if (s == null&&s1!=null) {
+        if (s == null && s1 != null) {
             return 0;
-        }else if (s){
-
+        } else if (s != null) {
+            return 2;
+        } else {
+            return 1;
         }
     }
 }
