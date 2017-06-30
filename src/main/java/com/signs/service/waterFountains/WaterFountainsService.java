@@ -131,7 +131,7 @@ public class WaterFountainsService {
         String s1 = mapper.tableCodeExist(id);
         if (s == null && s1 != null) {
             return 0;
-        } else if (s != null) {
+        } else if (s != null&&s1 != null) {
             return 2;
         } else {
             return 1;

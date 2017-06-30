@@ -151,7 +151,7 @@ public class UserPurchaseRecordService {
         Float price3 = divide2.getPrice();
 
         object.put("total", price);
-        object.put("property;", price1);
+        object.put("property", price1);
         object.put("invest", price2);
         object.put("spread", price3);
 
