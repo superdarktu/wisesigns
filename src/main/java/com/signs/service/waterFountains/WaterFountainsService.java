@@ -1,6 +1,7 @@
 package com.signs.service.waterFountains;
 
 import com.github.pagehelper.PageHelper;
+import com.signs.dto.waterFountain.WaterFountainsVO;
 import com.signs.mapper.waterFountains.WaterFountainsMapper;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
@@ -12,6 +13,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class WaterFountainsService {
@@ -109,6 +111,13 @@ public class WaterFountainsService {
         return new PageInfo(mapper.getDispenser(hashMap));
     }
 
+    public PageInfo<WaterFountainsVO> pagePublic(String type,String id) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        if (type != null) hashMap.put("type", type);
+        hashMap.put("id",id);
+        return new PageInfo(mapper.getDispenser(hashMap));
+    }
+
     /**
      * 单个饮水机
      */
@@ -119,8 +128,11 @@ public class WaterFountainsService {
     /**
      * 查询公用
      */
-    public List<WaterFountains> getPublicWaterFountains() {
-        return page(null, "1", null).getList();
+    public List<WaterFountainsVO> getPublicWaterFountains(String id) {
+        Map<String, Object> hashMap = new HashMap<>();
+        hashMap.put("type", "0");
+        hashMap.put("id",id);
+        return mapper.getPublic(hashMap);
     }
 
     /**

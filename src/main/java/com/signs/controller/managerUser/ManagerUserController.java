@@ -57,8 +57,8 @@ public class ManagerUserController {
         TwoDataResult twoDataResult = new TwoDataResult();
         try {
             List<Collector> notyet = service1.findWithNoProperty();
-            List<String> already = service1.findByManager(id);
-            if (already != null) {
+            List<Collector> already = service1.findByManager(id);
+            if (already != null && already.size()>0) {
                 twoDataResult.setRecharge(already);
             }
             twoDataResult.setConsume(notyet);

@@ -10,7 +10,10 @@ public interface CollectorMapper extends MyMapper<Collector> {
 
     List<CollectorVO> findData(Collector collector);
 
-    List<String> findByManager(String managerId);
+    List<Collector> findByManager(String managerId);
+
+    List<Collector> findByOther(String managerId);
+
 
     List<Collector> findWithNoProperty();
 

@@ -114,7 +114,7 @@ public class CollectorService {
      * @param managerId
      * @return
      */
-    public List<String> findByManager(String managerId) {
+    public List<Collector> findByManager(String managerId) {
 
         ManagerUser managerUser = managerUserMapper.selectByPrimaryKey(managerId);
 
@@ -123,7 +123,7 @@ public class CollectorService {
             return mapper.findByManager(managerId);
         } else {
 
-            return managerUserCollectorMapper.findByManager(managerId);
+            return mapper.findByOther(managerId);
         }
     }
 

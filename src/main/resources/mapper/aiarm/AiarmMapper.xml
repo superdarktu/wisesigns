@@ -23,6 +23,31 @@
             <if test="keyWord != null and keyWord != ''"> and ( water_fountains_code like CONCAT('%','${keyWord}','%')  or place like CONCAT('%','${keyWord}','%') )</if>
             <if test="start != null"> and ctime <![CDATA[>= ]]> #{start} </if>
             <if test="end != null"> and ctime <![CDATA[<= ]]> #{end} </if>
+            <if test="id != null and id != ''">and property_id = #{id}</if>
         </where>
     </select>
+
+    <select id="countDay" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tb_aiarm where  DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(now(),'%Y-%m-%d')
+        <if test="id != null and id != ''">
+            and property_id = #{id}
+        </if>
+    </select>
+
+    <select id="countMonth" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tb_aiarm where DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(),'%Y-%m')
+        <if test="id != null and id != ''">
+            and property_id = #{id}
+        </if>
+    </select>
+
+    <select id="countMonthDevcie" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tb_aiarm where  DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(),'%Y-%m')
+        <if test="id != null and id != ''">
+           and property_id = #{id}
+        </if>
+         group by water_fountains_code
+    </select>
+
+
 </mapper>

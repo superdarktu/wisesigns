@@ -9,4 +9,10 @@ import java.util.Map;
 public interface AiarmMapper extends MyMapper<Aiarm> {
 
     List<Aiarm> pageData(Map<String,Object> map);
+
+    Integer countDay(String id);
+
+    Integer countMonth(String id);
+
+    Integer countMonthDevcie(String id);
 }
