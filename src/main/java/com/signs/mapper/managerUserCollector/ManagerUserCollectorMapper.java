@@ -9,5 +9,6 @@ public interface ManagerUserCollectorMapper extends MyMapper<ManagerUserCollecto
 
 
     List<String> findByManager(String managerId);
+
     Integer deleteByManager(String managerId);
 }

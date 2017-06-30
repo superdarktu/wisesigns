@@ -17,4 +17,39 @@
         <result column="fix_time" property="fixTime" jdbcType="TIMESTAMP"/>
         <result column="duration" property="duration" jdbcType="REAL"/>
     </resultMap>
+    <select id="page" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT * FROM tb_aiarm_history WHERE 1=1
+        <if test="id!=null">
+            AND property_id=#{id}
+        </if>
+        <if test="value!=null">
+            AND (tb_aiarm_history.id LIKE #{value} OR place LIKE #{value})
+        </if>
+        <if test="date1!=null">
+            AND ctime > #{date1}
+        </if>
+        <if test="date2!=null">
+            AND #{date2}>ctime
+        </if>
+    </select>
+    
+    <select id="getDayData" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM tb_aiarm_history WHERE day(ctime)=day(NOW())
+        <if test="id!=null">
+            AND property_id=#{id}
+        </if>
+    </select>
+    <select id="getMonthData" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM tb_aiarm_history WHERE month(ctime)=month(NOW())
+        <if test="id!=null">
+            AND property_id=#{id}
+        </if>
+    </select>
+    <select id="getMonthFixData" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM tb_aiarm_history WHERE month(fix_time)=month(NOW())
+        <if test="id!=null">
+            AND property_id=#{id}
+        </if>
+    </select>
+
 </mapper>

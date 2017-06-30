@@ -60,8 +60,7 @@ public class ManagerUserService {
     public boolean createUser(ManagerUser managerUser, String collectorIds) {
         //账号是否重复
         if (service1.isHaveUsername(managerUser.getAccount())) return false;
-//        List<ManagerUser> ManagerUsers = mapper.selectCode(managerUser.getAccount());
-//        if (ManagerUsers == null || ManagerUsers.size() > 0)
+
         String id = UUID.randomUUID().toString().replace("-", "");
         managerUser.setId(id);
         managerUser.setCtime(new Date());
@@ -81,11 +80,14 @@ public class ManagerUserService {
                 collector.setPropertyId(managerUser.getId());
                 collector.setPropertyName(managerUser.getName());
                 service.update(collector);
-                //修改饮水机价格
-                HashMap hashMap=new HashMap();
-                hashMap.put("managerUserId",managerUser.getId());
-                hashMap.put("collectorId",collectorId);
-                mapper3.updateWaterFountain(hashMap);
+                //修改饮水机价格,在传入物业时修改
+                if (managerUser.getUserType() == 1) {
+                    HashMap hashMap = new HashMap();
+                    hashMap.put("managerUserId", managerUser.getId());
+                    hashMap.put("collectorId", collectorId);
+                    mapper3.updateWaterFountain(hashMap);
+                }
+
 
                 //添加关联表，修改时先删除managerId关联的关联表数据
                 mapper1.deleteByManager(managerUser.getId());
