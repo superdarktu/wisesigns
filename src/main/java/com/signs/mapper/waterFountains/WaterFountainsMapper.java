@@ -23,5 +23,17 @@ public interface WaterFountainsMapper extends MyMapper<WaterFountains> {
      */
     WaterFountains getLastDispenser();
 
+    /**
+     *  查询水卡编号是否存在
+      */
+
+    String tableCodeExist(String id);
+
+    /**
+     * 查询水卡编号是否已被使用
+     */
+
+    String tableCodeUsed(String id);
+
 
 }

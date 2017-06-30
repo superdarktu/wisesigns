@@ -159,10 +159,10 @@ public class ManagerUserController {
      * 查询管理用户
      */
     @PostMapping("/svnStatus")
-    public Result pageUser(PageParam param, String type, String status, String value) {
+    public Result pageUser(PageParam param, String status, String value) {
         Result result = new Result();
         try {
-            result.setData(service.page(param, type, status, value));
+            result.setData(service.page(param, status, value));
             result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,11 +1,9 @@
 package com.signs.service.waterFountains;
 
 import com.github.pagehelper.PageHelper;
-import com.signs.mapper.managerUser.ManagerUserMapper;
 import com.signs.mapper.waterFountains.WaterFountainsMapper;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
-import com.signs.model.managerUser.ManagerUser;
 import com.signs.model.waterFountains.WaterFountains;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +18,7 @@ public class WaterFountainsService {
 
     @Resource
     private WaterFountainsMapper mapper;
-    @Resource
-    private ManagerUserMapper mapper1;
+
 
 
     /**
@@ -29,13 +26,11 @@ public class WaterFountainsService {
      */
     @Transactional
     public boolean createFountains(String waterPosition, String tableNumber, Integer waterType, Float longitude, Float latitude) {
-
         WaterFountains lastDispenser = mapper.getLastDispenser();
         String waterNumber = lastDispenser == null ? "0" : "" + (Integer.parseInt(lastDispenser.getCode()) + 1);
         List<WaterFountains> fountains = mapper.selectCode(waterNumber);
         if (fountains == null || fountains.size() > 0) return false;
         if(mapper.selectTableCode(tableNumber).size()>0) return  false;
-        ManagerUser managerUser = mapper1.selectPrice(tableNumber);
         WaterFountains waterFountains = new WaterFountains();
         waterFountains.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
         waterFountains.setCtime(new Date());
@@ -45,20 +40,19 @@ public class WaterFountainsService {
         waterFountains.setLatitude(latitude);
         waterFountains.setLongitude(longitude);
         waterFountains.setType(waterType);
-//        waterFountains.setWaterPrice(managerUser.getWaterPrice());
-//        waterFountains.setCostScale(managerUser.getCostScale());
         mapper.insert(waterFountains);
         return true;
     }
 
+
+
+
     /**
      * 饮水机编号唯一
-     * @param waterNumber
-     * @return
      */
    public boolean selectCode(String waterNumber){
        List<WaterFountains> waterFountains = mapper.selectCode(waterNumber);
-       return waterFountains.size()>0?true:false;
+       return waterFountains.size() > 0;
    }
 
 
@@ -116,5 +110,30 @@ public class WaterFountainsService {
         if (type != null) hashMap.put("type", type);
         if (value != null) hashMap.put("value", "%" + value + "%");
         return new PageInfo(mapper.getDispenser(hashMap));
+    }
+    /**
+     * 单个饮水机
+     */
+    public WaterFountains getSingleWaterFountains(String id){
+        return  mapper.selectByPrimaryKey(id);
+    }
+    /**
+     * 查询公用
+     */
+    public List<WaterFountains> getPublicWaterFountains(String id){
+        return page(null, "1", null).getList();
+    }
+
+    /**
+     * 表编号正确
+     */
+    public Integer validate(String id){
+        String s = mapper.tableCodeUsed(id);
+        String s1 = mapper.tableCodeExist(id);
+        if (s == null&&s1!=null) {
+            return 0;
+        }else if (s){
+
+        }
     }
 }

@@ -53,6 +53,20 @@ public class WaterFountainController {
     }
 
     /**
+     * 添加饮水机
+     */
+    @PostMapping("/validate")
+    public Result validate(String value) {
+        Result dto = new Result();
+        try {
+            dto.setData("");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            dto.setData("1");
+        }
+        return dto;
+    }
+    /**
      * 修改用户前获取信息
      */
     @PostMapping("/gainDispenser")

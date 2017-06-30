@@ -24,7 +24,7 @@
     </select>
 <select id="getManagerUser" parameterType="java.util.HashMap" resultMap="BaseResultMap">
     select id,account,password,name,user_type,cost_scale,ivision_proportion,phone ,ctime,(SELECT count(*) FROM tb_collector AS tc WHERE tc.property_id=tmu.id) AS 'count'
-    from tb_manager_user AS tmu WHERE 1=1
+    from tb_manager_user AS tmu WHERE status!=1 OR ISNULL(status)
     <if test="status!=null"> AND user_type=#{status}</if>
     <if test="value!=null"> AND (account LIKE #{value} OR name LIKE #{value}) </if>  ORDER BY ctime desc
 </select>
