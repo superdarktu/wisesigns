@@ -56,6 +56,18 @@
             AND property_id=#{id}
         </if>
     </select>
+    <select id="getDayFixData" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM tb_aiarm_history WHERE day(fix_time)=day(NOW())
+        <if test="id!=null">
+            AND property_id=#{id}
+        </if>
+    </select>
+    <select id="getDayFixData" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM tb_aiarm_history WHERE day(fix_time)=day(NOW())
+        <if test="id!=null">
+            AND property_id=#{id}
+        </if>
+    </select>
 
 
 </mapper>

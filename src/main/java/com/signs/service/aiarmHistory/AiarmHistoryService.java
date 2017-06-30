@@ -79,6 +79,12 @@ public class AiarmHistoryService {
      */
     public Integer getMonthFixData(String id){
         return mapper.getMonthFixData(id);
+    } /**
+     * 当日修复数量
+     * @param id 物业id
+     */
+    public Integer getDayFixData(String id){
+        return mapper.getDayFixData(id);
     }
 
 }

@@ -15,6 +15,10 @@ public interface AiarmHistoryMapper extends MyMapper<AiarmHistory> {
     Integer getMonthData(String id);
 
     Integer getMonthFixData(String id);
+
+    Integer getDayFixData(String id);
+
     Integer getDeviceMonthData(String id);
+
 
 }
