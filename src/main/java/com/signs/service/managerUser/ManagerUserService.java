@@ -75,6 +75,13 @@ public class ManagerUserService {
         if (collectorIds != null) {
             String[] splits = collectorIds.split(",");
             Collector collector = new Collector();
+            //删除该物业下的采集器,修改propertyId
+            List<Collector> byManager = service.findByManager(managerUser.getId());
+            for (Collector collector1 : byManager) {
+                collector1.setPropertyId(null);
+                collector1.setPropertyName(null);
+                service.update(collector1);
+            }
             for (String collectorId : splits) {
                 collector.setId(collectorId);
                 collector.setPropertyId(managerUser.getId());
