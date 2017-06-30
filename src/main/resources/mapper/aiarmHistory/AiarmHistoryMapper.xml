@@ -32,33 +32,33 @@
     </select>
     
     <select id="getDayData" parameterType="java.lang.String" resultType="java.lang.Integer">
-        SELECT count(*) FROM tb_aiarm_history WHERE day(ctime)=day(NOW())
+        SELECT count(*) FROM tb_aiarm_history WHERE DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(NOW(), '%Y-%m-%d')
         <if test="id!=null">
             AND property_id=#{id}
         </if>
     </select>
     <select id="getMonthData" parameterType="java.lang.String" resultType="java.lang.Integer">
-        SELECT count(*) FROM tb_aiarm_history WHERE month(ctime)=month(NOW())
+        SELECT count(*) FROM tb_aiarm_history WHERE DATE_FORMAT(ctime, '%Y-%m')=DATE_FORMAT(NOW(), '%Y-%m')
         <if test="id!=null">
             AND property_id=#{id}
         </if>
     </select>
     <select id="getDeviceMonthData" parameterType="java.lang.String" resultType="java.lang.Integer">
-        SELECT count(*) FROM (SELECT count(*) tb_aiarm_history WHERE month(ctime)=month(NOW())
+        SELECT count(*) FROM (SELECT count(*) FROM tb_aiarm_history WHERE DATE_FORMAT(ctime, '%Y-%m')=DATE_FORMAT(NOW(), '%Y-%m')
         <if test="id!=null">
             AND property_id=#{id}
         </if>
-        GROUP BY water_fountains_code) AS  aaa
+          GROUP BY water_fountains_code) AS  aaa
 
     </select>
     <select id="getMonthFixData" parameterType="java.lang.String" resultType="java.lang.Integer">
-        SELECT count(*) FROM tb_aiarm_history WHERE month(fix_time)=month(NOW())
+        SELECT count(*) FROM tb_aiarm_history WHERE DATE_FORMAT(ctime, '%Y-%m')=DATE_FORMAT(NOW(), '%Y-%m')
         <if test="id!=null">
             AND property_id=#{id}
         </if>
     </select>
     <select id="getDayFixData" parameterType="java.lang.String" resultType="java.lang.Integer">
-        SELECT count(*) FROM tb_aiarm_history WHERE day(fix_time)=day(NOW())
+        SELECT count(*) FROM tb_aiarm_history WHERE DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(NOW(), '%Y-%m-%d')
         <if test="id!=null">
             AND property_id=#{id}
         </if>
