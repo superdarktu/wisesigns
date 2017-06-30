@@ -15,4 +15,14 @@
         <result column="latitude" property="latitude" jdbcType="REAL"/>
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
     </resultMap>
+
+
+    <select id="pageData" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from tb_aiarm
+        <where>
+            <if test="keyWord != null and keyWord != ''"> and ( water_fountains_code like CONCAT('%','${keyWord}','%')  or place like CONCAT('%','${keyWord}','%') )</if>
+            <if test="ctime != null"> and ctime <![CDATA[>= ]]> #{start} </if>
+            <if test="ctime != null"> and ctime <![CDATA[<= ]]> #{end} </if>
+        </where>
+    </select>
 </mapper>
