@@ -24,7 +24,7 @@
             AND ctime > #{date1}
         </if>
         <if test="date2!=null">
-            AND #{date2}>ctime
+            AND DATE_FORMAT(#{date2}, '%Y-%m-%d')>=DATE_FORMAT(ctime, '%Y-%m-%d')
         </if>
         ORDER BY ctime DESC
     </select>
