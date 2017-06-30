@@ -29,6 +29,9 @@
         <if test="tapStatus != null and tapStatus != ''">
             and tap_status = #{tapStatus}
         </if>
+        <if test="id != null and id != ''">
+            and collector_code in (select code from tb_collector where property_id = #{id})
+        </if>
         order by ctime desc
     </select>
 

@@ -32,16 +32,21 @@
     </select>
 
     <select id="getDispenser" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        SELECT *
-        FROM tb_water_fountains
+        SELECT wf.*
+        FROM tb_water_fountains as wf
+        left join tb_watermeter as wm on wf.table_code = wm.code
+        left join tb_collector as c on wm.collector_code.  = c.code
         WHERE 1=1
         <if test="type!=null">
-            AND type = #{type}
+            AND wf.type = #{type}
         </if>
         <if test="value!=null">
-            AND code LIKE #{value} OR place LIKE #{value}
+            AND wf.code LIKE #{value} OR wf.place LIKE #{value}
         </if>
-        ORDER BY ctime
+        <if test="id != null and id != ''">
+            and c.property_id = #{id}
+        </if>
+        ORDER BY wf.ctime
     </select>
 
     <select id="getPublic" parameterType="java.util.HashMap" resultMap="BaseResultMapVO">

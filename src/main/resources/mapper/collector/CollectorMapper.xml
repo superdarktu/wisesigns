@@ -38,6 +38,10 @@
         <if test="name != null and name != ''">
             and (c.name like CONCAT('%',#{name},'%') or c.code like CONCAT('%',#{name},'%'))
         </if>
+        <if test="propertyId != null and propertyId != ''">
+            and ( property_id = #{propertyId} or property_id in (select manager_user_id from tb_manager_user_collector
+            WHERE manager_user_id = #{propertyId}) )
+        </if>
         order by c.ctime desc
     </select>
 

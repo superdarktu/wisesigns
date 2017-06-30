@@ -21,6 +21,7 @@ import tk.mybatis.mapper.util.StringUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -116,10 +117,13 @@ public class WaterFountainController {
      * 查询饮水机
      */
     @PostMapping("/queryType")
-    public Result pageWaterFountains(PageParam param, String type, String value) {
+    public Result pageWaterFountains(PageParam param, String type, String value,HttpSession session) {
         Result result = new Result();
         try {
-            result.setData(service.page(param, type, value));
+            String id = null;
+            if (session.getAttribute("type").toString().equals("2"))
+                id = session.getAttribute("id").toString();
+            result.setData(service.page(param, type, value,id));
         } catch (Exception e) {
             e.printStackTrace();
             result.setData("1");
@@ -199,7 +203,7 @@ public class WaterFountainController {
             XSSFCell titleCell = titleRow.createCell(k);
             titleCell.setCellValue(TITLES[k]);
         }
-        List<WaterFountains> list = service.page(null, null, null).getList();
+        List<WaterFountains> list = service.page(null, null, null,null).getList();
 
         XSSFCell cell = null;
         for (int i = 1; i <= list.size(); i++) {
