@@ -29,6 +29,8 @@
         <if test="date2!=null">
             AND DATE_FORMAT(#{date2}, '%Y-%m-%d')>=DATE_FORMAT(ctime, '%Y-%m-%d')
         </if>
+
+        ORDER BY ctime DESC
     </select>
 
     <select id="getDayData" parameterType="java.lang.String" resultType="java.lang.Integer">
