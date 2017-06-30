@@ -59,7 +59,6 @@ public class WaterFountainController {
     public Result validate(String value) {
         Result dto = new Result();
         try {
-
             dto.setData(service.validate(value));
         } catch (Exception ex) {
             ex.printStackTrace();
