@@ -15,6 +15,10 @@
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <resultMap id="BaseResultMapVO" type="com.signs.dto.waterFountain.WaterFountainsVO" extends="BaseResultMap">
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+
     <select id="selectCode" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT *
         FROM tb_water_fountains
@@ -39,6 +43,19 @@
         </if>
         ORDER BY ctime
     </select>
+
+    <select id="getPublic" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT f.*,if(ISNULL(a.id),"0","1") as status FROM tb_water_fountains as f
+        left join tb_watermeter as w on f.table_code = w.code
+        left join tb_collector as c on w.collector_code = c.code
+        left join tb_aiarm as a on f.code = a.water_fountains_code
+        WHERE f.type = #{type}
+        <if test="id != null and id != ''">
+            and c.property_id = #{id}
+        </if>
+    </select>
+
+
     <select id="getLastDispenser" resultMap="BaseResultMap">
         SELECT *
         FROM tb_water_fountains

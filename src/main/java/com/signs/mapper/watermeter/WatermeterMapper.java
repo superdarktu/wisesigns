@@ -16,4 +16,6 @@ public interface WatermeterMapper extends MyMapper<Watermeter> {
     List<String> queryByCollector(String collectorCode);
 
     Watermeter isHaveCode(String code);
+
+    Integer countByUser(String id);
 }

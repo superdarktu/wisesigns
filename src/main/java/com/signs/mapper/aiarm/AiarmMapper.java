@@ -10,9 +10,9 @@ public interface AiarmMapper extends MyMapper<Aiarm> {
 
     List<Aiarm> pageData(Map<String,Object> map);
 
-    Integer countDay();
+    Integer countDay(String id);
 
-    Integer countMonth();
+    Integer countMonth(String id);
 
-    Integer countMonthDevcie();
+    Integer countMonthDevcie(String id);
 }

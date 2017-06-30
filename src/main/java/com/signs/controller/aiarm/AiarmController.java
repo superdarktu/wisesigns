@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/alert")
@@ -28,11 +29,14 @@ public class AiarmController {
      * @return
      */
     @PostMapping("/information")
-    public Result information() {
+    public Result information(HttpSession session) {
         Result result = new Result();
 
         try {
-            result.setData(waterFountainsService.getPublicWaterFountains());
+            String id = null;
+            if(session.getAttribute("type").toString().equals("2"))
+                id = session.getAttribute("id").toString();
+            result.setData(waterFountainsService.getPublicWaterFountains(id));
         } catch (Exception e) {
             result.setResult(1);
         }
@@ -59,11 +63,14 @@ public class AiarmController {
      * @return
      */
     @PostMapping("/svnStatus")
-    public Result svnStatus(PageParam param,SearchVO searchVO) {
+    public Result svnStatus(PageParam param, SearchVO searchVO, HttpSession session) {
         Result result = new Result();
 
         try {
-            result.setData(service.page(param,searchVO.getDate1(),searchVO.getDate2(),searchVO.getValue()));
+            String id = null;
+            if(session.getAttribute("type").toString().equals("2"))
+                id = session.getAttribute("id").toString();
+            result.setData(service.page(param,searchVO.getDate1(),searchVO.getDate2(),searchVO.getValue(),id));
         } catch (Exception e) {
             result.setResult(1);
         }
@@ -80,6 +87,7 @@ public class AiarmController {
         Result result = new Result();
 
         try {
+
             result.setData(waterFountainsService.getSingleWaterFountains(id));
         } catch (Exception e) {
             result.setResult(1);

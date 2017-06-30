@@ -3,6 +3,7 @@ package com.signs.service.aiarm;
 
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.aiarm.AiarmMapper;
+import com.signs.mapper.watermeter.WatermeterMapper;
 import com.signs.model.aiarm.Aiarm;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
@@ -19,6 +20,11 @@ public class AiarmService {
     @Resource
     private AiarmMapper mapper;
 
+    @Resource
+    private WatermeterMapper watermeterMapper;
+
+    @Resource AiarmService aiarmService;
+
     /**
      * 分页查询即时报警
      * @param page
@@ -27,7 +33,7 @@ public class AiarmService {
      * @param keyWord
      * @return
      */
-    public PageInfo<Aiarm> page(PageParam page, Date start, Date end, String keyWord){
+    public PageInfo<Aiarm> page(PageParam page, Date start, Date end, String keyWord,String id){
 
         if (page != null && page.getPageNo() != null && page.getPageSize() != null) {
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
@@ -37,7 +43,9 @@ public class AiarmService {
         map.put("start",start);
         map.put("end",end);
         map.put("keyWord",keyWord);
-
+        map.put("id",id);
         return new PageInfo(mapper.pageData(map));
     }
+
+
 }
