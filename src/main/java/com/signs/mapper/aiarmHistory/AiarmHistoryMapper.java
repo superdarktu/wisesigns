@@ -11,7 +11,10 @@ public interface AiarmHistoryMapper extends MyMapper<AiarmHistory> {
     List<AiarmHistory> page(HashMap hashMap);
 
     Integer getDayData(String id);
+
     Integer getMonthData(String id);
+
     Integer getMonthFixData(String id);
+    Integer getDeviceMonthData(String id);
 
 }

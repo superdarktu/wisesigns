@@ -34,7 +34,7 @@ public class AiarmHistoryService {
         if (id != null) map.put("id", id);
         if (date1 != null) map.put("date1", date1);
         if (date2 != null) map.put("date2", date2);
-        if (value != null) map.put("value", value);
+        if (value != null) map.put("value","%"+ value+"%");
         return new PageInfo(mapper.page(map));
     }
 
@@ -65,6 +65,13 @@ public class AiarmHistoryService {
      */
     public Integer getAiarmMonthCount(String id){
         return mapper.getMonthData(id);
+    }
+    /**
+     * 当月故障设备数量
+     * @param id 物业id
+     */
+    public Integer getDeviceMonthData(String id){
+        return mapper.getDeviceMonthData(id);
     }
     /**
      * 当月修复数量

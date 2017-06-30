@@ -45,11 +45,19 @@
             AND property_id=#{id}
         </if>
     </select>
+    <select id="getDeviceMonthData" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM tb_aiarm_history WHERE month(ctime)=month(NOW())
+        <if test="id!=null">
+            AND property_id=#{id}
+        </if>
+        GROUP BY water_fountains_code
+    </select>
     <select id="getMonthFixData" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT count(*) FROM tb_aiarm_history WHERE month(fix_time)=month(NOW())
         <if test="id!=null">
             AND property_id=#{id}
         </if>
     </select>
+
 
 </mapper>
