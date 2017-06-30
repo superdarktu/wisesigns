@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
@@ -137,14 +138,19 @@ public class WatermeterController {
      * @return
      */
     @RequestMapping("/allEquipmentStatus")
-    public Result allEquipmentStatus(PageParam param, String deviceStatus, String valveOperation, String tableNumber) {
+    public Result allEquipmentStatus(PageParam param, String deviceStatus, String valveOperation, String tableNumber, HttpSession session) {
         Result result = new Result();
         result.setResult(1);
         Map<String, Object> map = new HashMap<>();
 
+        String id = null;
+        if (session.getAttribute("type").toString().equals("2"))
+            id = session.getAttribute("id").toString();
+
         map.put("status", deviceStatus);
         map.put("tapStatus", valveOperation);
         map.put("code", tableNumber);
+        map.put("id",id);
 
         result.setData(service.page(param, map));
         return result;

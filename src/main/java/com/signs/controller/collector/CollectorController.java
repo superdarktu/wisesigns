@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
@@ -122,12 +123,16 @@ public class CollectorController {
      * @return
      */
     @PostMapping("/allEquipmentStatus")
-    public Result allEquipmentStatus(PageParam param, Integer deviceStatus, String tableNumber) {
+    public Result allEquipmentStatus(PageParam param, Integer deviceStatus, String tableNumber,HttpSession session) {
         Result result = new Result();
         try {
+            String id = null;
+            if (session.getAttribute("type").toString().equals("2"))
+                id = session.getAttribute("id").toString();
             Collector collector = new Collector();
             collector.setStatus(deviceStatus);
             collector.setName(tableNumber);
+            collector.setPropertyId(id);
             result.setData(service.page(param, collector));
         } catch (Exception e) {
             e.printStackTrace();

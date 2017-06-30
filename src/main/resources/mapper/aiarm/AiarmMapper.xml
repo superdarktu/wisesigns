@@ -26,7 +26,8 @@
             <if test="start != null">and ctime <![CDATA[>= ]]> #{start}</if>
             <if test="end != null">and ctime <![CDATA[<= ]]> #{end}</if>
             <if test="id != null and id != ''">and property_id = #{id}</if>
-        </where>  order by ctime DESC
+        </where>
+        order by ctime desc
     </select>
 
     <select id="countDay" parameterType="java.lang.String" resultType="java.lang.Integer">

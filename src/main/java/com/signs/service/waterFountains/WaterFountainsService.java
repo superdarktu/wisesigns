@@ -102,12 +102,13 @@ public class WaterFountainsService {
      * 分页查询
      */
     public PageInfo<WaterFountains>
-    page(PageParam page, String type, String value) {
+    page(PageParam page, String type, String value,String id) {
         if (page != null && page.getPageNo() != null && page.getPageSize() != null)
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         HashMap<String, String> hashMap = new HashMap<>();
         if (type != null) hashMap.put("type", type);
         if (value != null) hashMap.put("value", "%" + value + "%");
+        hashMap.put("id",id);
         return new PageInfo(mapper.getDispenser(hashMap));
     }
 
