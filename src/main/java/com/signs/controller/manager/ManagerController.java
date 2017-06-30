@@ -11,8 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.util.StringUtil;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
@@ -219,6 +220,8 @@ public class ManagerController {
             Files.copy(file.getInputStream(), Paths.get(path + "/" + fileName));
             String type = (String) session.getAttribute("type");
             String id = (String) session.getAttribute("id");
+            type = "1";
+            id = "027e7c39b427413eac745f7921ce33b8";
             if ("1".equals(type)) {
                 //manager
                 result.setData( service.saveUserImg(fileName, id));
@@ -232,5 +235,43 @@ public class ManagerController {
             result.setError(ex.getMessage() != null ? ex.getMessage() : ex.toString());
         }
         return result;
+    }
+
+    @RequestMapping("/image")
+    public void image(HttpServletResponse response,HttpSession session){
+
+        FileInputStream fis = null;
+        OutputStream os = null;
+        String type = (String) session.getAttribute("type");
+        String img = "";
+        String path = (this.getClass().getResource("/").toString() + "static/upload").replace("file:/", "");
+        if ("1".equals(type)) {
+            //manager
+            Manager manager = service.query(session.getAttribute("id").toString());
+            img = manager.getImg();
+        } else if ("2".equals(type)) {
+            //managerUser
+            ManagerUser managerUser = managerUserService.gain(session.getAttribute("id").toString());
+            img = managerUser.getImg();
+        }
+        try {
+            fis = new FileInputStream(path+"/"+img);
+            os = response.getOutputStream();
+            int count = 0;
+            byte[] buffer = new byte[1024 * 8];
+            while ((count = fis.read(buffer)) != -1) {
+                os.write(buffer, 0, count);
+                os.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            fis.close();
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * token参数处理器
  */
-@Component
 public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
