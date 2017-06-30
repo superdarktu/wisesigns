@@ -7,5 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface UserRechargeRecordMapper extends MyMapper<UserRechargeRecord> {
+    List<UserRechargeRecord> selectByUserId(HashMap hashMap);
 
+    List<UserRechargeRecord> getWaterAndMoneyDay(HashMap hashMap);
+
+    List<UserRechargeRecord> getWaterAndMoneyMonth(HashMap hashMap);
 }
