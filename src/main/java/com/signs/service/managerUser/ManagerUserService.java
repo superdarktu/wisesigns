@@ -169,6 +169,17 @@ public class ManagerUserService {
         if (value != null) hashMap.put("value", "%" + value + "%");
         return new PageInfo(mapper.getManagerUser(hashMap));
     }
+    public String saveUserImg(String fileName, String id) {
+        try {
+            ManagerUser managerUser = mapper.selectByPrimaryKey(id);
+            managerUser.setImg(fileName);
+            mapper.updateByPrimaryKeySelective(managerUser);
+            return "success";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
 
+    }
 
 }

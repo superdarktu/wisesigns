@@ -6,13 +6,16 @@ import com.signs.model.manager.Manager;
 import com.signs.model.managerUser.ManagerUser;
 import com.signs.service.manager.ManagerService;
 import com.signs.service.managerUser.ManagerUserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.util.StringUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/manager")
@@ -197,4 +200,37 @@ public class ManagerController {
         return dto;
     }
 
+    @PostMapping("/uploadPicture")
+    public Result saveUserImg(@RequestParam("file") MultipartFile file, HttpSession session) {
+        Result result = new Result();
+        try {
+            String path = (this.getClass().getResource("/").toString() + "static/upload").replace("file:/", "");
+            // String path = "C:\\ftp\\waterpro\\waterpro\\appimg\\";
+            File dir = new File(path);
+            if (!dir.exists() || !dir.isDirectory()) {
+                dir.mkdirs();
+            }
+            String name = file.getOriginalFilename();
+            if (!name.endsWith(".png") && !name.endsWith(".jpg") && !name.endsWith(".jpeg")) {
+                result.setError("请上传图片文件");
+                return result;
+            }
+            String fileName = (new Date()).getTime() + "" + (int) (Math.random() * 1000) + name.substring(name.lastIndexOf("."));
+            Files.copy(file.getInputStream(), Paths.get(path + "/" + fileName));
+            String type = (String) session.getAttribute("type");
+            String id = (String) session.getAttribute("id");
+            if ("1".equals(type)) {
+                //manager
+                result.setData( service.saveUserImg(fileName, id));
+            } else if ("2".equals(type)) {
+                //managerUser
+                result.setData(managerUserService.saveUserImg(fileName, id));
+
+            }
+            result.setMsg("添加成功");
+        } catch (Exception ex) {
+            result.setError(ex.getMessage() != null ? ex.getMessage() : ex.toString());
+        }
+        return result;
+    }
 }

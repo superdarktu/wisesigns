@@ -171,4 +171,16 @@ public class ManagerService {
     }
 
 
+    public String saveUserImg(String fileName, String id) {
+        try {
+            Manager manager = mapper.selectByPrimaryKey(id);
+            manager.setImg(fileName);
+            mapper.updateByPrimaryKeySelective(manager);
+            return "success";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+
+    }
 }
