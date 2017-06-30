@@ -54,6 +54,7 @@ public class AiarmController {
                 id = session.getAttribute("id").toString();
             result.setData(service.detailed(id));
         } catch (Exception e) {
+            e.printStackTrace();
             result.setResult(1);
         }
         return result;

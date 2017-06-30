@@ -42,11 +42,13 @@
     </select>
 
     <select id="countMonthDevcie" parameterType="java.lang.String" resultType="java.lang.Integer">
-        select count(*) from tb_aiarm where  DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(),'%Y-%m')
-        <if test="id != null and id != ''">
-           and property_id = #{id}
-        </if>
-         group by water_fountains_code
+        select count(*) from
+            (select count(*) from tb_aiarm
+              where DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(),'%Y-%m')
+            <if test="id != null and id != ''">
+                and property_id = #{id}
+            </if>
+              group by water_fountains_code)  as a
     </select>
 
 
