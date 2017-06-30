@@ -12,6 +12,8 @@ public class ManagerUser {
 
     private String account;
 
+    private String img;
+
     private String password;
 
     private String name;
@@ -187,5 +189,13 @@ public class ManagerUser {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }
