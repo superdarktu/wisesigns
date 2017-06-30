@@ -44,7 +44,7 @@
         ORDER BY ctime
     </select>
 
-    <select id="getPublic" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+    <select id="getPublic" parameterType="java.util.HashMap" resultMap="BaseResultMapVO">
         SELECT f.*,if(ISNULL(a.id),"0","1") as status FROM tb_water_fountains as f
         left join tb_watermeter as w on f.table_code = w.code
         left join tb_collector as c on w.collector_code = c.code

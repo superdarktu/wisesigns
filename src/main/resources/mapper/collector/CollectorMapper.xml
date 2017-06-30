@@ -43,11 +43,11 @@
         order by c.ctime desc
     </select>
 
-    <select id="findByManager" parameterType="java.lang.String" resultType="java.lang.String">
+    <select id="findByManager" parameterType="java.lang.String" resultMap="BaseResultMap">
         select * from tb_collector where property_id = #{managerId}
     </select>
 
-    <select id="findByOther" parameterType="java.lang.String" resultType="java.lang.String">
+    <select id="findByOther" parameterType="java.lang.String" resultMap="BaseResultMap">
         select * from tb_collector where id in (select collector_id from tb_manager_user_collector where manager_user_id = #{managerId})
     </select>
 
