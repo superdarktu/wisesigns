@@ -54,8 +54,12 @@
 
 
     <select id="findWithNoProperty" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from tb_collector where ISNULL(property_id) OR property_id=''
+        select * from tb_collector where ISNULL(property_id)
     </select>
+
+    <update id="updateProperty" parameterType="java.lang.String">
+        UPDATE tb_collector SET property_id=NULL , property_name=NULL WHERE property_id=#{id}
+    </update>
 
 
 </mapper>

@@ -18,4 +18,7 @@ public interface CollectorMapper extends MyMapper<Collector> {
     List<Collector> findWithNoProperty();
 
     Collector isHaveCode(String code);
+
+   Integer updateProperty(String id);
+
 }
