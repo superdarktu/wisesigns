@@ -18,10 +18,7 @@
 
     <!--通过时间和用户id查询消费记录-->
     <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        SELECT id,user_id,price,water_consumption,unit_cost,balance,name,place,ctime,
-        (SELECT sum(price) FROM tb_user_purchase_record GROUP BY user_id) as 'total_price',
-        (SELECT sum(water_consumption) FROM tb_user_purchase_record GROUP BY user_id) as 'total_consumption'
-        FROM tb_user_purchase_record WHERE 1=1
+        SELECT *  FROM tb_user_purchase_record WHERE 1=1
         <if test="userId!=null">
             AND user_id=#{userId}
         </if>
