@@ -21,7 +21,7 @@
         SELECT * from tb_watermeter
         where 1=1
         <if test="code != null and code != ''">
-            and code like  CONCAT('%',#{code},'%')
+            and code like CONCAT('%',#{code},'%')
         </if>
         <if test="status != null and status != ''">
             and status = #{status}
@@ -44,7 +44,7 @@
         select count(*) from tb_watermeter as w
         left join tb_collector as c on w.collector_code = c.code
         <if test="id != null and id != ''">
-         where c.property_id = #{id}
+            where c.property_id = #{id}
         </if>
     </select>
 

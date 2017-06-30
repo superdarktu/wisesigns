@@ -111,10 +111,10 @@ public class WaterFountainsService {
         return new PageInfo(mapper.getDispenser(hashMap));
     }
 
-    public PageInfo<WaterFountainsVO> pagePublic(String type,String id) {
+    public PageInfo<WaterFountainsVO> pagePublic(String type, String id) {
         HashMap<String, String> hashMap = new HashMap<>();
         if (type != null) hashMap.put("type", type);
-        hashMap.put("id",id);
+        hashMap.put("id", id);
         return new PageInfo(mapper.getDispenser(hashMap));
     }
 
@@ -131,7 +131,7 @@ public class WaterFountainsService {
     public List<WaterFountainsVO> getPublicWaterFountains(String id) {
         Map<String, Object> hashMap = new HashMap<>();
         hashMap.put("type", "0");
-        hashMap.put("id",id);
+        hashMap.put("id", id);
         return mapper.getPublic(hashMap);
     }
 
@@ -143,7 +143,7 @@ public class WaterFountainsService {
         String s1 = mapper.tableCodeExist(id);
         if (s == null && s1 != null) {
             return 0;
-        } else if (s != null&&s1 != null) {
+        } else if (s != null && s1 != null) {
             return 2;
         } else {
             return 1;

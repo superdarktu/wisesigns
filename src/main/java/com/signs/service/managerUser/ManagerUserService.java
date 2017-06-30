@@ -2,14 +2,12 @@ package com.signs.service.managerUser;
 
 import com.github.pagehelper.PageHelper;
 import com.signs.mapper.collector.CollectorMapper;
-import com.signs.mapper.manager.ManagerMapper;
 import com.signs.mapper.managerUser.ManagerUserMapper;
 import com.signs.mapper.managerUserCollector.ManagerUserCollectorMapper;
 import com.signs.mapper.waterFountains.WaterFountainsMapper;
 import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
-import com.signs.model.manager.Manager;
 import com.signs.model.managerUser.ManagerUser;
 import com.signs.model.managerUserCollector.ManagerUserCollector;
 import com.signs.service.collector.CollectorService;
@@ -20,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 @Service

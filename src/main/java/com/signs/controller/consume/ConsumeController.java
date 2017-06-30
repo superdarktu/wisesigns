@@ -1,9 +1,7 @@
 package com.signs.controller.consume;
 
 import com.signs.dto.commonSearch.SearchVO;
-import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
-import com.signs.model.userRechargeRecord.UserRechargeRecord;
 import com.signs.service.userPurchaseRecord.UserPurchaseRecordService;
 import com.signs.service.userRechargeRecord.UserRechargeRecordService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +27,7 @@ public class ConsumeController {
     public Result pageCard(SearchVO vo) {
         Result result = new Result();
         try {
-          result.setData(service.getTotal(vo.getDate1(), vo.getId()));
+            result.setData(service.getTotal(vo.getDate1(), vo.getId()));
             result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,6 +35,7 @@ public class ConsumeController {
         }
         return result;
     }
+
     /**
      * 统计
      */
@@ -45,7 +44,7 @@ public class ConsumeController {
         Result result = new Result();
         try {
             String id = (String) session.getAttribute("id");
-            result.setData(service.getUserCount(id,vo.getDate1(),type));
+            result.setData(service.getUserCount(id, vo.getDate1(), type));
             result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,6 +52,7 @@ public class ConsumeController {
         }
         return result;
     }
+
     /**
      * 统计
      */
@@ -60,7 +60,7 @@ public class ConsumeController {
     public Result income(SearchVO vo, String type) {
         Result result = new Result();
         try {
-            result.setData(service.divide(vo.getDate1(),type));
+            result.setData(service.divide(vo.getDate1(), type));
             result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,6 +68,7 @@ public class ConsumeController {
         }
         return result;
     }
+
     /**
      * 充值
      */
@@ -76,7 +77,7 @@ public class ConsumeController {
         Result result = new Result();
         try {
             String id = (String) session.getAttribute("id");
-            result.setData(service1.getUserCount(id,vo.getDate1(),type));
+            result.setData(service1.getUserCount(id, vo.getDate1(), type));
             result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();

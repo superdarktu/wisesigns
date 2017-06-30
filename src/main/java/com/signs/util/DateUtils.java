@@ -68,7 +68,7 @@ public class DateUtils {
             format = TIMESTAMP_FORMAT;
         } else if ("Date".equals(format)) {
             format = DATE_FORMAT;
-        } else if ("only".equals(format)){
+        } else if ("only".equals(format)) {
             format = ONLY_FORMAT;
         }
         SimpleDateFormat sdf = new SimpleDateFormat(format);

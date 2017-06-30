@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 
 @RestController
@@ -31,8 +30,9 @@ public class BillController {
         }
         return result;
     }
+
     @PostMapping("/dataInquiry")
-    public Result pageMonth(SearchVO vo){
+    public Result pageMonth(SearchVO vo) {
 
         Result result = new Result();
         try {

@@ -12,19 +12,17 @@
     </resultMap>
 
     <resultMap id="BaseResultMapVO" type="com.signs.dto.Collector.CollectorVO" extends="BaseResultMap">
-    <result column="tuiguan" property="tuiguan" jdbcType="INTEGER"/>
-    <result column="touzi" property="touzi" jdbcType="INTEGER"/>
-    <result column="tablenum" property="tablenum" jdbcType="INTEGER"/>
-</resultMap>
-
+        <result column="tuiguan" property="tuiguan" jdbcType="INTEGER"/>
+        <result column="touzi" property="touzi" jdbcType="INTEGER"/>
+        <result column="tablenum" property="tablenum" jdbcType="INTEGER"/>
+    </resultMap>
 
 
     <select id="isHaveCode" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from tb_collector where code = #{code}
+        SELECT *
+        FROM tb_collector
+        WHERE code = #{code}
     </select>
-
-
-
 
 
     <select id="findData" parameterType="com.signs.model.collector.Collector" resultMap="BaseResultMapVO">
@@ -44,21 +42,30 @@
     </select>
 
     <select id="findByManager" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from tb_collector where property_id = #{managerId}
+        SELECT *
+        FROM tb_collector
+        WHERE property_id = #{managerId}
     </select>
 
     <select id="findByOther" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from tb_collector where id in (select collector_id from tb_manager_user_collector where manager_user_id = #{managerId})
+        SELECT *
+        FROM tb_collector
+        WHERE id IN (SELECT collector_id
+                     FROM tb_manager_user_collector
+                     WHERE manager_user_id = #{managerId})
     </select>
-
 
 
     <select id="findWithNoProperty" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from tb_collector where ISNULL(property_id)
+        SELECT *
+        FROM tb_collector
+        WHERE ISNULL(property_id)
     </select>
 
     <update id="updateProperty" parameterType="java.lang.String">
-        UPDATE tb_collector SET property_id=NULL , property_name=NULL WHERE property_id=#{id}
+        UPDATE tb_collector
+        SET property_id = NULL, property_name = NULL
+        WHERE property_id = #{id}
     </update>
 
 

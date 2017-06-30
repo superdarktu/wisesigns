@@ -5,7 +5,6 @@ import org.apache.poi.xssf.usermodel.XSSFComment;
 import tk.mybatis.mapper.util.StringUtil;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -15,14 +14,14 @@ public class BigSheetContentsHandler<T> implements XSSFSheetXMLHandler.SheetCont
     protected boolean flag;
     private Class<T> clazz;
     private int cellNo = 0;
-    protected  T model;
+    protected T model;
     private List<Field> allFields;
     private Integer rowNums = 0;
 
-    public BigSheetContentsHandler(Class<T> clazz){
+    public BigSheetContentsHandler(Class<T> clazz) {
 
         this.clazz = clazz;
-        allFields = Arrays.asList(clazz.getDeclaredFields()) ;
+        allFields = Arrays.asList(clazz.getDeclaredFields());
     }
 
     @Override
@@ -47,9 +46,9 @@ public class BigSheetContentsHandler<T> implements XSSFSheetXMLHandler.SheetCont
         Field field = allFields.get(cellNo);
         field.setAccessible(true);
         try {
-            if(field.isAnnotationPresent(ExcelNull.class) && StringUtil.isEmpty(s1)){
+            if (field.isAnnotationPresent(ExcelNull.class) && StringUtil.isEmpty(s1)) {
                 field.set(model, null);
-            }else {
+            } else {
                 Class<?> fieldType = field.getType();
                 if (String.class == fieldType) {
                     field.set(model, String.valueOf(s1));

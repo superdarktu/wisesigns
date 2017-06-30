@@ -108,10 +108,11 @@
     </select>
     <!--推广和投资-->
     <select id="divide1" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        SELECT sum((1 - (select cost_scale from tb_manager_user where id = tc.property_id) )*tupr.price)*(select sum(ivision_proportion) from tb_manager_user where  user_type = #{type} and id in
-        (SELECT  manager_user_id from tb_manager_user_collector WHERE collector_id = tc.id )) AS 'price'
+        SELECT sum((1 - (select cost_scale from tb_manager_user where id = tc.property_id) )*tupr.price)*(select
+        sum(ivision_proportion) from tb_manager_user where user_type = #{type} and id in
+        (SELECT manager_user_id from tb_manager_user_collector WHERE collector_id = tc.id )) AS 'price'
         FROM tb_user_purchase_record tupr
-            JOIN tb_collector tc ON tupr.collector_id = tc.id
+        JOIN tb_collector tc ON tupr.collector_id = tc.id
         WHERE tc.id in (select id from tb_collector)
         <if test="day!=null">
             AND DATE_FORMAT(tupr.ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')

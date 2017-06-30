@@ -3,7 +3,6 @@ package com.signs.controller.managerUser;
 import com.github.pagehelper.util.StringUtil;
 import com.signs.dto.Collector.CollectorVO;
 import com.signs.model.collector.Collector;
-import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.model.commons.TwoDataResult;
@@ -58,7 +57,7 @@ public class ManagerUserController {
         try {
             List<Collector> notyet = service1.findWithNoProperty();
             List<Collector> already = service1.findByManager(id);
-            if (already != null && already.size()>0) {
+            if (already != null && already.size() > 0) {
                 twoDataResult.setRecharge(already);
             }
             twoDataResult.setConsume(notyet);
@@ -77,7 +76,7 @@ public class ManagerUserController {
     @PostMapping("/submit")
     public Result addUser(String account, String password, String userName, Integer userType, String tel, Float prime, Float divide, Float price, String collector) {
         Result dto = new Result();
-        ManagerUser managerUser =new ManagerUser();
+        ManagerUser managerUser = new ManagerUser();
         managerUser.setAccount(account);
         managerUser.setPassword(password);
         managerUser.setName(userName);

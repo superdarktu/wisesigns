@@ -42,7 +42,7 @@ public class WaterCardController {
         Result dto = new Result();
         try {
             boolean b = service.createCard(cardNumberi, password, type);
-            String content=b?"0":"1";
+            String content = b ? "0" : "1";
             dto.setData(content);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -71,13 +71,13 @@ public class WaterCardController {
      * 查询水卡
      */
     @PostMapping("/queryType")
-    public Result pageCard(PageParam param, String type,String status, String value) {
-        Result result=new Result();
+    public Result pageCard(PageParam param, String type, String status, String value) {
+        Result result = new Result();
         try {
-        result.setData(service.page(param,type,status,value));
+            result.setData(service.page(param, type, status, value));
         } catch (Exception e) {
             e.printStackTrace();
-           result.setData("1");
+            result.setData("1");
         }
         return result;
     }
@@ -85,6 +85,7 @@ public class WaterCardController {
 
     /**
      * 上传excel
+     *
      * @param file
      * @return
      */
@@ -100,7 +101,7 @@ public class WaterCardController {
                 result.setError("请上传excel文件");
                 return result;
             }
-            new BigExcelUtil(file.getInputStream()).setHandler(new BigSheetContentsHandler(WaterCardExcel.class){
+            new BigExcelUtil(file.getInputStream()).setHandler(new BigSheetContentsHandler(WaterCardExcel.class) {
                 @Override
                 public void endRow(int i) {
                     try {
@@ -111,39 +112,41 @@ public class WaterCardController {
                             if (service.selectCode(waterCardExcel.getCode())) {
                                 errorList.add(i);
                             } else {
-                                int password = (int)Math.random()*1000000;
+                                int password = (int) Math.random() * 1000000;
 
                                 int type = -1;
 
-                                if(waterCardExcel.getType().equals("公用"))
+                                if (waterCardExcel.getType().equals("公用"))
                                     type = 0;
-                                if(waterCardExcel.getType().equals("私用"))
+                                if (waterCardExcel.getType().equals("私用"))
                                     type = 1;
-                                if(type > -1) {
-                                    if(service.createCard(waterCardExcel.getCode(), password + "", type))
+                                if (type > -1) {
+                                    if (service.createCard(waterCardExcel.getCode(), password + "", type))
                                         temp.add(i);
                                     else
                                         errorList.add(i);
-                                }else{
-                                    errorList.add(i);}
+                                } else {
+                                    errorList.add(i);
+                                }
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         errorList.add(i);
                     }
                 }
 
             }).parse();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         result.setData(errorList);
-        result.setInfo(temp.size()+"");
+        result.setInfo(temp.size() + "");
         return result;
     }
 
     /**
      * excel下载
+     *
      * @param response
      * @throws IOException
      */
@@ -153,27 +156,27 @@ public class WaterCardController {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         XSSFWorkbook workbook = new XSSFWorkbook();
-        String TITLES[] = {"卡号", "密码","水卡类型", "状态", "关联手机","添加时间"};
+        String TITLES[] = {"卡号", "密码", "水卡类型", "状态", "关联手机", "添加时间"};
         XSSFSheet sheet = workbook.createSheet("sheet1");
         XSSFRow titleRow = sheet.createRow(0);
         for (int k = 0; k < TITLES.length; k++) {
             XSSFCell titleCell = titleRow.createCell(k);
             titleCell.setCellValue(TITLES[k]);
         }
-        List<WaterCard> list  = service.page(null,null,null,null).getList();
+        List<WaterCard> list = service.page(null, null, null, null).getList();
 
         XSSFCell cell = null;
-        for(int i=1;i<=list.size();i++){
-            WaterCard waterCard = list.get(i-1);
+        for (int i = 1; i <= list.size(); i++) {
+            WaterCard waterCard = list.get(i - 1);
             XSSFRow row = sheet.createRow(i);
             cell = row.createCell(0);
             cell.setCellValue(waterCard.getCode());
             cell = row.createCell(1);
             cell.setCellValue(waterCard.getPassword());
             cell = row.createCell(2);
-            cell.setCellValue(waterCard.getType()==0?"公用":"私用");
+            cell.setCellValue(waterCard.getType() == 0 ? "公用" : "私用");
             cell = row.createCell(3);
-            cell.setCellValue(waterCard.getStatus()==0?"未激活":"已激活");
+            cell.setCellValue(waterCard.getStatus() == 0 ? "未激活" : "已激活");
             cell = row.createCell(4);
             cell.setCellValue(waterCard.getPhone());
             cell = row.createCell(5);
@@ -181,7 +184,7 @@ public class WaterCardController {
         }
 
         OutputStream output = response.getOutputStream();
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("水卡导出-"+DateUtils.dateToStr(new Date(),"only")+".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("水卡导出-" + DateUtils.dateToStr(new Date(), "only") + ".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
         workbook.write(output);
         output.close();
     }

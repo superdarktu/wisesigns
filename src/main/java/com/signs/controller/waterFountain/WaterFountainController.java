@@ -1,7 +1,6 @@
 package com.signs.controller.waterFountain;
 
 import com.signs.dto.waterFountain.WaterFountainExcel;
-import com.signs.dto.watermeter.WatermeterExcel;
 import com.signs.model.commons.PageParam;
 import com.signs.model.commons.Result;
 import com.signs.model.waterFountains.WaterFountains;

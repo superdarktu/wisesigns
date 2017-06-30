@@ -21,7 +21,7 @@ public interface WaterFountainsMapper extends MyMapper<WaterFountains> {
     List<WaterFountains> getDispenser(HashMap hashMap);
 
 
-    List<WaterFountainsVO> getPublic(Map<String,Object> map);
+    List<WaterFountainsVO> getPublic(Map<String, Object> map);
 
     /**
      * 获取最后一条
@@ -29,8 +29,8 @@ public interface WaterFountainsMapper extends MyMapper<WaterFountains> {
     WaterFountains getLastDispenser();
 
     /**
-     *  查询水卡编号是否存在
-      */
+     * 查询水卡编号是否存在
+     */
 
     String tableCodeExist(String id);
 

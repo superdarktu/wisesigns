@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/api/inventory")
@@ -43,7 +42,7 @@ public class UserPurchaseRecordController {
         Result result = new Result();
         try {
             String id = (String) session.getAttribute("id");
-            result.setData(service.getUserCount(id,vo.getDate1(),type));
+            result.setData(service.getUserCount(id, vo.getDate1(), type));
             result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();

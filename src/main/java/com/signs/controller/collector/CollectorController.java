@@ -15,7 +15,10 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -171,6 +174,7 @@ public class CollectorController {
 
     /**
      * excel下载
+     *
      * @param response
      * @throws IOException
      */
@@ -180,25 +184,25 @@ public class CollectorController {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         XSSFWorkbook workbook = new XSSFWorkbook();
-        String TITLES[] = {"采集器编号", "采集器名称","设备状态 ", "所属物业", "推广方","投资方","链接注册时间","链接表个数"};
+        String TITLES[] = {"采集器编号", "采集器名称", "设备状态 ", "所属物业", "推广方", "投资方", "链接注册时间", "链接表个数"};
         XSSFSheet sheet = workbook.createSheet("sheet1");
         XSSFRow titleRow = sheet.createRow(0);
         for (int k = 0; k < TITLES.length; k++) {
             XSSFCell titleCell = titleRow.createCell(k);
             titleCell.setCellValue(TITLES[k]);
         }
-        List<CollectorVO> list  = service.page(null,null).getList();
+        List<CollectorVO> list = service.page(null, null).getList();
 
         XSSFCell cell = null;
-        for(int i=1;i<=list.size();i++){
-            CollectorVO collectorVO = list.get(i-1);
+        for (int i = 1; i <= list.size(); i++) {
+            CollectorVO collectorVO = list.get(i - 1);
             XSSFRow row = sheet.createRow(i);
             cell = row.createCell(0);
             cell.setCellValue(collectorVO.getCode());
             cell = row.createCell(1);
             cell.setCellValue(collectorVO.getName());
             cell = row.createCell(2);
-            cell.setCellValue(collectorVO.getStatus()==1?"关":"开");
+            cell.setCellValue(collectorVO.getStatus() == 1 ? "关" : "开");
             cell = row.createCell(3);
             cell.setCellValue(collectorVO.getPropertyName());
             cell = row.createCell(4);
@@ -212,13 +216,14 @@ public class CollectorController {
         }
 
         OutputStream output = response.getOutputStream();
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("采集器导出-"+DateUtils.dateToStr(new Date(),"only")+".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("采集器导出-" + DateUtils.dateToStr(new Date(), "only") + ".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
         workbook.write(output);
         output.close();
     }
 
     /**
      * 上传excel
+     *
      * @param file
      * @return
      */
@@ -234,7 +239,7 @@ public class CollectorController {
                 result.setError("请上传excel文件");
                 return result;
             }
-            new BigExcelUtil(file.getInputStream()).setHandler(new BigSheetContentsHandler(CollectorExcel.class){
+            new BigExcelUtil(file.getInputStream()).setHandler(new BigSheetContentsHandler(CollectorExcel.class) {
                 @Override
                 public void endRow(int i) {
                     try {
@@ -248,42 +253,43 @@ public class CollectorController {
                                 Collector collector = new Collector();
                                 collector.setName(collectorExcel.getName());
                                 collector.setCode(collectorExcel.getCode());
-                                if(service.insert(collector))
+                                if (service.insert(collector))
                                     temp.add(i);
                                 else
                                     errorList.add(i);
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         errorList.add(i);
                     }
                 }
 
             }).parse();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         result.setData(errorList);
-        result.setInfo(temp.size()+"");
+        result.setInfo(temp.size() + "");
         return result;
     }
 
     /**
      * 表编号唯一确认
+     *
      * @param code
      * @return
      */
     @RequestMapping("/isHaveCode")
-    public Result isHaveCode(String code){
+    public Result isHaveCode(String code) {
 
-        Result result  = new Result();
-        try{
+        Result result = new Result();
+        try {
 
-            if(service.isHaveCode(code))
+            if (service.isHaveCode(code))
                 result.setResult(1);
             else
                 result.setResult(0);
-        }catch (Exception e){
+        } catch (Exception e) {
             result.setResult(1);
         }
         return result;

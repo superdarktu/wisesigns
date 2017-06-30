@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ErrorController {
 
     @RequestMapping("/error")
-    public Result error(){
+    public Result error() {
         Result result = new Result();
         result.setResult(5);
         return result;

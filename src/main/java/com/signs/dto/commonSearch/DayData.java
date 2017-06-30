@@ -1,7 +1,5 @@
 package com.signs.dto.commonSearch;
 
-import com.alibaba.fastjson.JSONObject;
-
 /**
  * Created by Administrator on 2017/6/29.
  */
@@ -14,7 +12,7 @@ public class DayData {
     }
 
     public void setHours(Object hours) {
-        this.hours ="\"00\",\"01\",\"02\",\"03\",\"04\",\"05\",\"06\",\"07\",\"08\",\"09\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\"";
+        this.hours = "\"00\",\"01\",\"02\",\"03\",\"04\",\"05\",\"06\",\"07\",\"08\",\"09\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\"";
     }
 
     public Object getData() {
@@ -27,11 +25,10 @@ public class DayData {
 
     public static void main(String[] args) {
         for (int i = 0; i < 25; i++) {
-            if (i<10){
-                System.out.print("\\\"0"+i+"\\\",");
-            }
-            else {
-                System.out.print("\\\""+i+"\\\",");
+            if (i < 10) {
+                System.out.print("\\\"0" + i + "\\\",");
+            } else {
+                System.out.print("\\\"" + i + "\\\",");
             }
         }
     }

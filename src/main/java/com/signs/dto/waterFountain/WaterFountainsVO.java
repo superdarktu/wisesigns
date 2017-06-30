@@ -2,7 +2,7 @@ package com.signs.dto.waterFountain;
 
 import com.signs.model.waterFountains.WaterFountains;
 
-public class WaterFountainsVO extends WaterFountains{
+public class WaterFountainsVO extends WaterFountains {
 
     private Integer status;
 

@@ -53,13 +53,15 @@ public class WaterCardService {
         }
         return true;
     }
+
     /**
      * 水卡编号唯一
+     *
      * @return
      */
-    public boolean selectCode(String code){
+    public boolean selectCode(String code) {
         List<WaterCard> waterCards = mapper.selectCode(code);
-        return waterCards.size()>0?true:false;
+        return waterCards.size() > 0 ? true : false;
     }
 
     /**

@@ -19,19 +19,20 @@
 
 
     <select id="login" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-    select * from tb_manager
-    where user_name = #{userName} and password  = #{password} and status != 1
-  </select>
+        select * from tb_manager
+        where user_name = #{userName} and password = #{password} and status != 1
+    </select>
 
     <select id="isHaveUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
-      select * from tb_manager where user_name = #{username} and status != 1
-  </select>
+        select * from tb_manager where user_name = #{username} and status != 1
+    </select>
 
     <select id="findByAdmin" parameterType="java.lang.String" resultMap="BaseResultMap">
-    SELECT * from tb_manager u
-    where u.status=0 and  u.type = 'manager'
-        and  ( "" = #{keyWord} or u.user_name like CONCAT('%',#{keyWord},'%') or u.name like CONCAT('%',#{keyWord},'%') or u.tel like CONCAT('%',#{keyWord},'%'))
-    order by u.ctime desc
-  </select>
+        SELECT * from tb_manager u
+        where u.status=0 and u.type = 'manager'
+        and ( "" = #{keyWord} or u.user_name like CONCAT('%',#{keyWord},'%') or u.name like CONCAT('%',#{keyWord},'%')
+        or u.tel like CONCAT('%',#{keyWord},'%'))
+        order by u.ctime desc
+    </select>
 
 </mapper>

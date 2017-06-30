@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.signs.mapper.managerUserCollector.ManagerUserCollectorMapper" >
-  <resultMap id="BaseResultMap" type="com.signs.model.managerUserCollector.ManagerUserCollector" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="manager_user_id" property="managerUserId" jdbcType="VARCHAR" />
-    <result column="collector_id" property="collectorId" jdbcType="VARCHAR" />
-    <result column="collector_name" property="collectorName" jdbcType="VARCHAR" />
-    <result column="manager_user_type" property="managerUserType" jdbcType="INTEGER" />
-    <result column="collector_code" property="collectorCode" jdbcType="VARCHAR" />
-  </resultMap>
+<mapper namespace="com.signs.mapper.managerUserCollector.ManagerUserCollectorMapper">
+    <resultMap id="BaseResultMap" type="com.signs.model.managerUserCollector.ManagerUserCollector">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="manager_user_id" property="managerUserId" jdbcType="VARCHAR"/>
+        <result column="collector_id" property="collectorId" jdbcType="VARCHAR"/>
+        <result column="collector_name" property="collectorName" jdbcType="VARCHAR"/>
+        <result column="manager_user_type" property="managerUserType" jdbcType="INTEGER"/>
+        <result column="collector_code" property="collectorCode" jdbcType="VARCHAR"/>
+    </resultMap>
 
-  <select id="findByManager" parameterType="java.lang.String" resultType="java.lang.String">
-    select collector_code from tb_manager_user_collector where manager_user_id = #{managerId}
-  </select>
-  <delete id="deleteByManager" parameterType="java.lang.String" >
-    DELETE FROM tb_manager_user_collector WHERE manager_user_id=#{managerId}
-  </delete>
+    <select id="findByManager" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT collector_code
+        FROM tb_manager_user_collector
+        WHERE manager_user_id = #{managerId}
+    </select>
+    <delete id="deleteByManager" parameterType="java.lang.String">
+        DELETE FROM tb_manager_user_collector
+        WHERE manager_user_id = #{managerId}
+    </delete>
 </mapper>

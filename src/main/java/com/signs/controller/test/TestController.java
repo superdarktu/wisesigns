@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TestController {
 
     @RequestMapping("upload")
-    public String test(){
+    public String test() {
 
         return "upload";
     }

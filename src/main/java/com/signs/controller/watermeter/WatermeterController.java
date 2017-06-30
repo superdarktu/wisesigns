@@ -152,20 +152,21 @@ public class WatermeterController {
 
     /**
      * 表编号唯一确认
+     *
      * @param code
      * @return
      */
     @RequestMapping("/isHaveCode")
-    public Result isHaveCode(String code){
+    public Result isHaveCode(String code) {
 
-        Result result  = new Result();
-        try{
+        Result result = new Result();
+        try {
 
-            if(service.isHaveCode(code))
+            if (service.isHaveCode(code))
                 result.setResult(1);
             else
                 result.setResult(0);
-        }catch (Exception e){
+        } catch (Exception e) {
             result.setResult(1);
         }
         return result;
@@ -173,6 +174,7 @@ public class WatermeterController {
 
     /**
      * 上传excel
+     *
      * @param file
      * @return
      */
@@ -188,7 +190,7 @@ public class WatermeterController {
                 result.setError("请上传excel文件");
                 return result;
             }
-            new BigExcelUtil(file.getInputStream()).setHandler(new BigSheetContentsHandler(WatermeterExcel.class){
+            new BigExcelUtil(file.getInputStream()).setHandler(new BigSheetContentsHandler(WatermeterExcel.class) {
                 @Override
                 public void endRow(int i) {
                     try {
@@ -203,28 +205,29 @@ public class WatermeterController {
                                 watermeter.setCode(watermeterExcel.getCode());
                                 watermeter.setCollectorCode(watermeterExcel.getCollectorCode());
                                 watermeter.setTotalCode(watermeterExcel.getTotalCode());
-                                if(service.insert(watermeter))
+                                if (service.insert(watermeter))
                                     temp.add(i);
                                 else
                                     errorList.add(i);
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         errorList.add(i);
                     }
                 }
 
             }).parse();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         result.setData(errorList);
-        result.setInfo(temp.size()+"");
+        result.setInfo(temp.size() + "");
         return result;
     }
 
     /**
      * excel下载
+     *
      * @param response
      * @throws IOException
      */
@@ -234,23 +237,23 @@ public class WatermeterController {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         XSSFWorkbook workbook = new XSSFWorkbook();
-        String TITLES[] = {"表编号", "设备状态","采集器编号", "今日用水量（L）", "当月用水量（L）","累计流量（L）","阀门状态"};
+        String TITLES[] = {"表编号", "设备状态", "采集器编号", "今日用水量（L）", "当月用水量（L）", "累计流量（L）", "阀门状态"};
         XSSFSheet sheet = workbook.createSheet("sheet1");
         XSSFRow titleRow = sheet.createRow(0);
         for (int k = 0; k < TITLES.length; k++) {
             XSSFCell titleCell = titleRow.createCell(k);
             titleCell.setCellValue(TITLES[k]);
         }
-        List<Watermeter> list  = service.page(null,null).getList();
+        List<Watermeter> list = service.page(null, null).getList();
 
         XSSFCell cell = null;
-        for(int i=1;i<=list.size();i++){
-            Watermeter watermeter = list.get(i-1);
+        for (int i = 1; i <= list.size(); i++) {
+            Watermeter watermeter = list.get(i - 1);
             XSSFRow row = sheet.createRow(i);
             cell = row.createCell(0);
             cell.setCellValue(watermeter.getCode());
             cell = row.createCell(1);
-            cell.setCellValue(watermeter.getStatus()==0?"正常":"故障");
+            cell.setCellValue(watermeter.getStatus() == 0 ? "正常" : "故障");
             cell = row.createCell(2);
             cell.setCellValue(watermeter.getCollectorCode());
             cell = row.createCell(3);
@@ -260,11 +263,11 @@ public class WatermeterController {
             cell = row.createCell(5);
             cell.setCellValue(watermeter.getFlowTotal());
             cell = row.createCell(6);
-            cell.setCellValue(watermeter.getTapStatus()==0?"开":"关");
+            cell.setCellValue(watermeter.getTapStatus() == 0 ? "开" : "关");
         }
 
         OutputStream output = response.getOutputStream();
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("水表导出-"+DateUtils.dateToStr(new Date(),"only")+".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("水表导出-" + DateUtils.dateToStr(new Date(), "only") + ".xlsx").getBytes("UTF-8"), "ISO-8859-1"));
         workbook.write(output);
         output.close();
     }

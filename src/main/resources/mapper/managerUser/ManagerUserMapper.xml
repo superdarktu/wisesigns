@@ -16,20 +16,30 @@
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <select id="selectPrice" resultMap="BaseResultMap" parameterType="java.lang.String"> 
- SELECT tmu.water_price, tmu.cost_scale FROM tb_watermeter as tw left JOIN tb_collector AS tc ON tw.collector_code=tc.code 
-  LEFT JOIN tb_manager_user AS tmu ON tmu.id=tc.property_id WHERE tw.code=#{tableNumber} </select>
+    <select id="selectPrice" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+            tmu.water_price,
+            tmu.cost_scale
+        FROM tb_watermeter AS tw LEFT JOIN tb_collector AS tc ON tw.collector_code = tc.code
+            LEFT JOIN tb_manager_user AS tmu ON tmu.id = tc.property_id
+        WHERE tw.code = #{tableNumber} </select>
     <select id="selectCode" parameterType="java.lang.String" resultType="java.lang.String">
-        select id from tb_manager_user WHERE account=#{account}
+        SELECT id
+        FROM tb_manager_user
+        WHERE account = #{account}
     </select>
-<select id="getManagerUser" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-    select id,account,password,name,user_type,cost_scale,ivision_proportion,phone ,ctime,(SELECT count(*) FROM tb_collector AS tc WHERE tc.property_id=tmu.id) AS 'count'
-    from tb_manager_user AS tmu WHERE status!=1 OR ISNULL(status)
-    <if test="status!=null"> AND user_type=#{status}</if>
-    <if test="value!=null"> AND (account LIKE #{value} OR name LIKE #{value}) </if>  ORDER BY ctime desc
-</select>
+    <select id="getManagerUser" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        select id,account,password,name,user_type,cost_scale,ivision_proportion,phone ,ctime,(SELECT count(*) FROM
+        tb_collector AS tc WHERE tc.property_id=tmu.id) AS 'count'
+        from tb_manager_user AS tmu WHERE status!=1 OR ISNULL(status)
+        <if test="status!=null">AND user_type=#{status}</if>
+        <if test="value!=null">AND (account LIKE #{value} OR name LIKE #{value})</if>
+        ORDER BY ctime desc
+    </select>
     <select id="login" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        SELECT * FROM tb_manager_user WHERE account=#{userName} AND password=#{password}
+        SELECT *
+        FROM tb_manager_user
+        WHERE account = #{userName} AND password = #{password}
     </select>
 
 </mapper>

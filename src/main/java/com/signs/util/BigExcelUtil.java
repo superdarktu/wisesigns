@@ -44,7 +44,7 @@ public class BigExcelUtil {
         OPCPackage pkg = null;
         InputStream sheetInputStream = null;
         try {
-            if(tempInputStream != null)
+            if (tempInputStream != null)
                 pkg = OPCPackage.open(tempInputStream);
             else
                 pkg = OPCPackage.open(filename, PackageAccess.READ);

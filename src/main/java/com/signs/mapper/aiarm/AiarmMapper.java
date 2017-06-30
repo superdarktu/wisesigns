@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface AiarmMapper extends MyMapper<Aiarm> {
 
-    List<Aiarm> pageData(Map<String,Object> map);
+    List<Aiarm> pageData(Map<String, Object> map);
 
     Integer countDay(String id);
 

@@ -26,6 +26,7 @@ public class AiarmController {
 
     /**
      * 查询公用饮水机
+     *
      * @return
      */
     @PostMapping("/information")
@@ -34,7 +35,7 @@ public class AiarmController {
 
         try {
             String id = null;
-            if(session.getAttribute("type").toString().equals("2"))
+            if (session.getAttribute("type").toString().equals("2"))
                 id = session.getAttribute("id").toString();
             result.setData(waterFountainsService.getPublicWaterFountains(id));
         } catch (Exception e) {
@@ -50,7 +51,7 @@ public class AiarmController {
 
         try {
             String id = null;
-            if(session.getAttribute("type").toString().equals("2"))
+            if (session.getAttribute("type").toString().equals("2"))
                 id = session.getAttribute("id").toString();
             result.setData(service.detailed(id));
         } catch (Exception e) {
@@ -62,6 +63,7 @@ public class AiarmController {
 
     /**
      * 分页查询
+     *
      * @param param
      * @param searchVO
      * @return
@@ -72,9 +74,9 @@ public class AiarmController {
 
         try {
             String id = null;
-            if(session.getAttribute("type").toString().equals("2"))
+            if (session.getAttribute("type").toString().equals("2"))
                 id = session.getAttribute("id").toString();
-            result.setData(service.page(param,searchVO.getDate1(),searchVO.getDate2(),searchVO.getValue(),id));
+            result.setData(service.page(param, searchVO.getDate1(), searchVO.getDate2(), searchVO.getValue(), id));
         } catch (Exception e) {
             result.setResult(1);
         }
@@ -83,6 +85,7 @@ public class AiarmController {
 
     /**
      * 查询饮水机
+     *
      * @param id
      * @return
      */

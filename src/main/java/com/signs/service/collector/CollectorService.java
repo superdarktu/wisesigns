@@ -129,10 +129,11 @@ public class CollectorService {
 
     /**
      * 编号唯一
+     *
      * @param code
      * @return
      */
-    public boolean isHaveCode(String code){
+    public boolean isHaveCode(String code) {
 
         return mapper.isHaveCode(code) == null ? false : true;
     }

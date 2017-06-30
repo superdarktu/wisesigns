@@ -19,6 +19,6 @@ public interface CollectorMapper extends MyMapper<Collector> {
 
     Collector isHaveCode(String code);
 
-   Integer updateProperty(String id);
+    Integer updateProperty(String id);
 
 }
