@@ -21,8 +21,8 @@
         select * from tb_aiarm
         <where>
             <if test="keyWord != null and keyWord != ''"> and ( water_fountains_code like CONCAT('%','${keyWord}','%')  or place like CONCAT('%','${keyWord}','%') )</if>
-            <if test="ctime != null"> and ctime <![CDATA[>= ]]> #{start} </if>
-            <if test="ctime != null"> and ctime <![CDATA[<= ]]> #{end} </if>
+            <if test="start != null"> and ctime <![CDATA[>= ]]> #{start} </if>
+            <if test="end != null"> and ctime <![CDATA[<= ]]> #{end} </if>
         </where>
     </select>
 </mapper>
