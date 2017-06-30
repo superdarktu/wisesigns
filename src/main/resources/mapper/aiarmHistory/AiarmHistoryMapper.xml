@@ -2,9 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.signs.mapper.aiarmHistory.AiarmHistoryMapper">
     <resultMap id="BaseResultMap" type="com.signs.model.aiarmHistory.AiarmHistory">
-        <!--
-          WARNING - @mbg.generated
-        -->
+
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="water_fountains_code" property="waterFountainsCode" jdbcType="VARCHAR"/>
         <result column="place" property="place" jdbcType="VARCHAR"/>
@@ -29,7 +27,7 @@
             AND ctime > #{date1}
         </if>
         <if test="date2!=null">
-            AND #{date2}>ctime
+            AND DATE_FORMAT(#{date2}, '%Y-%m-%d')>=DATE_FORMAT(ctime, '%Y-%m-%d')
         </if>
     </select>
     

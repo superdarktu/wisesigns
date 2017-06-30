@@ -136,7 +136,6 @@ public class UserPurchaseRecordService {
             hashMap.put("day", 1);
         } else {
             hashMap.put("month", 2);
-
         }
         hashMap.put("date", date);
 
