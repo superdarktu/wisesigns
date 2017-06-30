@@ -38,23 +38,26 @@ public class AiarmController {
                 id = session.getAttribute("id").toString();
             result.setData(waterFountainsService.getPublicWaterFountains(id));
         } catch (Exception e) {
+            e.printStackTrace();
             result.setResult(1);
         }
         return result;
     }
 
-    /*@PostMapping("/detailed")
-    public Result detailed() {
+    @PostMapping("/detailed")
+    public Result detailed(HttpSession session) {
         Result result = new Result();
 
         try {
-            if (service.insert(collector))
-                result.setResult(0);
+            String id = null;
+            if(session.getAttribute("type").toString().equals("2"))
+                id = session.getAttribute("id").toString();
+            result.setData(service.detailed(id));
         } catch (Exception e) {
             result.setResult(1);
         }
         return result;
-    }*/
+    }
 
     /**
      * 分页查询
