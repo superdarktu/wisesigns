@@ -175,12 +175,13 @@ public class ManagerService {
         try {
             Manager manager = mapper.selectByPrimaryKey(id);
             manager.setImg(fileName);
-            mapper.updateByPrimaryKeySelective(manager);
-            return "success";
-        }catch (Exception e){
+            int i = mapper.updateByPrimaryKeySelective(manager);
+            if (i > 0) {
+                return "success";
+            }
+        } catch (Exception e) {
             e.printStackTrace();
-            return "fail";
         }
-
+        return "fail";
     }
 }

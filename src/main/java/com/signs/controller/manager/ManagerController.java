@@ -6,6 +6,7 @@ import com.signs.model.manager.Manager;
 import com.signs.model.managerUser.ManagerUser;
 import com.signs.service.manager.ManagerService;
 import com.signs.service.managerUser.ManagerUserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.util.StringUtil;
@@ -27,6 +28,9 @@ public class ManagerController {
 
     @Resource
     private ManagerUserService managerUserService;
+
+    @Value("${upload.imagePathOn}")
+    private String imagePathOn;
 
     @PostMapping("/login")
     public Result loginIn(Manager model, HttpSession httpSession) {
@@ -204,7 +208,12 @@ public class ManagerController {
     public Result saveUserImg(@RequestParam("file") MultipartFile file, HttpSession session) {
         Result result = new Result();
         try {
-            String path = (this.getClass().getResource("/").toString() + "static/upload").replace("file:/", "");
+            String path = null;
+            if (StringUtil.isEmpty(imagePathOn)||"1".equals(imagePathOn)){
+                path = (this.getClass().getResource("/").toString() + "static/upload").replace("file:/", "");
+            }else {
+                path=imagePathOn;
+            }
             // String path = "C:\\ftp\\waterpro\\waterpro\\appimg\\";
             File dir = new File(path);
             if (!dir.exists() || !dir.isDirectory()) {
@@ -219,11 +228,9 @@ public class ManagerController {
             Files.copy(file.getInputStream(), Paths.get(path + "/" + fileName));
             String type = (String) session.getAttribute("type");
             String id = (String) session.getAttribute("id");
-            type = "1";
-            id = "027e7c39b427413eac745f7921ce33b8";
             if ("1".equals(type)) {
                 //manager
-                result.setData( service.saveUserImg(fileName, id));
+                result.setData(service.saveUserImg(fileName, id));
             } else if ("2".equals(type)) {
                 //managerUser
                 result.setData(managerUserService.saveUserImg(fileName, id));
@@ -237,7 +244,7 @@ public class ManagerController {
     }
 
     @RequestMapping("/image")
-    public void image(HttpServletResponse response,HttpSession session){
+    public Integer image(HttpServletResponse response, HttpSession session) {
 
         FileInputStream fis = null;
         OutputStream os = null;
@@ -252,9 +259,12 @@ public class ManagerController {
             //managerUser
             ManagerUser managerUser = managerUserService.gain(session.getAttribute("id").toString());
             img = managerUser.getImg();
+            if (img == null) {
+                return 1;
+            }
         }
         try {
-            fis = new FileInputStream(path+"/"+img);
+            fis = new FileInputStream(path + "/" + img);
             os = response.getOutputStream();
             int count = 0;
             byte[] buffer = new byte[1024 * 8];
@@ -271,6 +281,6 @@ public class ManagerController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return 0;
     }
 }
