@@ -200,7 +200,7 @@ public class ManagerController {
         return dto;
     }
 
-    @GetMapping("/uploadPicture")
+    @PostMapping("/uploadPicture")
     public Result saveUserImg(@RequestParam("file") MultipartFile file, HttpSession session) {
         Result result = new Result();
         try {
