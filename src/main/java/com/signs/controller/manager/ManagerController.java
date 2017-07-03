@@ -250,7 +250,12 @@ public class ManagerController {
         OutputStream os = null;
         String type = (String) session.getAttribute("type");
         String img = "";
-        String path = (this.getClass().getResource("/").toString() + "static/upload").replace("file:/", "");
+        String path = null;
+        if (StringUtil.isEmpty(imagePathOn)||"1".equals(imagePathOn)){
+            path = (this.getClass().getResource("/").toString() + "static/upload").replace("file:/", "");
+        }else {
+            path=imagePathOn;
+        }
         if ("1".equals(type)) {
             //manager
             Manager manager = service.query(session.getAttribute("id").toString());
