@@ -55,9 +55,7 @@ public class ManagerService {
      */
     public boolean isHaveUsername(String username) {
 
-        if (mapper.isHaveUsername(username) != null || managerUserMapper.selectCode(username).size() > 0)
-            return true;
-        return false;
+        return mapper.isHaveUsername(username) != null || managerUserMapper.selectCode(username).size() > 0;
     }
 
     /**
