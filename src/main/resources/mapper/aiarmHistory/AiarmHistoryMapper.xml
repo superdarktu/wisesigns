@@ -21,7 +21,7 @@
             AND property_id=#{id}
         </if>
         <if test="value!=null">
-            AND (tb_aiarm_history.id LIKE #{value} OR place LIKE #{value})
+            AND (water_fountains_code LIKE #{value} OR place LIKE #{value})
         </if>
         <if test="date1!=null">
             AND ctime > #{date1}
