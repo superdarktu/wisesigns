@@ -30,7 +30,6 @@ public class ManagerController {
 
     @PostMapping("/login")
     public Result loginIn(Manager model, HttpSession httpSession) {
-
         Result dto = new Result();
         try {
             if (!service.isHaveUsername(model.getUserName())) {
@@ -201,7 +200,7 @@ public class ManagerController {
         return dto;
     }
 
-    @PostMapping("/uploadPicture")
+    @GetMapping("/uploadPicture")
     public Result saveUserImg(@RequestParam("file") MultipartFile file, HttpSession session) {
         Result result = new Result();
         try {
