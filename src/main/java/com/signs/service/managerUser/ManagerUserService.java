@@ -125,7 +125,18 @@ public class ManagerUserService {
         mapper.updateByPrimaryKeySelective(managerUser);
         return managerUser;
     }
+    /**
+     * 登录界面修改用户信息
+     *
+     * @param manager
+     * @return
+     */
+    public ManagerUser save(ManagerUser manager) {
 
+        mapper.updateByPrimaryKeySelective(manager);
+
+        return manager;
+    }
 
     public Boolean modifyPassword(String id, String oldPassword, String newPassword) {
         ManagerUser managerUser = mapper.selectByPrimaryKey(id);

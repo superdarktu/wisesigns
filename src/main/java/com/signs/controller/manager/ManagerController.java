@@ -208,7 +208,7 @@ public class ManagerController {
     public Result saveUserImg(@RequestParam("file") MultipartFile file, HttpSession session) {
         Result result = new Result();
         try {
-            String path = null;
+            String path;
             if (StringUtil.isEmpty(imagePathOn)||"1".equals(imagePathOn)){
                 path = (this.getClass().getResource("/").toString() + "static/upload").replace("file:/", "");
             }else {
@@ -226,15 +226,12 @@ public class ManagerController {
             }
             String fileName = (new Date()).getTime() + "" + (int) (Math.random() * 1000) + name.substring(name.lastIndexOf("."));
             Files.copy(file.getInputStream(), Paths.get(path + "/" + fileName));
-            String type = (String) session.getAttribute("type");
-            String id = (String) session.getAttribute("id");
-            if ("1".equals(type)) {
-                //manager
-                result.setData(service.saveUserImg(fileName, id));
-            } else if ("2".equals(type)) {
-                //managerUser
-                result.setData(managerUserService.saveUserImg(fileName, id));
-
+            String type = session.getAttribute("type").toString();
+            String id = session.getAttribute("id").toString();
+            if ("1".equals(type)){
+                service.saveUserImg(fileName,id);
+            }else {
+                managerUserService.saveUserImg(fileName,id);
             }
             result.setMsg("添加成功");
         } catch (Exception ex) {

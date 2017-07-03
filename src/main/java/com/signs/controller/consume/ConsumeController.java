@@ -63,7 +63,6 @@ public class ConsumeController {
             result.setData(service.divide(vo.getDate1(), type));
             result.setResult(0);
         } catch (Exception e) {
-            e.printStackTrace();
             result.setResult(1);
         }
         return result;
