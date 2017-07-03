@@ -93,7 +93,7 @@ public class UserController {
                 managerUser.setId(id);
                 managerUser.setPhone(newTel);
                 managerUser.setName(newName);
-                managerUserService.save(managerUser, "");
+                managerUserService.save(managerUser);
                 result.setData(managerUser);
             }
         } catch (Exception e) {
@@ -105,7 +105,6 @@ public class UserController {
     /**
      * 修改密码
      *
-     * @return
      */
     @PostMapping("/removePassword")
     public String removePassword(String password, String newPassword, HttpSession httpSession) {
