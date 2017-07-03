@@ -20,9 +20,11 @@ public class HttpClientHelper {
      */
     public static void main(String[] args) {
         Map map=new HashMap<String,Object>();
-        map.put("userName","admin");
-        map.put("password","admin");
-        String s = sendPost("http://172.16.0.124:2040/api/manager/login", map, "utf-8");
+        map.put("type","directWaterMeterOpen");
+//        map.put("type","directWaterMeterClose");
+        map.put("DTUID","123456789");
+        map.put("MeterID","00000012345678");
+        String s = sendGet("http://139.196.52.84:2001/control", map, "utf-8");
         System.out.println("返回值"+s);
     }
 
