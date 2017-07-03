@@ -220,9 +220,9 @@ public class WaterFountainController {
             cell = row.createCell(4);
             cell.setCellValue(DateUtils.dateToStr(waterFountains.getCtime()));
             cell = row.createCell(5);
-            cell.setCellValue(waterFountains.getWaterPrice());
+            cell.setCellValue(waterFountains.getWaterPrice()==null?0:waterFountains.getWaterPrice());
             cell = row.createCell(6);
-            cell.setCellValue(waterFountains.getCostScale());
+            cell.setCellValue(waterFountains.getCostScale()==null?0:waterFountains.getCostScale());
         }
 
         OutputStream output = response.getOutputStream();
