@@ -1,32 +1,38 @@
-package com.signs.util.auth;
+package com.signs.util;
+
+
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.Socket;
+
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 
-/**
- * @Description:发送http请求帮助类
- * @author:liuyc
- * @time:2016年5月17日 下午3:25:32 
- */
 public class HttpClientHelper {
     /**
-     * @Description:使用HttpURLConnection发送post请求
+     * 测试登录
+     * @param args
+     */
+    public static void main(String[] args) {
+        Map map=new HashMap<String,Object>();
+        map.put("userName","admin");
+        map.put("password","admin");
+        String s = sendPost("http://172.16.0.124:2040/api/manager/login", map, "utf-8");
+        System.out.println("返回值"+s);
+    }
+
+    /**
+     * 使用HttpURLConnection发送post
      */
     public static String sendPost(String urlParam, Map<String, Object> params, String charset) {
-        StringBuffer resultBuffer = null;
+        StringBuffer resultBuffer;
         // 构建请求参数  
-        StringBuffer sbParams = new StringBuffer();
+        StringBuilder sbParams = new StringBuilder();
         if (params != null && params.size() > 0) {
             for (Entry<String, Object> e : params.entrySet()) {
                 sbParams.append(e.getKey());
@@ -47,14 +53,19 @@ public class HttpClientHelper {
             con.setDoInput(true);
             con.setUseCaches(false);
             con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            if (sbParams != null && sbParams.length() > 0) {
+            if (sbParams.length() > 0) {
                 osw = new OutputStreamWriter(con.getOutputStream(), charset);
                 osw.write(sbParams.substring(0, sbParams.length() - 1));
                 osw.flush();
             }
             // 读取返回内容  
             resultBuffer = new StringBuffer();
-            int contentLength = Integer.parseInt(con.getHeaderField("Content-Length"));
+            String headerField = con.getHeaderField("Content-Length");
+            int contentLength=0;
+            if (headerField != null) {
+                contentLength = Integer.parseInt(headerField);
+            }
+
             if (contentLength > 0) {
                 br = new BufferedReader(new InputStreamReader(con.getInputStream(), charset));
                 String temp;
@@ -72,10 +83,8 @@ public class HttpClientHelper {
                     osw = null;
                     throw new RuntimeException(e);
                 } finally {
-                    if (con != null) {
-                        con.disconnect();
-                        con = null;
-                    }
+                    con.disconnect();
+                    con = null;
                 }
             }
             if (br != null) {
@@ -97,12 +106,10 @@ public class HttpClientHelper {
     }
 
     /**
-     * @Description:使用URLConnection发送post
-     * @author:liuyc
-     * @time:2016年5月17日 下午3:26:52
+     * 使用URLConnection发送post
      */
     public static String sendPost2(String urlParam, Map<String, Object> params, String charset) {
-        StringBuffer resultBuffer = null;
+        StringBuffer resultBuffer;
         // 构建请求参数  
         StringBuffer sbParams = new StringBuffer();
         if (params != null && params.size() > 0) {
@@ -130,7 +137,7 @@ public class HttpClientHelper {
             con.setDoInput(true);
             // 获取URLConnection对象对应的输出流  
             osw = new OutputStreamWriter(con.getOutputStream(), charset);
-            if (sbParams != null && sbParams.length() > 0) {
+            if (sbParams.length() > 0) {
                 // 发送请求参数  
                 osw.write(sbParams.substring(0, sbParams.length() - 1));
                 // flush输出流的缓冲  
@@ -169,7 +176,112 @@ public class HttpClientHelper {
         return resultBuffer.toString();
     }
 
-//    /**
+
+    /**
+     * 使用HttpURLConnection发送get请求
+     */
+    public static String sendGet(String urlParam, Map<String, Object> params, String charset) {
+        StringBuffer resultBuffer;
+        // 构建请求参数
+        StringBuilder sbParams = new StringBuilder();
+        if (params != null && params.size() > 0) {
+            for (Entry<String, Object> entry : params.entrySet()) {
+                sbParams.append(entry.getKey());
+                sbParams.append("=");
+                sbParams.append(entry.getValue());
+                sbParams.append("&");
+            }
+        }
+        HttpURLConnection con = null;
+        BufferedReader br = null;
+        try {
+            URL url;
+            if (sbParams.length() > 0) {
+                url = new URL(urlParam + "?" + sbParams.substring(0, sbParams.length() - 1));
+            } else {
+                url = new URL(urlParam);
+            }
+            con = (HttpURLConnection) url.openConnection();
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            con.connect();
+            resultBuffer = new StringBuffer();
+            br = new BufferedReader(new InputStreamReader(con.getInputStream(), charset));
+            String temp;
+            while ((temp = br.readLine()) != null) {
+                resultBuffer.append(temp);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    br = null;
+                    throw new RuntimeException(e);
+                } finally {
+                    if (con != null) {
+                        con.disconnect();
+                        con = null;
+                    }
+                }
+            }
+        }
+        return resultBuffer.toString();
+    }
+
+    /**
+     * 使用URLConnection发送get请求
+     */
+    public static String sendGet2(String urlParam, Map<String, Object> params, String charset) {
+        StringBuffer resultBuffer;
+        // 构建请求参数
+        StringBuffer sbParams = new StringBuffer();
+        if (params != null && params.size() > 0) {
+            for (Entry<String, Object> entry : params.entrySet()) {
+                sbParams.append(entry.getKey());
+                sbParams.append("=");
+                sbParams.append(entry.getValue());
+                sbParams.append("&");
+            }
+        }
+        BufferedReader br = null;
+        try {
+            URL url;
+            if (sbParams.length() > 0) {
+                url = new URL(urlParam + "?" + sbParams.substring(0, sbParams.length() - 1));
+            } else {
+                url = new URL(urlParam);
+            }
+            URLConnection con = url.openConnection();
+            // 设置请求属性
+            con.setRequestProperty("accept", "*/*");
+            con.setRequestProperty("connection", "Keep-Alive");
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            con.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            // 建立连接
+            con.connect();
+            resultBuffer = new StringBuffer();
+            br = new BufferedReader(new InputStreamReader(con.getInputStream(), charset));
+            String temp;
+            while ((temp = br.readLine()) != null) {
+                resultBuffer.append(temp);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    br = null;
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return resultBuffer.toString();
+    }
+    //    /**
 //     * @Description:发送get请求保存下载文件
 //     * @author:liuyc
 //     * @time:2016年5月17日 下午3:27:29
@@ -238,115 +350,7 @@ public class HttpClientHelper {
 //        }
 //    }
 //
-//    /**
-//     * @Description:使用HttpURLConnection发送get请求
-//     * @author:liuyc
-//     * @time:2016年5月17日 下午3:27:29
-//     */
-//    public static String sendGet(String urlParam, Map<String, Object> params, String charset) {
-//        StringBuffer resultBuffer = null;
-//        // 构建请求参数
-//        StringBuffer sbParams = new StringBuffer();
-//        if (params != null && params.size() > 0) {
-//            for (Entry<String, Object> entry : params.entrySet()) {
-//                sbParams.append(entry.getKey());
-//                sbParams.append("=");
-//                sbParams.append(entry.getValue());
-//                sbParams.append("&");
-//            }
-//        }
-//        HttpURLConnection con = null;
-//        BufferedReader br = null;
-//        try {
-//            URL url = null;
-//            if (sbParams != null && sbParams.length() > 0) {
-//                url = new URL(urlParam + "?" + sbParams.substring(0, sbParams.length() - 1));
-//            } else {
-//                url = new URL(urlParam);
-//            }
-//            con = (HttpURLConnection) url.openConnection();
-//            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-//            con.connect();
-//            resultBuffer = new StringBuffer();
-//            br = new BufferedReader(new InputStreamReader(con.getInputStream(), charset));
-//            String temp;
-//            while ((temp = br.readLine()) != null) {
-//                resultBuffer.append(temp);
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        } finally {
-//            if (br != null) {
-//                try {
-//                    br.close();
-//                } catch (IOException e) {
-//                    br = null;
-//                    throw new RuntimeException(e);
-//                } finally {
-//                    if (con != null) {
-//                        con.disconnect();
-//                        con = null;
-//                    }
-//                }
-//            }
-//        }
-//        return resultBuffer.toString();
-//    }
-//
-//    /**
-//     * @Description:使用URLConnection发送get请求
-//     * @author:liuyc
-//     * @time:2016年5月17日 下午3:27:58
-//     */
-//    public static String sendGet2(String urlParam, Map<String, Object> params, String charset) {
-//        StringBuffer resultBuffer = null;
-//        // 构建请求参数
-//        StringBuffer sbParams = new StringBuffer();
-//        if (params != null && params.size() > 0) {
-//            for (Entry<String, Object> entry : params.entrySet()) {
-//                sbParams.append(entry.getKey());
-//                sbParams.append("=");
-//                sbParams.append(entry.getValue());
-//                sbParams.append("&");
-//            }
-//        }
-//        BufferedReader br = null;
-//        try {
-//            URL url = null;
-//            if (sbParams != null && sbParams.length() > 0) {
-//                url = new URL(urlParam + "?" + sbParams.substring(0, sbParams.length() - 1));
-//            } else {
-//                url = new URL(urlParam);
-//            }
-//            URLConnection con = url.openConnection();
-//            // 设置请求属性
-//            con.setRequestProperty("accept", "*/*");
-//            con.setRequestProperty("connection", "Keep-Alive");
-//            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-//            con.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-//            // 建立连接
-//            con.connect();
-//            resultBuffer = new StringBuffer();
-//            br = new BufferedReader(new InputStreamReader(con.getInputStream(), charset));
-//            String temp;
-//            while ((temp = br.readLine()) != null) {
-//                resultBuffer.append(temp);
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        } finally {
-//            if (br != null) {
-//                try {
-//                    br.close();
-//                } catch (IOException e) {
-//                    br = null;
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }
-//        return resultBuffer.toString();
-//    }
-//
+
 //    /**
 //     * @Description:使用HttpClient发送post请求
 //     * @author:liuyc
@@ -391,7 +395,7 @@ public class HttpClientHelper {
 //        }
 //        return resultBuffer.toString();
 //    }
-//
+
 //    /**
 //     * @Description:使用HttpClient发送get请求
 //     * @author:liuyc
@@ -442,11 +446,9 @@ public class HttpClientHelper {
 //        }
 //        return resultBuffer.toString();
 //    }
-//
+
 //    /**
-//     * @Description:使用socket发送post请求
-//     * @author:liuyc
-//     * @time:2016年5月18日 上午9:26:22
+//     * 使用socket发送post请求
 //     */
 //    public static String sendSocketPost(String urlParam, Map<String, Object> params, String charset) {
 //        String result = "";
@@ -642,8 +644,7 @@ public class HttpClientHelper {
 //    }
 //
 //    /**
-//     * @Description:读取一行数据，contentLe内容长度为0时，读取响应头信息，不为0时读正文
-//     * @time:2016年5月17日 下午6:11:07
+//     * 读取一行数据，contentLe内容长度为0时，读取响应头信息，不为0时读正文
 //     */
 //    private static String readLine(InputStream is, int contentLength, String charset) throws IOException {
 //        List<Byte> lineByte = new ArrayList<Byte>();
