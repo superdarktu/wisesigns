@@ -139,14 +139,18 @@ public class UserPurchaseRecordService {
 
         UserPurchaseRecord divide = mapper.divide(hashMap);
 
-        Float price = divide.getTotalPrice() == null ? 0 : divide.getTotalPrice();//总收入
-        Float price1 = divide.getPrice() == null ? 0 : divide.getPrice();//物业收入
+        Float price = divide.getTotalPrice();
+//                == null ? 0 : divide.getTotalPrice();//总收入
+        Float price1 = divide.getPrice();
+//                == null ? 0 : divide.getPrice();//物业收入
         hashMap.put("type", 2);
         UserPurchaseRecord divide1 = mapper.divide1(hashMap);
-        Float price2 = divide1.getPrice() == null ? 0 : divide1.getPrice();
+        Float price2 = divide1.getPrice();
+//                == null ? 0 : divide1.getPrice();
         hashMap.put("type", 3);
         UserPurchaseRecord divide2 = mapper.divide1(hashMap);
-        Float price3 = divide2.getPrice() == null ? 0 : divide1.getTotalPrice();
+        Float price3 = divide2.getPrice();
+//                == null ? 0 : divide1.getTotalPrice();
 
         object.put("total", price);
         object.put("property", price1);
