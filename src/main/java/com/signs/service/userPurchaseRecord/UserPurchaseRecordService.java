@@ -130,10 +130,10 @@ public class UserPurchaseRecordService {
         if (date == null) {
             date = new Date();
         }
-        if ("day".equals(type)) {
-            hashMap.put("day", 1);
+        if ("month".equals(type)) {
+            hashMap.put("month", 1);
         } else {
-            hashMap.put("month", 2);
+            hashMap.put("day", 2);
         }
         hashMap.put("date", date);
 

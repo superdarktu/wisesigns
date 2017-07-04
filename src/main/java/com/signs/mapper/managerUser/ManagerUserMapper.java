@@ -9,7 +9,7 @@ import java.util.List;
 public interface ManagerUserMapper extends MyMapper<ManagerUser> {
 
     /**
-     * 饮水机获取价格
+     * 通过表编号获取获取水价
      */
     ManagerUser selectPrice(String tableNumber);
 

@@ -94,12 +94,12 @@
     <!--分成,income物业收入-->
     <select id="divide" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT
-        sum((1 - tmu.cost_scale) * tupr.price) AS 'total_price',
-        sum((1 - tmu.cost_scale) * tupr.price * tmu.ivision_proportion) 'price',
-        DATE_FORMAT(tupr.ctime, '%m') AS 'name'
-        FROM tb_user_purchase_record tupr
-        JOIN tb_collector tc ON tupr.collector_id = tc.id
-        JOIN tb_manager_user tmu ON tmu.id = tc.property_id
+        sum((1 - tmu.cost_scale) * tupr.price) AS total_price,
+        sum((1 - tmu.cost_scale) * tupr.price * tmu.ivision_proportion) AS price,
+        DATE_FORMAT(tupr.ctime, '%m') AS name
+        FROM tb_user_purchase_record  AS tupr
+        JOIN tb_collector AS tc ON tupr.collector_id = tc.id
+        JOIN tb_manager_user AS tmu ON tmu.id = tc.property_id
         WHERE 1=1
         <if test="day!=null">
             AND DATE_FORMAT(tupr.ctime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d')
@@ -108,11 +108,11 @@
             AND DATE_FORMAT(tupr.ctime, '%Y-%m') = DATE_FORMAT(#{date}, '%Y-%m')
         </if>
     </select>
-    <!--推广和投资-->
+    <!--推广-->
     <select id="divide1" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT sum((1 - (select cost_scale from tb_manager_user where id = tc.property_id) )*tupr.price)*(select
         sum(ivision_proportion) from tb_manager_user where user_type = #{type} and id in
-        (SELECT manager_user_id from tb_manager_user_collector WHERE collector_id = tc.id )) AS 'price'
+        (SELECT manager_user_id from tb_manager_user_collector WHERE collector_id = tc.id )) AS price
         FROM tb_user_purchase_record tupr
         JOIN tb_collector tc ON tupr.collector_id = tc.id
         WHERE tc.id in (select id from tb_collector)
@@ -123,5 +123,7 @@
             AND DATE_FORMAT(tupr.ctime, '%Y-%m') = DATE_FORMAT(#{date}, '%Y-%m')
         </if>
     </select>
+
+
 
 </mapper>

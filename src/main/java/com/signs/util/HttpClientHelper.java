@@ -15,19 +15,29 @@ import java.util.Map.Entry;
 
 public class HttpClientHelper {
     /**
-     * 测试登录
-     * @param args
+     * 开
      */
-    public static void main(String[] args) {
+    public static void open(String dtuid,String MeterID) {
         Map map=new HashMap<String,Object>();
         map.put("type","directWaterMeterOpen");
-//        map.put("type","directWaterMeterClose");
-        map.put("DTUID","123456789");
-        map.put("MeterID","00000012345678");
+        map.put("DTUID",dtuid);
+        map.put("MeterID",MeterID);
         String s = sendGet("http://139.196.52.84:2001/control", map, "utf-8");
         System.out.println("返回值"+s);
     }
+    /**
+     * 关
+     */
 
+    public static void close(String dtuid,String MeterID) {
+        Map map=new HashMap<String,Object>();
+
+        map.put("type","directWaterMeterClose");
+        map.put("DTUID",dtuid);
+        map.put("MeterID",MeterID);
+        String s = sendGet("http://139.196.52.84:2001/control", map, "utf-8");
+        System.out.println("返回值"+s);
+    }
     /**
      * 使用HttpURLConnection发送post
      */

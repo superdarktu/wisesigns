@@ -27,4 +27,7 @@ public interface UserPurchaseRecordMapper extends MyMapper<UserPurchaseRecord> {
     UserPurchaseRecord divide1(HashMap hashMap);
 
 
+
+
+
 }
