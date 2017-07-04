@@ -18,6 +18,7 @@ public class WaterCard {
     private Integer status;
 
     private String phone;
+    private Float balance;
 
     private Date ctime;
 
@@ -117,5 +118,13 @@ public class WaterCard {
      */
     public void setCtime(Date ctime) {
         this.ctime = ctime;
+    }
+
+    public Float getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Float balance) {
+        this.balance = balance;
     }
 }
