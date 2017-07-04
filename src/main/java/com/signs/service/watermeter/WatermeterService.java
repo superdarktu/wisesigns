@@ -131,7 +131,7 @@ public class WatermeterService {
      */
     public boolean isHaveCode(String code) {
 
-        return mapper.isHaveCode(code) == null ? false : true;
+        return mapper.isHaveCode(code) != null;
     }
 
     /**

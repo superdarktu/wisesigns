@@ -41,4 +41,10 @@ public class UserService {
         user.setCardNo(cardNo);
         return mapper.selectOne(user);
     }
+
+
+    public User queryById(String id){
+
+        return mapper.selectByPrimaryKey(id);
+    }
 }

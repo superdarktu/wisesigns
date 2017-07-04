@@ -30,7 +30,6 @@ public class Contro implements Delayed {
 
     @Override
     public int compareTo(Delayed o) {
-        // TODO Auto-generated method stub
         long result = this.getDelay(TimeUnit.NANOSECONDS)
                 - o.getDelay(TimeUnit.NANOSECONDS);
         if (result < 0)
@@ -42,7 +41,6 @@ public class Contro implements Delayed {
 
     @Override
     public long getDelay(TimeUnit unit) {
-        // TODO Auto-generated method stub
         return unit.convert(this.submitTime - System.nanoTime(),  TimeUnit.NANOSECONDS);
     }
 
