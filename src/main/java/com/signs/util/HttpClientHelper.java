@@ -1,13 +1,13 @@
 package com.signs.util;
 
 
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-
 import java.net.URL;
 import java.net.URLConnection;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,7 +23,6 @@ public class HttpClientHelper {
         map.put("DTUID",dtuid);
         map.put("MeterID",MeterID);
         String s = sendGet("http://139.196.52.84:2001/control", map, "utf-8");
-        System.out.println("返回值"+s);
     }
     /**
      * 关
@@ -36,7 +35,6 @@ public class HttpClientHelper {
         map.put("DTUID",dtuid);
         map.put("MeterID",MeterID);
         String s = sendGet("http://139.196.52.84:2001/control", map, "utf-8");
-        System.out.println("返回值"+s);
     }
     /**
      * 使用HttpURLConnection发送post

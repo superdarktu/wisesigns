@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mapper.dataWatermeter.DataWatermeterMapper" >
+  <resultMap id="BaseResultMap" type="com.signs.model.dataWatermeter.DataWatermeter" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="get_time" property="getTime" jdbcType="TIMESTAMP" />
+    <result column="import_temp" property="importTemp" jdbcType="DOUBLE" />
+    <result column="export_temp" property="exportTemp" jdbcType="DOUBLE" />
+    <result column="import_pressure" property="importPressure" jdbcType="DOUBLE" />
+    <result column="export_pressure" property="exportPressure" jdbcType="DOUBLE" />
+    <result column="moment_flow" property="momentFlow" jdbcType="DOUBLE" />
+    <result column="total_flow" property="totalFlow" jdbcType="DOUBLE" />
+    <result column="wifi" property="wifi" jdbcType="INTEGER" />
+    <result column="send_interval" property="sendInterval" jdbcType="INTEGER" />
+    <result column="send_order" property="sendOrder" jdbcType="VARCHAR" />
+    <result column="signal_intensity" property="signalIntensity" jdbcType="INTEGER" />
+    <result column="band" property="band" jdbcType="VARCHAR" />
+    <result column="k_num" property="kNum" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+</mapper>

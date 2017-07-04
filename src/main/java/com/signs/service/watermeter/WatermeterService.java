@@ -133,4 +133,14 @@ public class WatermeterService {
 
         return mapper.isHaveCode(code) == null ? false : true;
     }
+
+    /**
+     *
+     * @param code
+     * @return
+     */
+    public Watermeter queryByCode(String code){
+
+        return mapper.isHaveCode(code);
+    }
 }

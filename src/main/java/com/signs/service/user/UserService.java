@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.signs.mapper.user.UserMapper;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
+import com.signs.model.user.User;
 import com.signs.model.waterCard.WaterCard;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,17 @@ public class UserService {
         if (status != null) hashMap.put("status", status);
         if (value != null) hashMap.put("value", "%" + value + "%");
         return new PageInfo(mapper.pageFuzzy(hashMap));
+    }
+
+    /**
+     *
+     * @param cardNo
+     * @return
+     */
+    public User queryByCard(String cardNo){
+
+        User user = new User();
+        user.setCardNo(cardNo);
+        return mapper.selectOne(user);
     }
 }

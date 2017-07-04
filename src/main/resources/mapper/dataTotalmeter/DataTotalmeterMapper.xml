@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mapper.dataTotalmeter.DataTotalmeterMapper" >
+  <resultMap id="BaseResultMap" type="com.signs.model.dataTotalmeter.DataTotalmeter" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="get_time" property="getTime" jdbcType="TIMESTAMP" />
+    <result column="import_temp" property="importTemp" jdbcType="DOUBLE" />
+    <result column="export_temp" property="exportTemp" jdbcType="DOUBLE" />
+    <result column="import_pressure" property="importPressure" jdbcType="DOUBLE" />
+    <result column="export_pressure" property="exportPressure" jdbcType="DOUBLE" />
+    <result column="moment_flow" property="momentFlow" jdbcType="DOUBLE" />
+    <result column="total_flow" property="totalFlow" jdbcType="DOUBLE" />
+    <result column="total_heat" property="totalHeat" jdbcType="DOUBLE" />
+    <result column="k_num" property="kNum" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="cooding" property="cooding" jdbcType="DOUBLE" />
+    <result column="last_buy" property="lastBuy" jdbcType="VARCHAR" />
+    <result column="leave_buy" property="leaveBuy" jdbcType="VARCHAR" />
+    <result column="buy_order" property="buyOrder" jdbcType="VARCHAR" />
+    <result column="card_mode" property="cardMode" jdbcType="INTEGER" />
+    <result column="have_card" property="haveCard" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+</mapper>
