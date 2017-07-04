@@ -32,15 +32,15 @@
 
     <select id="countDay" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(*) from tb_aiarm where DATE_FORMAT(ctime, '%Y-%m-%d') = DATE_FORMAT(now(),'%Y-%m-%d')
-        <if test="id != null and id != ''">
-            and property_id = #{id}
+        <if test="_parameter != null and _parameter != ''">
+            and property_id = #{_parameter}
         </if>
     </select>
 
     <select id="countMonth" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(*) from tb_aiarm where DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(),'%Y-%m')
-        <if test="id != null and id != ''">
-            and property_id = #{id}
+        <if test="_parameter != null and _parameter != ''">
+            and property_id = #{_parameter}
         </if>
     </select>
 
@@ -48,8 +48,8 @@
         select count(*) from
         (select count(*) from tb_aiarm
         where DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(),'%Y-%m')
-        <if test="id != null and id != ''">
-            and property_id = #{id}
+        <if test="_parameter != null and _parameter != ''">
+            and property_id = #{_parameter}
         </if>
         group by water_fountains_code) as a
     </select>

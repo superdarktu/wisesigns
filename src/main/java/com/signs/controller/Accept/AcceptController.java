@@ -158,7 +158,7 @@ public class AcceptController {
                     watermeterService.update(watermeter);
 
                     Float flow = Float.valueOf(flow2) - Float.valueOf(flow1);
-                    Float price = managerUserMapper.selectPrice(watermeterCode).getWaterPrice();
+                 //   Float price = managerUserMapper.selectPrice(watermeterCode).getWaterPrice();
 
                 }
             } else if (object.get("数据类型").equals("直饮水卡数据")) {
