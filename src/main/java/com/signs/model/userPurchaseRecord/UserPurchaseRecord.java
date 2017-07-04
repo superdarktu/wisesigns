@@ -48,6 +48,8 @@ public class UserPurchaseRecord {
 
     private String place;
 
+    private String orderId;
+
     private Date ctime;
 
     /**
@@ -222,5 +224,13 @@ public class UserPurchaseRecord {
      */
     public void setCtime(Date ctime) {
         this.ctime = ctime;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }

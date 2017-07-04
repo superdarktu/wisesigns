@@ -91,9 +91,10 @@ public class AcceptController {
                     if(user.getPrice() <= 0.0) return;
                     HttpClientHelper.open(watermeter.getCollectorCode(),watermeterCode);
 
-                    redis.boundValueOps(cardNo).set(watermeter.getFlowTotal()+"");
+                    redis.boundValueOps(watermeterCode+"user").set(cardNo);
                     redis.boundValueOps(watermeterCode+"block").set("1");
                     redis.boundValueOps(watermeterCode).set(user.getId());
+
                     Map<String,Object> map = new HashMap<>();
                     map.put("type","readingDirectWaterMeter");
                     map.put("DTUID",watermeter.getCollectorCode());
@@ -108,8 +109,8 @@ public class AcceptController {
 
                 }else if(watermeter.getTapStatus() ==0){
 
-                    String str = redis.boundValueOps(cardNo).get();
-                    if(str == null) return;
+                    String str = redis.boundValueOps(watermeterCode+"user").get();
+                    if(StringUtil.isEmpty(str) || !str.equals(cardNo) ) return;
                     HttpClientHelper.close(watermeter.getCollectorCode(),watermeterCode);
                     redis.boundValueOps(watermeterCode+"block").set("2");
                     Map<String,Object> map = new HashMap<>();
@@ -119,7 +120,7 @@ public class AcceptController {
                     HttpClientHelper.sendGet("http://139.196.52.84:2001/control",map,"utf-8");
                     Contro contro = new Contro(2,watermeterCode,20000);
                     delayManager.addTask(contro);
-                    redis.delete(str);
+                    redis.delete(watermeterCode+"user");
                     watermeterService.changeTap(watermeter.getId());
                 }
 
@@ -168,6 +169,7 @@ public class AcceptController {
             e.printStackTrace();
         }
     }
+
 
     @RequestMapping("/test")
     public void aaa(){

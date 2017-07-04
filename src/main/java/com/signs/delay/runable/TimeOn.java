@@ -37,22 +37,26 @@ public class TimeOn implements  Runnable{
                 if(take.getType() == 1) {
                     Watermeter watermeter = watermeterService.queryByCode(take.getMemberId());
                     if (watermeter.getTapStatus() == 0) {
-
+                        String str = redis.boundValueOps(take.getMemberId()+"user").get();
+                        if(StringUtil.isEmpty(str) || !str.equals(take.getCardNo()) ) return;
                         HttpClientHelper.close(take.getCollectorCode(), take.getMemberId());
                         redis.boundValueOps(take.getMemberId()+"block").set("2");
                         watermeterService.changeTap(watermeter.getId());
+                        redis.delete(take.getMemberId()+"user");
                         Map<String,Object> map = new HashMap<>();
                         map.put("type","readingDirectWaterMeter");
                         map.put("DTUID",watermeter.getCollectorCode());
                         map.put("MeterID",take.getMemberId());
                         HttpClientHelper.sendGet("http://139.196.52.84:2001/control",map,"utf-8");
-                        String str = redis.boundValueOps(take.getCardNo()).get();
-                        if (str == null) return;
                     }
                 }else if(take.getType() == 2){
 
                     redis.delete(take.getMemberId()+"block");
+                }else if(take.getType() == 3){
+
+                    redis.delete(take.getMemberId()+"appBlock");
                 }
+
 
             } catch (InterruptedException e) {
                 e.printStackTrace();

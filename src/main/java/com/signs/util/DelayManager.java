@@ -10,7 +10,7 @@ import java.util.concurrent.DelayQueue;
 @Component
 public class DelayManager {
 
-    private DelayQueue<Contro> queue;
+    private DelayQueue queue;
 
     @Autowired
     private TimeOn timeOn;
