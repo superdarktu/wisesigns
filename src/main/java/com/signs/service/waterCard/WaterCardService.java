@@ -61,7 +61,7 @@ public class WaterCardService {
      */
     public boolean selectCode(String code) {
         List<WaterCard> waterCards = mapper.selectCode(code);
-        return waterCards.size() > 0 ? true : false;
+        return waterCards.size() > 0;
     }
 
     /**
@@ -76,6 +76,13 @@ public class WaterCardService {
         if (status != null && !status.equals("0")) hashMap.put("status", status);
         if (value != null) hashMap.put("value", "%" + value + "%");
         return new PageInfo(mapper.getWaterCard(hashMap));
+    }
+    /**
+     * 找到默认卡
+     */
+    public String selectDefaultCardNo(String userId) {
+
+        return mapper.findDefaultCardNo(userId);
     }
 
 

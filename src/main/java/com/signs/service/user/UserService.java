@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -41,6 +43,7 @@ public class UserService {
         user.setCardNo(cardNo);
         return mapper.selectOne(user);
     }
+
 
 
     public User queryById(String id){

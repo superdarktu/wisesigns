@@ -1,5 +1,6 @@
 package com.signs.model.waterCard;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -18,6 +19,14 @@ public class WaterCard {
     private Integer status;
 
     private String phone;
+
+    private String remark;
+
+    @Column(name = "user_id")
+    private String userId;
+
+    private Integer def;
+
     private Float balance;
 
     private Date ctime;
@@ -126,5 +135,29 @@ public class WaterCard {
 
     public void setBalance(Float balance) {
         this.balance = balance;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Integer getDef() {
+        return def;
+    }
+
+    public void setDef(Integer def) {
+        this.def = def;
     }
 }

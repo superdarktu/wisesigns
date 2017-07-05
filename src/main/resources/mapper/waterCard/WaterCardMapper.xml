@@ -9,7 +9,9 @@
         <result column="type" property="type" jdbcType="INTEGER"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
         <result column="balance" jdbcType="REAL" property="balance"/>
+        <result column="def" jdbcType="INTEGER" property="def"/>
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
     </resultMap>
     <select id="selectCode" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -28,5 +30,8 @@
         <if test="value!=null">
             AND code LIKE #{value}
         </if>
+    </select>
+    <select id="findDefaultCardNo" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT * FROM tb_water_card WHERE user_id=#{userId} AND def=1
     </select>
 </mapper>

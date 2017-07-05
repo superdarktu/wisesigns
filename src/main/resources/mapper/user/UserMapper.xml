@@ -12,12 +12,22 @@
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
     </resultMap>
     <select id="pageFuzzy" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        select * from tb_user WHERE 1=1
+        select tu.id,tu.card_type,tu.name,tu.phone,tu.ctime,twc.code AS card_no,twc.balance AS price
+        from tb_water_card twc JOIN tb_user tu ON twc.user_id=tu.id
         <if test="status!=null">
             AND card_type=#{status}
         </if>
         <if test="value!=null">
             AND (card_no LIKE #{value} OR name LIKE #{value})
+        </if>
+    </select>
+
+    <select id="pageCard" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        select tu.id,tu.card_type,tu.name,tu.phone,tu.price,tu.ctime,twc.code AS card_no
+        from tb_water_card twc JOIN tb_user tu ON twc.user_id=tu.id
+        WHERE user_id=#{id}
+        <if test="type!=null">
+            AND type=#{type}
         </if>
     </select>
 </mapper>
