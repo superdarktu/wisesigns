@@ -171,6 +171,27 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+
+                <artifactId>maven-compiler-plugin</artifactId>
+
+                <configuration>
+
+                    <source>1.8</source>
+
+                    <target>1.8</target>
+
+                    <encoding>UTF-8</encoding>
+
+                    <compilerArguments>
+
+                        <extdirs>${project.basedir}/lib</extdirs>
+
+                    </compilerArguments>
+
+                </configuration>
+
+            </plugin>
         </plugins>
 
         <resources>
@@ -185,6 +206,7 @@
 
             <resource>
                 <directory>src/main/resources</directory>
+                <targetPath>BOOT-INF/classes/</targetPath>
             </resource>
 
         </resources>
