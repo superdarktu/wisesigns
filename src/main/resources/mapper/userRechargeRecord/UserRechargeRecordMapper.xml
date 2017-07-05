@@ -13,7 +13,10 @@
         <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
     </resultMap>
     <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        SELECT * FROM tb_user_recharge_record WHERE 1=1
+       SELECT turr.id,turr.user_id,price,twc.balance balance,order_id,turr.ctime,name,
+        (SELECT sum(price) FROM tb_user_recharge_record WHERE user_id=turr.user_id) AS total_price
+        FROM tb_user_recharge_record turr JOIN tb_water_card twc ON turr.card_id=twc.code
+        WHERE 1=1
         <if test="id!=null">
             AND user_id=#{id}
         </if>
