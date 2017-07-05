@@ -150,4 +150,9 @@ public class WaterFountainsService {
             return 1;
         }
     }
+
+    public List<WaterFountains> pagePublic(){
+
+        return mapper.pagePublic();
+    }
 }

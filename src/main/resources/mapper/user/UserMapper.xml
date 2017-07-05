@@ -10,6 +10,7 @@
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="price" property="price" jdbcType="REAL"/>
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
+        <result column="img" property="img" jdbcType="VARCHAR"/>
     </resultMap>
     <select id="pageFuzzy" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         select tu.id,tu.card_type,tu.name,tu.phone,tu.ctime,twc.code AS card_no,twc.balance AS price

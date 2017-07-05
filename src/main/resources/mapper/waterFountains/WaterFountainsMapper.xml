@@ -97,4 +97,10 @@
             JOIN tb_watermeter tw ON twf.table_code = tw.code
         WHERE tw.code = #{code};
     </select>
+
+    <select id="pagePublic" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from tb_watermeter where type = 0
+    </select>
+
+
 </mapper>

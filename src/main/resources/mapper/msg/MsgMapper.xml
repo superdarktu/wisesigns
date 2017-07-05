@@ -11,4 +11,9 @@
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
     <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
   </resultMap>
+
+
+  <select id="verify" parameterType="com.signs.model.msg.Msg" resultMap="BaseResultMap">
+      select * from tb_msg where phone = #{phone} and capital = #{capital} and end_time > now()
+  </select>
 </mapper>

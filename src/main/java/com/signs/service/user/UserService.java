@@ -44,10 +44,28 @@ public class UserService {
         return mapper.selectOne(user);
     }
 
+    /**
+     * 根据手机查询
+     * @param phone
+     * @return
+     */
+    public User queryByPhone(String phone){
+
+        User user = new User();
+        user.setPhone(phone);
+        return mapper.selectOne(user);
+    }
+
 
 
     public User queryById(String id){
 
         return mapper.selectByPrimaryKey(id);
+    }
+
+    public boolean create(User user){
+
+        mapper.insert(user);
+        return true;
     }
 }
