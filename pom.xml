@@ -173,5 +173,21 @@
             </plugin>
         </plugins>
 
+        <resources>
+
+            <resource>
+                <directory>lib/</directory>
+                <targetPath>BOOT-INF/lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+
+        </resources>
+
     </build>
 </project>
