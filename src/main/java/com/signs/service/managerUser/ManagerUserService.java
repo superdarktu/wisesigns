@@ -101,7 +101,7 @@ public class ManagerUserService {
                     managerUserCollector.setManagerUserType(managerUser.getUserType());
                     Collector temp = mapper2.selectByPrimaryKey(collectorId);
                     managerUserCollector.setCollectorId(collectorId);
-                    managerUserCollector.setCollectorId(temp.getName());
+                    managerUserCollector.setCollectorName(temp.getName());
                     managerUserCollector.setCollectorCode(temp.getCode());
                     mapper1.insert(managerUserCollector);
                 }
