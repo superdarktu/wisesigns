@@ -19,4 +19,5 @@ public interface WaterCardMapper extends MyMapper<WaterCard> {
     List<WaterCard> getWaterCard(HashMap hashMap);
 
 
+    String findDefaultCardNo(String userId);
 }

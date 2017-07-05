@@ -18,7 +18,7 @@ public class UserRechargeRecordController {
     private UserRechargeRecordService service;
 
     /**
-     * 查询消费
+     * 查询充值
      */
     @PostMapping("/recharge")
     public Result pageCard(PageParam param, SearchVO dto) {

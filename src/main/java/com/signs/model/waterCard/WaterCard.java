@@ -25,6 +25,8 @@ public class WaterCard {
     @Column(name = "user_id")
     private String userId;
 
+    private Integer def;
+
     private Float balance;
 
     private Date ctime;
@@ -149,5 +151,13 @@ public class WaterCard {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public Integer getDef() {
+        return def;
+    }
+
+    public void setDef(Integer def) {
+        this.def = def;
     }
 }

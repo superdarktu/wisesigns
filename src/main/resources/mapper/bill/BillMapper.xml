@@ -11,6 +11,7 @@
         <result column="income" jdbcType="REAL" property="income"/>
         <result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
     </resultMap>
+    <!--需要计算余额-->
     <select id="getBills" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT * FROM tb_bill WHERE 1=1
         <if test="type!=null">
@@ -19,7 +20,6 @@
         <if test="value!=null">
             AND (name LIKE #{value} OR id LIKE #{value})
         </if>
-
         ORDER BY ctime DESC
     </select>
     <select id="pageMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">

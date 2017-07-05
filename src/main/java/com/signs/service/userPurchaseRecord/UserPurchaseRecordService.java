@@ -36,6 +36,28 @@ public class UserPurchaseRecordService {
     }
 
     /**
+     * 查询当月消费账单
+     */
+    public UserPurchaseRecord selectMonth(String cardNo) {
+        HashMap hashMap = new HashMap();
+        if (cardNo != null) {
+            hashMap.put("cardNo", cardNo);
+        }
+        return mapper.selectMonth(hashMap);
+    }
+
+    /**
+     * 最后一条记录
+     */
+    public UserPurchaseRecord selectDay(String userId) {
+        HashMap hashMap = new HashMap();
+        if (userId != null) {
+            hashMap.put("cardNo", userId);
+        }
+        return mapper.selectDay(hashMap);
+    }
+
+    /**
      * 查询用户数量，当天水流量，当月水流量，当日消费金额，当月消费金额
      */
     public JSONObject getTotal(Date date, String id) {

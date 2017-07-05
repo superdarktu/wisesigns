@@ -77,6 +77,13 @@ public class WaterCardService {
         if (value != null) hashMap.put("value", "%" + value + "%");
         return new PageInfo(mapper.getWaterCard(hashMap));
     }
+    /**
+     * 找到默认卡
+     */
+    public String selectDefaultCardNo(String userId) {
+
+        return mapper.findDefaultCardNo(userId);
+    }
 
 
 }
