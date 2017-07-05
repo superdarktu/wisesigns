@@ -50,6 +50,9 @@ public class UserPurchaseRecord {
 
     private String orderId;
 
+    @Column(name = "card_no")
+    private String cardNo;
+
     private Date ctime;
 
     /**
@@ -232,5 +235,13 @@ public class UserPurchaseRecord {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
     }
 }
