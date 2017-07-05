@@ -11,6 +11,7 @@
         <result column="total_consumption" jdbcType="REAL" property="totalConsumption"/>
         <result column="unit_cost" jdbcType="REAL" property="unitCost"/>
         <result column="order_id" jdbcType="REAL" property="orderId"/>
+        <result column="card_no" jdbcType="REAL" property="cardNo"/>
         <result column="balance" jdbcType="REAL" property="balance"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="place" jdbcType="VARCHAR" property="place"/>
