@@ -28,12 +28,13 @@ public class BillService {
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         }
         HashMap hashMap = new HashMap();
-        if (type != null) {
-            hashMap.put("type", type);
-        }
         if (value != null) {
             hashMap.put("value", "%" + value + "%");
         }
+        if (type != null) {
+            hashMap.put("type", type);
+        }
+
         return new PageInfo(mapper.getBills(hashMap));
     }
 

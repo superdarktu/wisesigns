@@ -91,17 +91,20 @@ public class ManagerUserService {
 
 
                 //添加关联表，修改时先删除managerId关联的关联表数据
-                mapper1.deleteByManager(managerUser.getId());
-                ManagerUserCollector managerUserCollector = new ManagerUserCollector();
-                String sid = UUID.randomUUID().toString().replace("-", "");
-                managerUserCollector.setId(sid);
-                managerUserCollector.setManagerUserId(managerUser.getId());
-                managerUserCollector.setManagerUserType(managerUser.getUserType());
-                Collector temp = mapper2.selectByPrimaryKey(collectorId);
-                managerUserCollector.setCollectorId(collectorId);
-                managerUserCollector.setCollectorId(temp.getName());
-                managerUserCollector.setCollectorCode(temp.getCode());
-                mapper1.insert(managerUserCollector);
+                if (managerUser.getUserType() != 1) {
+                    mapper1.deleteByManager(managerUser.getId());
+                    ManagerUserCollector managerUserCollector = new ManagerUserCollector();
+                    String sid = UUID.randomUUID().toString().replace("-", "");
+                    managerUserCollector.setId(sid);
+                    managerUserCollector.setManagerUserId(managerUser.getId());
+                    managerUserCollector.setCollectorName(collector.getName());
+                    managerUserCollector.setManagerUserType(managerUser.getUserType());
+                    Collector temp = mapper2.selectByPrimaryKey(collectorId);
+                    managerUserCollector.setCollectorId(collectorId);
+                    managerUserCollector.setCollectorId(temp.getName());
+                    managerUserCollector.setCollectorCode(temp.getCode());
+                    mapper1.insert(managerUserCollector);
+                }
             }
         }
     }
@@ -125,6 +128,7 @@ public class ManagerUserService {
         mapper.updateByPrimaryKeySelective(managerUser);
         return managerUser;
     }
+
     /**
      * 登录界面修改用户信息
      *
@@ -180,13 +184,14 @@ public class ManagerUserService {
         if (value != null) hashMap.put("value", "%" + value + "%");
         return new PageInfo(mapper.getManagerUser(hashMap));
     }
+
     public String saveUserImg(String fileName, String id) {
         try {
             ManagerUser managerUser = mapper.selectByPrimaryKey(id);
             managerUser.setImg(fileName);
             mapper.updateByPrimaryKeySelective(managerUser);
             return "success";
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "fail";
         }

@@ -11,16 +11,53 @@
         <result column="income" jdbcType="REAL" property="income"/>
         <result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
     </resultMap>
-    <!--需要计算-->
+    <!--  0 1 2 全部  天 月-->
     <select id="getBills" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        SELECT * FROM tb_bill WHERE 1=1
-        <if test="type!=null">
-            AND type=#{type}
-        </if>
-        <if test="value!=null">
-            AND (name LIKE #{value} OR id LIKE #{value})
-        </if>
-        ORDER BY ctime DESC
+        SELECT t.user_type AS type ,t.name name, t.id AS id,
+        if(user_type=1,
+
+        (SELECT sum((1 - tmu.cost_scale) * tupr.price * tmu.ivision_proportion)
+        FROM tb_user_purchase_record AS tupr
+        JOIN tb_collector AS tc ON tupr.collector_id = tc.id
+        JOIN tb_manager_user AS tmu ON tmu.id = tc.property_id WHERE tmu.id=t.id),
+
+        ((SELECT sum((1 - (SELECT cost_scale FROM tb_manager_user WHERE id = tc.property_id) )*tupr.price)*
+        (SELECT sum(ivision_proportion) FROM tb_manager_user WHERE user_type = #{type} AND id IN
+        (SELECT manager_user_id FROM tb_manager_user_collector WHERE collector_id = tc.id ))
+        FROM tb_user_purchase_record tupr
+        JOIN tb_collector tc ON tupr.collector_id = tc.id
+        WHERE tc.id IN (SELECT id FROM tb_collector)))) AS income,
+
+        if(user_type=1,
+
+        (SELECT sum((1 - tmu.cost_scale) * tupr.price * tmu.ivision_proportion)
+        FROM tb_user_purchase_record AS tupr
+        JOIN tb_collector AS tc ON tupr.collector_id = tc.id
+        JOIN tb_manager_user AS tmu ON tmu.id = tc.property_id WHERE tmu.id=t.id AND DATE_FORMAT(tupr.ctime, '%Y-%m-%d') = DATE_FORMAT(now(), '%Y-%m-%d')),
+
+        ((SELECT sum((1 - (SELECT cost_scale FROM tb_manager_user WHERE id = tc.property_id) )*tupr.price)*
+        (SELECT sum(ivision_proportion) FROM tb_manager_user WHERE user_type = #{type} AND id IN
+        (SELECT manager_user_id FROM tb_manager_user_collector WHERE collector_id = tc.id ))
+        FROM tb_user_purchase_record tupr
+        JOIN tb_collector tc ON tupr.collector_id = tc.id
+        WHERE tc.id IN (SELECT id FROM tb_collector)
+        AND DATE_FORMAT(tupr.ctime, '%Y-%m-%d') = DATE_FORMAT(now(), '%Y-%m-%d')))) AS income_day,
+
+        if(user_type=1,
+
+        (SELECT sum((1 - tmu.cost_scale) * tupr.price * tmu.ivision_proportion)
+        FROM tb_user_purchase_record AS tupr
+        JOIN tb_collector AS tc ON tupr.collector_id = tc.id
+        JOIN tb_manager_user AS tmu ON tmu.id = tc.property_id WHERE tmu.id=t.id AND DATE_FORMAT(tupr.ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')),
+
+        ((SELECT sum((1 - (SELECT cost_scale FROM tb_manager_user WHERE id = tc.property_id) )*tupr.price)*
+        (SELECT sum(ivision_proportion) FROM tb_manager_user WHERE user_type = #{type} AND id IN
+        (SELECT manager_user_id FROM tb_manager_user_collector WHERE collector_id = tc.id ))
+        FROM tb_user_purchase_record tupr
+        JOIN tb_collector tc ON tupr.collector_id = tc.id
+        WHERE tc.id IN (SELECT id FROM tb_collector)
+        AND DATE_FORMAT(tupr.ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')))) AS income_month
+        FROM tb_manager_user t GROUP BY t.id
     </select>
     <select id="pageMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT

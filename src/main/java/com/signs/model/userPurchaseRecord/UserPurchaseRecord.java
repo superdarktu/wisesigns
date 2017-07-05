@@ -1,9 +1,7 @@
 package com.signs.model.userPurchaseRecord;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
+import javax.persistence.*;
 
 @Table(name = "tb_user_purchase_record")
 public class UserPurchaseRecord {
@@ -48,12 +46,16 @@ public class UserPurchaseRecord {
 
     private String place;
 
-    private String orderId;
+    private Date ctime;
 
     @Column(name = "card_no")
     private String cardNo;
 
-    private Date ctime;
+    @Column(name = "collector_id")
+    private String collectorId;
+
+    @Column(name = "order_id")
+    private String orderId;
 
     /**
      * @return id
@@ -229,19 +231,45 @@ public class UserPurchaseRecord {
         this.ctime = ctime;
     }
 
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
+    /**
+     * @return card_no
+     */
     public String getCardNo() {
         return cardNo;
     }
 
+    /**
+     * @param cardNo
+     */
     public void setCardNo(String cardNo) {
-        this.cardNo = cardNo;
+        this.cardNo = cardNo == null ? null : cardNo.trim();
+    }
+
+    /**
+     * @return collector_id
+     */
+    public String getCollectorId() {
+        return collectorId;
+    }
+
+    /**
+     * @param collectorId
+     */
+    public void setCollectorId(String collectorId) {
+        this.collectorId = collectorId == null ? null : collectorId.trim();
+    }
+
+    /**
+     * @return order_id
+     */
+    public String getOrderId() {
+        return orderId;
+    }
+
+    /**
+     * @param orderId
+     */
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 }

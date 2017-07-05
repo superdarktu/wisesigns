@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.signs.mapper.userPurchaseRecord.UserPurchaseRecordMapper">
-    <resultMap id="BaseResultMap" type="com.signs.model.userPurchaseRecord.UserPurchaseRecord">
+  <resultMap id="BaseResultMap" type="com.signs.model.userPurchaseRecord.UserPurchaseRecord">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="price" jdbcType="REAL" property="price" />
+    <result column="total_price" jdbcType="REAL" property="totalPrice" />
+    <result column="water_consumption" jdbcType="REAL" property="waterConsumption" />
+    <result column="total_consumption" jdbcType="REAL" property="totalConsumption" />
+    <result column="unit_cost" jdbcType="REAL" property="unitCost" />
+    <result column="balance" jdbcType="REAL" property="balance" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="place" jdbcType="VARCHAR" property="place" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+    <result column="collector_id" jdbcType="VARCHAR" property="collectorId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+  </resultMap>
 
-        <id column="id" jdbcType="VARCHAR" property="id"/>
-        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
-        <result column="price" jdbcType="REAL" property="price"/>
-        <result column="total_price" jdbcType="REAL" property="totalPrice"/>
-        <result column="water_consumption" jdbcType="REAL" property="waterConsumption"/>
-        <result column="total_consumption" jdbcType="REAL" property="totalConsumption"/>
-        <result column="unit_cost" jdbcType="REAL" property="unitCost"/>
-        <result column="order_id" jdbcType="REAL" property="orderId"/>
-        <result column="card_no" jdbcType="REAL" property="cardNo"/>
-        <result column="balance" jdbcType="REAL" property="balance"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="place" jdbcType="VARCHAR" property="place"/>
-        <result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
-    </resultMap>
 
     <!--显示用户当月消费记录-->
     <select id="selectMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
@@ -49,10 +53,10 @@
             AND tupr.name LIKE #{value}
         </if>
         <if test="date1!=null">
-            AND tupr.ctime > #{date1}
+            AND tupr.ctime &gt; #{date1}
         </if>
         <if test="date2!=null">
-            AND DATE_FORMAT(#{date2}, '%Y-%m-%d')>=DATE_FORMAT(tupr.ctime, '%Y-%m-%d')
+            AND DATE_FORMAT(#{date2}, '%Y-%m-%d')&gt;=DATE_FORMAT(tupr.ctime, '%Y-%m-%d')
         </if>
     </select>
     <!--月数据-->
@@ -146,6 +150,7 @@
             AND DATE_FORMAT(tupr.ctime, '%Y-%m') = DATE_FORMAT(#{date}, '%Y-%m')
         </if>
     </select>
+
 
 
 </mapper>
