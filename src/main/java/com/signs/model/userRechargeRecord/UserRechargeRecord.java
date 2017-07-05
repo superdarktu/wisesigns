@@ -33,6 +33,7 @@ public class UserRechargeRecord {
     @Column(name = "order_id")
     private String orderId;
 
+
     @Column(name = "card_id")
     private String cardId;
 

@@ -11,6 +11,7 @@
         <result column="total_consumption" jdbcType="REAL" property="totalConsumption"/>
         <result column="unit_cost" jdbcType="REAL" property="unitCost"/>
         <result column="order_id" jdbcType="REAL" property="orderId"/>
+        <result column="card_no" jdbcType="REAL" property="cardNo"/>
         <result column="balance" jdbcType="REAL" property="balance"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="place" jdbcType="VARCHAR" property="place"/>
@@ -37,7 +38,7 @@
     <!--通过时间和用户id查询消费记录-->
     <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT tupr.id,tupr.user_id,price,water_consumption,unit_cost,twc.balance balance
-        ,tupr.place,tupr.name,tupr.card_no,tupr.ctime,tupr.collector_id,tupr.order_id,
+        ,tupr.place,tupr.name,tupr.card_no,tupr.ctime,tupr.collector_id,tupr.order_id,card_no,
         (SELECT sum(price) FROM tb_user_purchase_record WHERE user_id=tupr.user_id) AS total_price,
         (SELECT  sum(water_consumption) FROM tb_user_purchase_record WHERE user_id=tupr.user_id)AS total_consumption
         FROM tb_user_purchase_record tupr JOIN tb_water_card twc ON tupr.card_no=twc.code WHERE 1=1

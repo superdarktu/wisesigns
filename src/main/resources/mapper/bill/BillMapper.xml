@@ -11,7 +11,7 @@
         <result column="income" jdbcType="REAL" property="income"/>
         <result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
     </resultMap>
-    <!--需要计算余额-->
+    <!--需要计算-->
     <select id="getBills" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT * FROM tb_bill WHERE 1=1
         <if test="type!=null">
