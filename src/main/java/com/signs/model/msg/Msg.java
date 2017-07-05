@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "tb_msg")
 public class Msg {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     private String phone;

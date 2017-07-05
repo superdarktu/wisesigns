@@ -15,6 +15,8 @@ public interface WaterFountainsMapper extends MyMapper<WaterFountains> {
 
     Integer updateWaterFountain(HashMap hashMap);
 
+    List<WaterFountains> pagePublic();
+
     /**
      * 分页查询饮水机信息
      */
