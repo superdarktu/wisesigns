@@ -5,6 +5,7 @@ import com.signs.util.MyMapper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface UserMapper extends MyMapper<User> {
     /**
@@ -14,4 +15,9 @@ public interface UserMapper extends MyMapper<User> {
      * @return
      */
     List<User> pageFuzzy(HashMap hashMap);
+
+    /**
+     * 查询用户下卡号
+     */
+    List<User> pageCard(Map hashMap);
 }
