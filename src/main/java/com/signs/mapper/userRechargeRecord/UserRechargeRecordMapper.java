@@ -12,4 +12,8 @@ public interface UserRechargeRecordMapper extends MyMapper<UserRechargeRecord> {
     List<UserRechargeRecord> getWaterAndMoneyDay(HashMap hashMap);
 
     List<UserRechargeRecord> getWaterAndMoneyMonth(HashMap hashMap);
+
+    UserRechargeRecord getLast(String userId);
+
+    Float getMonthPrice(String cardNo);
 }

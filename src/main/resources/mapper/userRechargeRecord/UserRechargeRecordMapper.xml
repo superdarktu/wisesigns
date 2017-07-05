@@ -11,6 +11,7 @@
         <result column="balance" jdbcType="REAL" property="balance"/>
         <result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
         <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="card_id" jdbcType="VARCHAR" property="cardId"/>
     </resultMap>
     <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT * FROM tb_user_recharge_record WHERE 1=1
@@ -52,4 +53,14 @@
         </if>
         GROUP BY day(ctime)
     </select>
+
+    <select id="getLast" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from tb_user_recharge_record where user_id = #{userId}  order by ctime desc limit 1
+    </select>
+
+    <select id="getMonthPrice" parameterType="java.lang.String" resultType="java.lang.Float">
+        select sum(price) from tb_user_recharge_record where card_id = #{cardNo}
+        and  WHERE DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')
+    </select>
+
 </mapper>

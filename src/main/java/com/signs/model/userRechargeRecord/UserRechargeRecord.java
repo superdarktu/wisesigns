@@ -33,6 +33,9 @@ public class UserRechargeRecord {
     @Column(name = "order_id")
     private String orderId;
 
+    @Column(name = "card_id")
+    private String cardId;
+
     /**
      * @return id
      */
@@ -151,5 +154,13 @@ public class UserRechargeRecord {
      */
     public void setOrderId(String orderId) {
         this.orderId = orderId == null ? null : orderId.trim();
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
     }
 }

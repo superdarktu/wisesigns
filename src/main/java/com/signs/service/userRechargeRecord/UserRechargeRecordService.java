@@ -20,6 +20,14 @@ public class UserRechargeRecordService {
     @Resource
     private UserRechargeRecordMapper mapper;
 
+    public boolean create(UserRechargeRecord userRechargeRecord){
+
+        userRechargeRecord.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
+        userRechargeRecord.setCtime(new Date());
+        mapper.insertSelective(userRechargeRecord);
+        return true;
+    }
+
     /**
      * 分页查询
      */
@@ -78,6 +86,26 @@ public class UserRechargeRecordService {
         object.put("day", day);
         object.put("month", month);
         return object;
+    }
+
+    /**
+     * 获取最后条消费记录
+     * @param userId
+     * @return
+     */
+    public UserRechargeRecord getLast(String userId){
+
+        return mapper.getLast(userId);
+    }
+
+    /**
+     * 获取当月充值记录
+     * @param cardNo
+     * @return
+     */
+    public Float getMonthPrice(String cardNo){
+
+        return mapper.getMonthPrice(cardNo);
     }
 
 
