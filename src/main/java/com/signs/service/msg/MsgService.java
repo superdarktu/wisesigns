@@ -59,22 +59,28 @@ public class MsgService {
             //必填:短信签名-可在短信控制台中找到
             request.setSignName("直饮水管理平台");
             //必填:短信模板-可在短信控制台中找到
-            request.setTemplateCode("SMS_75815163");
+            request.setTemplateCode("SMS_75785185");
 
-            Integer capital = (int)(Math.random()*1000000);
-            msg.setCapital(capital.toString());
-            Date now = new Date();
-            msg.setCtime(now);
-            msg.setEndTime(new Date(now.getTime()+time*60000));
+            String capital = (int)(Math.random()*1000000)+"";
+
+            Msg temp = mapper.selectLast(phone);
+            if(temp == null) {
+                msg.setCapital(capital);
+                Date now = new Date();
+                msg.setCtime(now);
+                msg.setEndTime(new Date(now.getTime() + time * 60000));
+                mapper.insert(msg);
+            }else{
+                capital = temp.getCapital();
+            }
 
             //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
-            request.setTemplateParam("{\"code\":\""+capital.toString()+"\", \"time\":\""+time+"\"}");
+            request.setTemplateParam("{\"code\":\""+capital+"\", \"time\":\""+time+"\"}");
             //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
             //request.setOutId("yourOutId");
 
             //hint 此处可能会抛出异常，注意catch
             SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
-            mapper.insert(msg);
 
             System.out.println("短信接口返回的数据----------------");
             System.out.println("Code=" + sendSmsResponse.getCode());
