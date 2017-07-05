@@ -36,7 +36,7 @@
     </select>
     <!--通过时间和用户id查询消费记录-->
     <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        SELECT tupr.id,tupr.user_id,price,unit_cost,twc.balance balance ,tupr.place,tupr.name,tupr.card_no,tupr.collector_id,tupr.order_id,sum(price) AS total_price,sum(water_consumption) AS total_consumption
+        SELECT tupr.id,tupr.user_id,price,water_consumption,unit_cost,twc.balance balance ,tupr.place,tupr.name,tupr.card_no,tupr.ctime,tupr.collector_id,tupr.order_id,sum(price) AS total_price,sum(water_consumption) AS total_consumption
         FROM tb_user_purchase_record tupr JOIN tb_water_card twc ON tupr.card_no=twc.code WHERE 1=1
         <if test="userId!=null">
             AND tupr.user_id=#{userId}
