@@ -204,7 +204,7 @@ public class WatermeterController {
                             errorList.add(i);
                         } else if (i > 0) {
                             WatermeterExcel watermeterExcel = (WatermeterExcel) model;
-                            if (service.isHaveCode(watermeterExcel.getCode())) {
+                            if (service.isHaveCode(watermeterExcel.getCode()) || (watermeterExcel.getCode().length()!=14 || watermeterExcel.getCode().length()!=10)) {
                                 errorList.add(i);
                             } else {
                                 Watermeter watermeter = new Watermeter();

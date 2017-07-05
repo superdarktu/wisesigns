@@ -16,4 +16,9 @@
   <select id="verify" parameterType="com.signs.model.msg.Msg" resultMap="BaseResultMap">
       select * from tb_msg where phone = #{phone} and capital = #{capital} and end_time > now()
   </select>
+
+  <select id="selectLast" parameterType="com.signs.model.msg.Msg" resultMap="BaseResultMap">
+    select * from tb_msg where phone = #{phone}  and end_time > now()
+  </select>
+
 </mapper>

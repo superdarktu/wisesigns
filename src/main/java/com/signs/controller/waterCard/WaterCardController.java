@@ -109,7 +109,7 @@ public class WaterCardController {
                             errorList.add(i);
                         } else if (i > 0) {
                             WaterCardExcel waterCardExcel = (WaterCardExcel) model;
-                            if (service.selectCode(waterCardExcel.getCode())) {
+                            if (service.selectCode(waterCardExcel.getCode()) ||waterCardExcel.getCode().length() != 14) {
                                 errorList.add(i);
                             } else {
                                 int password = (int) Math.random() * 1000000;

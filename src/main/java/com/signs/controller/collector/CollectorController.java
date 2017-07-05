@@ -252,7 +252,7 @@ public class CollectorController {
                             errorList.add(i);
                         } else if (i > 0) {
                             CollectorExcel collectorExcel = (CollectorExcel) model;
-                            if (service.isHaveCode(collectorExcel.getCode())) {
+                            if (service.isHaveCode(collectorExcel.getCode()) || collectorExcel.getCode().length() != 9) {
                                 errorList.add(i);
                             } else {
                                 Collector collector = new Collector();
