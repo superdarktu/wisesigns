@@ -57,7 +57,7 @@
         JOIN tb_collector tc ON tupr.collector_id = tc.id
         WHERE tc.id IN (SELECT id FROM tb_collector)
         AND DATE_FORMAT(tupr.ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')))) AS income_month
-        FROM tb_manager_user t WHERE t.status!=1 GROUP BY t.id
+        FROM tb_manager_user t WHERE t.status!=1 OR ISNULL(status) GROUP BY t.id
     </select>
     <select id="pageMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT
