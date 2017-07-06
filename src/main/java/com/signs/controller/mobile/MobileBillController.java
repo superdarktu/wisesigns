@@ -38,7 +38,7 @@ public class MobileBillController {
      * @return
      */
     @GetMapping("/all")
-    public Result useless3(@RequestBody CardDto dto) {
+    public Result useless3(CardDto dto) {
         Result result = new Result();
         result.setData(service.selectAll(dto.getCardNo(),dto.getType(),dto.getDate()));
         return result;
