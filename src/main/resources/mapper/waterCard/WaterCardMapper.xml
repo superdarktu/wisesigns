@@ -13,6 +13,13 @@
         <result column="balance" jdbcType="REAL" property="balance"/>
         <result column="def" jdbcType="INTEGER" property="def"/>
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+    <resultMap id="BaseResultMapVO" type="com.signs.dto.waterCard.WaterCardVO" extends="BaseResultMap">
+        <result column="purchase" jdbcType="REAL" property="purchase"/>
+        <result column="recharge" jdbcType="REAL" property="recharge"/>
     </resultMap>
     <select id="selectCode" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * FROM tb_water_card WHERE code=#{code}
@@ -34,4 +41,37 @@
     <select id="findDefaultCardNo" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT * FROM tb_water_card WHERE user_id=#{userId} AND def=1
     </select>
+
+    <update id="cancelDefault" parameterType="java.lang.String">
+        update tb_water_card set  def = 0 where user_id = #{userId}
+    </update>
+
+    <update id="cancelCard" parameterType="com.signs.model.waterCard.WaterCard">
+        update tb_water_card set
+        def = 0 ,
+        phone = NULL ,
+        remark = NULL ,
+        user_id = NULL ,
+        status = 1,
+        balance = 0
+        where id = #{id}
+    </update>
+
+    <select id="getCards" parameterType="com.signs.model.waterCard.WaterCard" resultMap="BaseResultMapVO">
+        SELECT wc.*,
+
+        (select sum(price) from tb_user_recharge_record where card_id = wc.code
+        and  DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')) as recharge,
+
+        (SELECT sum(price) FROM tb_user_purchase_record WHERE card_no=wc.code
+        and DATE_FORMAT(ctime, '%Y-%m')=DATE_FORMAT(now(), '%Y-%m')) as purchase
+
+        FROM tb_water_card  as wc
+
+        where wc.user_id = #{userId} and wc.type = #{type}
+    </select>
+
+
+
+
 </mapper>

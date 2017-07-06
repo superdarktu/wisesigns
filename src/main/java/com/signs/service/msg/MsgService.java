@@ -28,8 +28,8 @@ public class MsgService {
     static final String domain = "dysmsapi.aliyuncs.com";
 
     // TODO 此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)
-    static final String accessKeyId = "LTAInCL7dqV5iagQ";
-    static final String accessKeySecret = "OrOuS7ACV86smR09fXTSee648QZ3GV";
+    static final String accessKeyId = "LTAIGs4pIbeb8pHn";
+    static final String accessKeySecret = "v8kyGIc1pDnYDHYpe6Oxt2iGdI9tWV";
 
     /**
      * 发送短信
@@ -59,7 +59,7 @@ public class MsgService {
             //必填:短信签名-可在短信控制台中找到
             request.setSignName("直饮水管理平台");
             //必填:短信模板-可在短信控制台中找到
-            request.setTemplateCode("SMS_75785185");
+            request.setTemplateCode("SMS_75880213");
 
             String capital = (int)(Math.random()*1000000)+"";
 

@@ -1,5 +1,6 @@
 package com.signs.mapper.waterCard;
 
+import com.signs.dto.waterCard.WaterCardVO;
 import com.signs.model.waterCard.WaterCard;
 import com.signs.util.MyMapper;
 
@@ -20,4 +21,10 @@ public interface WaterCardMapper extends MyMapper<WaterCard> {
 
 
     String findDefaultCardNo(String userId);
+
+    int cancelDefault(String userId);
+
+    int cancelCard(WaterCard waterCard);
+
+    List<WaterCardVO> getCards(WaterCard waterCard);
 }
