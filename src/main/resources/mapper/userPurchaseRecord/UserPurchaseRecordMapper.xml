@@ -20,14 +20,24 @@
   </resultMap>
 <!--查询一张卡的消费记录和充值记录-->
     <select id="selectAllOrder" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        (SELECT '1', price ,ctime FROM tb_user_purchase_record) UNION (SELECT '2' ,price,ctime FROM tb_user_recharge_record)  WHERE card_no=#{cardNo}
+        (SELECT '1' id, price ,ctime FROM tb_user_purchase_record WHERE card_no=#{cardNo}
 
-        <if test="type==1 and date!=null">
+        <if test="type!=null and type==1 and date!=null">
             AND    DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
         </if>
-        <if test="type==2 and date!=null">
+        <if test="type!=null and type==2 and date!=null">
             AND    DATE_FORMAT(ctime, '%Y-%m')=DATE_FORMAT(#{date}, '%Y-%m')
         </if>
+        )
+        UNION
+        (SELECT '2' id,price,ctime FROM tb_user_recharge_record WHERE card_id=#{cardNo}
+        <if test="type!=null and type==1 and date!=null">
+            AND    DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
+        </if>
+        <if test="type!=null and type==2 and date!=null">
+            AND    DATE_FORMAT(ctime, '%Y-%m')=DATE_FORMAT(#{date}, '%Y-%m')
+        </if>
+        )
         ORDER BY ctime DESC
 
 
