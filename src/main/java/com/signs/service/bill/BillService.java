@@ -34,7 +34,6 @@ public class BillService {
         if (type != null) {
             hashMap.put("type", type);
         }
-
         return new PageInfo(mapper.getBills(hashMap));
     }
 
