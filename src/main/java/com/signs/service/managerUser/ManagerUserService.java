@@ -76,13 +76,16 @@ public class ManagerUserService {
             Collector collector = new Collector();
             //删除该物业下的采集器,修改propertyId
             mapper2.updateProperty(managerUser.getId());
+            boolean flag=true;
             for (String collectorId : splits) {
-                collector.setId(collectorId);
-                collector.setPropertyId(managerUser.getId());
-                collector.setPropertyName(managerUser.getName());
-                service.update(collector);
-                //修改饮水机价格,在传入物业时修改
                 if (managerUser.getUserType() == 1) {
+                    collector.setId(collectorId);
+                    collector.setPropertyId(managerUser.getId());
+                    collector.setPropertyName(managerUser.getName());
+                    service.update(collector);
+
+                    //修改饮水机价格,在传入物业时修改
+
                     HashMap hashMap = new HashMap();
                     hashMap.put("managerUserId", managerUser.getId());
                     hashMap.put("collectorId", collectorId);
@@ -90,11 +93,15 @@ public class ManagerUserService {
                 }
 
 
-                //添加关联表，修改时先删除managerId关联的关联表数据
-                if (managerUser.getUserType() != 1) {
-                    mapper1.deleteByManager(managerUser.getId());
+                //不是物业，添加关联表，修改时先删除managerId关联的关联表数据
+                else{
+                    if (flag){
+                        mapper1.deleteByManager(managerUser.getId());
+                        flag=false;
+                    }
                     ManagerUserCollector managerUserCollector = new ManagerUserCollector();
                     String sid = UUID.randomUUID().toString().replace("-", "");
+
                     managerUserCollector.setId(sid);
                     managerUserCollector.setManagerUserId(managerUser.getId());
                     managerUserCollector.setCollectorName(collector.getName());
