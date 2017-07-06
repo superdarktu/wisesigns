@@ -22,7 +22,7 @@
         JOIN tb_manager_user AS tmu ON tmu.id = tc.property_id WHERE tmu.id=t.id),
 
         ((SELECT sum((1 - (SELECT cost_scale FROM tb_manager_user WHERE id = tc.property_id) )*tupr.price)*
-        (SELECT sum(ivision_proportion) FROM tb_manager_user WHERE user_type = #{type} AND id IN
+        (SELECT sum(ivision_proportion) FROM tb_manager_user WHERE user_type = t.user_type AND id IN
         (SELECT manager_user_id FROM tb_manager_user_collector WHERE collector_id = tc.id ))
         FROM tb_user_purchase_record tupr
         JOIN tb_collector tc ON tupr.collector_id = tc.id
@@ -36,7 +36,7 @@
         JOIN tb_manager_user AS tmu ON tmu.id = tc.property_id WHERE tmu.id=t.id AND DATE_FORMAT(tupr.ctime, '%Y-%m-%d') = DATE_FORMAT(now(), '%Y-%m-%d')),
 
         ((SELECT sum((1 - (SELECT cost_scale FROM tb_manager_user WHERE id = tc.property_id) )*tupr.price)*
-        (SELECT sum(ivision_proportion) FROM tb_manager_user WHERE user_type = #{type} AND id IN
+        (SELECT sum(ivision_proportion) FROM tb_manager_user WHERE user_type = t.user_type AND id IN
         (SELECT manager_user_id FROM tb_manager_user_collector WHERE collector_id = tc.id ))
         FROM tb_user_purchase_record tupr
         JOIN tb_collector tc ON tupr.collector_id = tc.id
@@ -51,7 +51,7 @@
         JOIN tb_manager_user AS tmu ON tmu.id = tc.property_id WHERE tmu.id=t.id AND DATE_FORMAT(tupr.ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')),
 
         ((SELECT sum((1 - (SELECT cost_scale FROM tb_manager_user WHERE id = tc.property_id) )*tupr.price)*
-        (SELECT sum(ivision_proportion) FROM tb_manager_user WHERE user_type = #{type} AND id IN
+        (SELECT sum(ivision_proportion) FROM tb_manager_user WHERE user_type =t.user_type AND id IN
         (SELECT manager_user_id FROM tb_manager_user_collector WHERE collector_id = tc.id ))
         FROM tb_user_purchase_record tupr
         JOIN tb_collector tc ON tupr.collector_id = tc.id
