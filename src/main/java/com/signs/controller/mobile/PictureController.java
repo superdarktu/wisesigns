@@ -34,10 +34,12 @@ public class PictureController {
     @PostMapping("/uploadPicture")
     public Result saveUserImg(@RequestParam("file") MultipartFile file, HttpSession session) {
         Result result = new Result();
+        System.out.println("1");
         try {
             String path;
             if (StringUtil.isEmpty(imagePathOn)||"1".equals(imagePathOn)){
                 path = (this.getClass().getResource("/").toString() + "static/upload").replace("file:/", "");
+                System.out.println(path);
             }else {
                 path=imagePathOn;
             }
@@ -47,22 +49,17 @@ public class PictureController {
                 dir.mkdirs();
             }
             String name = file.getOriginalFilename();
+            System.out.println(file.getName());
             if (!name.endsWith(".png") && !name.endsWith(".jpg") && !name.endsWith(".jpeg")) {
                 result.setError("请上传图片文件");
                 return result;
             }
             String fileName = (new Date()).getTime() + "" + (int) (Math.random() * 1000) + name.substring(name.lastIndexOf("."));
             Files.copy(file.getInputStream(), Paths.get(path + "/" + fileName));
-            String type = session.getAttribute("type").toString();
-            String id = session.getAttribute("id").toString();
-//            if ("1".equals(type)){
-//                service.saveUserImg(fileName,id);
-//            }else {
-//                managerUserService.saveUserImg(fileName,id);
-//            }
             result.setData(fileName);
             result.setMsg("添加成功");
         } catch (Exception ex) {
+            ex.printStackTrace();
             result.setError(ex.getMessage() != null ? ex.getMessage() : ex.toString());
         }
         return result;
