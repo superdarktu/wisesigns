@@ -2,9 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.signs.mapper.userPurchaseRecord.UserPurchaseRecordMapper">
   <resultMap id="BaseResultMap" type="com.signs.model.userPurchaseRecord.UserPurchaseRecord">
-    <!--
-      WARNING - @mbg.generated
-    -->
+
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="price" jdbcType="REAL" property="price" />
@@ -73,10 +71,10 @@
             AND tupr.name LIKE #{value}
         </if>
         <if test="date1!=null">
-            AND tupr.ctime &gt; #{date1}
+            AND tupr.ctime > #{date1}
         </if>
         <if test="date2!=null">
-            AND DATE_FORMAT(#{date2}, '%Y-%m-%d')&gt;=DATE_FORMAT(tupr.ctime, '%Y-%m-%d')
+            AND DATE_FORMAT(#{date2}, '%Y-%m-%d')>=DATE_FORMAT(tupr.ctime, '%Y-%m-%d')
         </if>
     </select>
     <!--月数据-->

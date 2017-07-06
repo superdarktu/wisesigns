@@ -51,7 +51,6 @@ public class MobileUserController {
             if (msgService.verifyMsg(phone, capital)) {
                 User user = service.queryByPhone(phone);
                 if (user == null) {
-
                     result.setResult(2);
                 } else {
 
@@ -72,9 +71,9 @@ public class MobileUserController {
 
     @GetMapping("/msg")
     public Result msg(String phone) {
-
         Result result = new Result();
         msgService.sendMsg(phone);
+        result.setResult(0);
         return result;
     }
 
