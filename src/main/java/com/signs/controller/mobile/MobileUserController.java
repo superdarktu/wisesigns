@@ -72,8 +72,14 @@ public class MobileUserController {
     @GetMapping("/msg")
     public Result msg(String phone) {
         Result result = new Result();
-        msgService.sendMsg(phone);
-        result.setResult(0);
+        try{
+            msgService.sendMsg(phone);
+            result.setResult(0);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setResult(1);
+        }
+
         return result;
     }
 
