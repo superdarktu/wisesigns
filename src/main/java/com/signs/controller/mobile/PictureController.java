@@ -32,7 +32,7 @@ public class PictureController {
     private String imagePathOn;
 
     @PostMapping("/uploadPicture")
-    public Result saveUserImg(@RequestParam("file") MultipartFile file, HttpSession session) {
+    public Result saveUserImg(@RequestParam("file") MultipartFile file) {
         Result result = new Result();
         System.out.println("1");
         try {

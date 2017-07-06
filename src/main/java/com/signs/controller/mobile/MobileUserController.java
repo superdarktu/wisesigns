@@ -62,6 +62,7 @@ public class MobileUserController {
                 result.setResult(1);
                 result.setMsg("验证码不正确");
             }
+            result.setResult(0);
         } catch (Exception e) {
             result.setResult(1);
             e.printStackTrace();
