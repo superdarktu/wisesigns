@@ -39,7 +39,7 @@
         </if>
     </select>
     <select id="findDefaultCardNo" parameterType="java.lang.String" resultType="java.lang.String">
-        SELECT * FROM tb_water_card WHERE user_id=#{userId} AND def=1
+        SELECT code FROM tb_water_card WHERE user_id=#{userId} AND def=1
     </select>
 
     <update id="cancelDefault" parameterType="java.lang.String">
