@@ -44,7 +44,9 @@ public class WaterCardService {
         waterCard.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
         waterCard.setCode(cardNumberi);
         waterCard.setPassword(password);
-        waterCard.setPhone("暂时没有");
+        waterCard.setPhone("");
+        waterCard.setBalance(0f);
+        waterCard.setDef(0);
         waterCard.setStatus(2);
         waterCard.setType(type);
         waterCard.setCtime(new Date());
@@ -142,10 +144,18 @@ public class WaterCardService {
 
         waterCard.setStatus(2);
         WaterCard temp = mapper.selectOne(waterCard);
-        if(!StringUtil.isEmpty(temp.getUserId()) || !StringUtil.isEmpty(temp.getPhone())){
+        if(!StringUtil.isEmpty(temp.getUserId())){
             return  false;
         }
         User user  = userMapper.selectByPrimaryKey(userId);
+
+        WaterCard search = new WaterCard();
+        search.setUserId(userId);
+        search.setDef(1);
+
+        List<WaterCard> list = mapper.select(search);
+
+        if( list != null && list.size() == 0) temp.setDef(1);
         temp.setUserId(userId);
         temp.setPhone(user.getPhone());
         temp.setRemark(remark);

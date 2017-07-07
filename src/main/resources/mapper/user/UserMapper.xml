@@ -13,7 +13,7 @@
         <result column="img" property="img" jdbcType="VARCHAR"/>
     </resultMap>
     <select id="pageFuzzy" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        select tu.id,tu.card_type,tu.name,tu.phone,tu.ctime,twc.code AS card_no,twc.balance AS price
+        select tu.id,twc.type card_type,tu.name,tu.phone,tu.ctime,twc.code AS card_no,twc.balance AS price
         from tb_water_card twc JOIN tb_user tu ON twc.user_id=tu.id
         <if test="status!=null">
             AND card_type=#{status}
@@ -31,4 +31,5 @@
             AND type=#{type}
         </if>
     </select>
+
 </mapper>
