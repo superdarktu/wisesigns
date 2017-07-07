@@ -68,15 +68,15 @@
         SELECT
             wc.*,
 
-            (SELECT sum(price)
+            ifnull((SELECT sum(price)
              FROM tb_user_recharge_record
              WHERE card_id = wc.code
-                   AND DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')) AS recharge,
+                   AND DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')),0) AS recharge,
 
-            (SELECT sum(price)
+            ifnull((SELECT sum(price)
              FROM tb_user_purchase_record
              WHERE card_no = wc.code
-                   AND DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')) AS purchase
+                   AND DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')),0) AS purchase
 
         FROM tb_water_card AS wc
 

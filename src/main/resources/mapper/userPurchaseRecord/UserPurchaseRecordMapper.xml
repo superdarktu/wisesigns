@@ -117,8 +117,8 @@
     </select>
     <!--当天数据-->
     <select id="totalDay" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        SELECT sum(water_consumption) AS water_consumption, sum(unit_cost*tb_user_purchase_record.water_consumption) AS
-        unit_cost
+        SELECT sum(water_consumption) AS water_consumption,
+        sum(unit_cost*tb_user_purchase_record.water_consumption) AS   unit_cost
         FROM tb_user_purchase_record WHERE 1=1
         <if test="date!=null">
             and DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
