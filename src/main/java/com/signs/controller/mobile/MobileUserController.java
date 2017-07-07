@@ -148,7 +148,7 @@ public class MobileUserController {
             object.put("cz", userRechargeRecordService.getLast(userId));
             object.put("xf", userPurchaseRecordService.selectDay(userId));
             month.put("cz", userRechargeRecordService.getMonthPrice(cardNo));
-            month.put("xf", userPurchaseRecordService.selectMonth(cardNo).getPrice());
+            month.put("xf", userPurchaseRecordService.selectMonth(cardNo).getBalance());
             object.put("month", month);
             result.setData(object);
         } catch (Exception e) {
