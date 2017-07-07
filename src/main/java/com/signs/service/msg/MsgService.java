@@ -95,6 +95,10 @@ public class MsgService {
     }
 
     /**
+     * 临时显示验证码
+     */
+
+    /**
      * 短信验证
      * @param phone
      * @param capital

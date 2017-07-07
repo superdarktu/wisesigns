@@ -63,7 +63,7 @@
 
     <select id="getMonthPrice" parameterType="java.lang.String" resultType="java.lang.Float">
         select sum(price) from tb_user_recharge_record where card_id = #{cardNo}
-        and  WHERE DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')
+        and   DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')
     </select>
 
 </mapper>

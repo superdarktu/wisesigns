@@ -99,7 +99,7 @@
     </select>
 
     <select id="pagePublic" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from tb_watermeter where type = 0
+        select * from tb_water_fountains where type = 0
     </select>
 
 

@@ -3,6 +3,7 @@ package com.signs.service.userPurchaseRecord;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
+import com.signs.dto.waterCard.CardDto;
 import com.signs.mapper.userPurchaseRecord.UserPurchaseRecordMapper;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserPurchaseRecordService {
@@ -34,6 +36,7 @@ public class UserPurchaseRecordService {
         if (value != null) hashMap.put("value", "%" + value + "%");
         return new PageInfo(mapper.selectByUserId(hashMap));
     }
+
 
     /**
      * 查询当月消费账单
@@ -182,4 +185,68 @@ public class UserPurchaseRecordService {
         return object;
     }
 
+    public List<UserPurchaseRecord> selectAll(String cardNo, Integer type, Date date) {
+        Map map = new HashMap();
+        if (cardNo != null) {
+            map.put("cardNo", cardNo);
+        }
+        if (date != null) {
+            map.put("date", date);
+        }
+        if (type != null) {
+            map.put("type", type);
+        } else {
+            map.put("type", 1);
+        }
+
+        return mapper.selectAllOrder(map);
+    }
+
+    public UserPurchaseRecord selectOneOrder(String orderId) {
+        return mapper.selectOneOrder(orderId);
+    }
+
+    public JSONObject selectDefaultYear(String defaultCardNo) {
+        Map map = new HashMap();
+        map.put("defaultCardNo", defaultCardNo);
+        List<UserPurchaseRecord> list = mapper.selectDefaultYear(map);
+
+
+        JSONObject jmap = new JSONObject();
+        JSONArray array1 = new JSONArray();
+        JSONArray array2 = new JSONArray();
+        for (int i = 1; i < 13; i++) {
+            boolean flag = false;
+            for (UserPurchaseRecord bill : list) {
+                if (("" + i).equals(bill.getName())) {
+                    //name代表月份，price消费
+                    array1.add(bill.getName() + "月");
+                    array2.add(bill.getPrice());
+//                    jmap.put(bill.getName() + ":00", bill.getPrice());
+                    flag = true;
+                }
+            }
+            if (!flag) {
+                array1.add(i + "月");
+                array2.add(0);
+//                jmap.put("0" + i + ":00", 0);
+            }
+        }
+//        for (int i = 10; i < 13; i++) {
+//            boolean flag = false;
+//            for (UserPurchaseRecord bill : list) {
+//                if (("" + i).equals(bill.getName())) {
+//                    //name代表月份，price消费
+//                    jmap.put(bill.getName() + ":00", bill.getPrice());
+//                    flag = true;
+//                }
+//            }
+//            if (!flag) {
+//                jmap.put(i + ":00", 0);
+//            }
+//        }
+        jmap.put("date", array1);
+        jmap.put("data", array2);
+        return jmap;
+    }
 }

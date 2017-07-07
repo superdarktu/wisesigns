@@ -2,9 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.signs.mapper.userPurchaseRecord.UserPurchaseRecordMapper">
   <resultMap id="BaseResultMap" type="com.signs.model.userPurchaseRecord.UserPurchaseRecord">
-    <!--
-      WARNING - @mbg.generated
-    -->
+
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="price" jdbcType="REAL" property="price" />
@@ -20,7 +18,39 @@
     <result column="collector_id" jdbcType="VARCHAR" property="collectorId" />
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
   </resultMap>
+<!--查询一张卡的消费记录和充值记录-->
+    <select id="selectAllOrder" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        (SELECT '1' id, price ,ctime FROM tb_user_purchase_record WHERE card_no=#{cardNo}
 
+        <if test="type!=null and type==1 and date!=null">
+            AND    DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
+        </if>
+        <if test="type!=null and type==2 and date!=null">
+            AND    DATE_FORMAT(ctime, '%Y-%m')=DATE_FORMAT(#{date}, '%Y-%m')
+        </if>
+        )
+        UNION
+        (SELECT '2' id,price,ctime FROM tb_user_recharge_record WHERE card_id=#{cardNo}
+        <if test="type!=null and type==1 and date!=null">
+            AND    DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
+        </if>
+        <if test="type!=null and type==2 and date!=null">
+            AND    DATE_FORMAT(ctime, '%Y-%m')=DATE_FORMAT(#{date}, '%Y-%m')
+        </if>
+        )
+        ORDER BY ctime DESC
+
+
+
+    </select>
+    <!--查询一条记录-->
+  <select id="selectOneOrder" parameterType="java.lang.String" resultMap="BaseResultMap">
+      SELECT tupr.id,tupr.user_id,price,water_consumption,unit_cost,twc.balance balance
+          ,tupr.place,tupr.name,tupr.card_no,tupr.ctime,tupr.collector_id,tupr.order_id,card_no,
+       (SELECT sum(price) FROM tb_user_purchase_record WHERE user_id=tupr.user_id) AS total_price,
+     (SELECT  sum(water_consumption) FROM tb_user_purchase_record WHERE user_id=tupr.user_id)AS total_consumption
+      FROM tb_user_purchase_record tupr JOIN tb_water_card twc ON tupr.card_no=twc.code WHERE order_id=#{orderId}
+    </select>
 
     <!--显示用户当月消费记录-->
     <select id="selectMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
@@ -53,10 +83,10 @@
             AND tupr.name LIKE #{value}
         </if>
         <if test="date1!=null">
-            AND tupr.ctime &gt; #{date1}
+            AND tupr.ctime > #{date1}
         </if>
         <if test="date2!=null">
-            AND DATE_FORMAT(#{date2}, '%Y-%m-%d')&gt;=DATE_FORMAT(tupr.ctime, '%Y-%m-%d')
+            AND DATE_FORMAT(#{date2}, '%Y-%m-%d')>=DATE_FORMAT(tupr.ctime, '%Y-%m-%d')
         </if>
     </select>
     <!--月数据-->
@@ -150,7 +180,12 @@
             AND DATE_FORMAT(tupr.ctime, '%Y-%m') = DATE_FORMAT(#{date}, '%Y-%m')
         </if>
     </select>
-
-
+    <select id="selectDefaultYear" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT price,
+        month(ctime) AS 'name'
+        FROM tb_user_purchase_record
+        WHERE card_no = #{defaultCardNo}   AND DATE_FORMAT(ctime, '%Y') = DATE_FORMAT(now(), '%Y')
+        GROUP BY DATE_FORMAT(ctime, '%m')
+    </select>
 
 </mapper>

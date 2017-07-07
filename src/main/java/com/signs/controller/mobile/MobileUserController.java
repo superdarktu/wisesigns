@@ -37,85 +37,95 @@ public class MobileUserController {
 
     /**
      * 登录
+     *
      * @param phone
      * @param capital
      * @param session
      * @return
      */
     @GetMapping("/login")
-    public Result login(String phone, String capital, HttpSession session){
+    public Result login(String phone, String capital, HttpSession session) {
 
         Result result = new Result();
-        try{
-            if(msgService.verifyMsg(phone,capital)){
+        try {
+            if (msgService.verifyMsg(phone, capital)) {
                 User user = service.queryByPhone(phone);
-                if(user == null){
-
+                if (user == null) {
                     result.setResult(2);
-                }else{
-
+                } else {
+                    result.setResult(0);
                     result.setData(user);
-                    session.setAttribute("id",user.getId());
-                    session.setAttribute("type",5);
+                    session.setAttribute("id", user.getId());
+                    session.setAttribute("type", 5);
                 }
-            }else{
+            } else {
                 result.setResult(1);
                 result.setMsg("验证码不正确");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             result.setResult(1);
             e.printStackTrace();
         }
-        return  result;
+        return result;
     }
 
     @GetMapping("/msg")
-    public Result msg(String phone){
-
+    public Result msg(String phone) {
         Result result = new Result();
-        msgService.sendMsg(phone);
-        return  result;
+        try{
+            msgService.sendMsg(phone);
+            result.setResult(0);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setResult(1);
+        }
+
+        return result;
     }
 
     /**
      * 注册
+     *
      * @param phone
      * @param name
      * @param img
      * @return
      */
     @PostMapping("/reg")
-    public Result reg(String phone,String name,String img){
+    public Result reg(String phone, String name, String img) {
 
         Result result = new Result();
-        try{
-
+        try {
             User user = new User();
+            user.setPhone(phone);
+            user.setName(name);
             user.setImg(img);
             user.setCtime(new Date());
-            user.setPrice(new Float(0));
+            user.setPrice(0f);
             user.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
             service.create(user);
             result.setData(user);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+
         }
-        return  result;
+        return result;
     }
 
     /**
      * 查询用户信息
+     *
      * @return
      */
     @GetMapping
-    public Result query(HttpSession session){
+    public Result query(HttpSession session) {
         Result result = new Result();
         try {
             String userId = session.getAttribute("id").toString();
             User user = service.queryById(userId);
             user.setCardNo(waterCardService.selectDefaultCardNo(userId));
             result.setData(user);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
@@ -123,24 +133,25 @@ public class MobileUserController {
 
     /**
      * 主页
+     *
      * @param session
      * @return
      */
     @GetMapping("/main")
-    public Result main(HttpSession session){
+    public Result main(HttpSession session) {
         Result result = new Result();
         try {
             String userId = session.getAttribute("id").toString();
             String cardNo = waterCardService.selectDefaultCardNo(userId);
-            JSONObject object =  new JSONObject();
+            JSONObject object = new JSONObject();
             JSONObject month = new JSONObject();
-            object.put("cz",userRechargeRecordService.getLast(userId));
-            object.put("xf",userPurchaseRecordService.selectDay(userId));
-            month.put("cz",userRechargeRecordService.getMonthPrice(cardNo));
-            month.put("xf",userPurchaseRecordService.selectMonth(cardNo));
-            object.put("month",month);
+            object.put("cz", userRechargeRecordService.getLast(userId));
+            object.put("xf", userPurchaseRecordService.selectDay(userId));
+            month.put("cz", userRechargeRecordService.getMonthPrice(cardNo));
+            month.put("xf", userPurchaseRecordService.selectMonth(cardNo));
+            object.put("month", month);
             result.setData(object);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
