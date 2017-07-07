@@ -53,7 +53,7 @@ public class WaterFountainController {
     }
 
     /**
-     * 添加饮水机
+     *  表编号正确
      */
     @PostMapping("/validate")
     public Result validate(String value) {

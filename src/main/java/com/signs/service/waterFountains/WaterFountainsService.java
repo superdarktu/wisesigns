@@ -31,7 +31,8 @@ public class WaterFountainsService {
         String waterNumber = lastDispenser == null ? "0" : "" + (Integer.parseInt(lastDispenser.getCode()) + 1);
         List<WaterFountains> fountains = mapper.selectCode(waterNumber);
         if (fountains == null || fountains.size() > 0) return false;
-        if (mapper.selectTableCode(tableNumber).size() > 0) return false;
+        List<WaterFountains> temp = mapper.selectTableCode(tableNumber);
+        if (temp!=null&&temp.size() > 0) return false;
         WaterFountains waterFountains = new WaterFountains();
         waterFountains.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
         waterFountains.setCtime(new Date());
