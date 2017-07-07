@@ -21,5 +21,4 @@ public interface UserMapper extends MyMapper<User> {
      */
     List<User> pageCard(Map hashMap);
 
-    User temp(String phone);
 }

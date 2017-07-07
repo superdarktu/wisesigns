@@ -31,7 +31,5 @@
             AND type=#{type}
         </if>
     </select>
-<select id="temp" parameterType="java.lang.String" resultMap="BaseResultMap">
-    SELECT * FROM tb_user WHERE phone=#{phone}
-</select>
+
 </mapper>
