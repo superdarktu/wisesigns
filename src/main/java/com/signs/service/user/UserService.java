@@ -66,7 +66,7 @@ public class UserService {
 
     public boolean create(User user){
 
-        mapper.insert(user);
+        mapper.insertSelective(user);
         return true;
     }
 }
