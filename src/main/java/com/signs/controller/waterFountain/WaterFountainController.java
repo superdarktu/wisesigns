@@ -47,13 +47,13 @@ public class WaterFountainController {
             dto.setData(content);
         } catch (Exception ex) {
             ex.printStackTrace();
-            dto.setData("1");
+            dto.setResult(1);
         }
         return dto;
     }
 
     /**
-     * 添加饮水机
+     *  表编号正确
      */
     @PostMapping("/validate")
     public Result validate(String value) {

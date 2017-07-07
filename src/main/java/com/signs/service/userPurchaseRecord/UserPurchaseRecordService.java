@@ -55,7 +55,7 @@ public class UserPurchaseRecordService {
     public UserPurchaseRecord selectDay(String userId) {
         HashMap hashMap = new HashMap();
         if (userId != null) {
-            hashMap.put("cardNo", userId);
+            hashMap.put("userId", userId);
         }
         return mapper.selectDay(hashMap);
     }
