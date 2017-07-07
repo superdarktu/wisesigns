@@ -80,7 +80,7 @@
     <!--显示最新的用户消费记录-->
     <select id="selectDay" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT *
-        FROM tb_user_purchase_record
+        FROM tb_user_purchase_record WHERE  1=1
         <if test="userId!=null">
             AND user_id=#{userId}
         </if>
