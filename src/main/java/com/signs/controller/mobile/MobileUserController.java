@@ -12,6 +12,7 @@ import com.signs.service.waterCard.WaterCardService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
@@ -92,7 +93,7 @@ public class MobileUserController {
      * @return
      */
     @PostMapping("/reg")
-    public Result reg(String phone, String name, String img) {
+    public Result reg(String phone, String name, String img, HttpSession session) {
 
         Result result = new Result();
         try {
@@ -104,6 +105,8 @@ public class MobileUserController {
             user.setPrice(0f);
             user.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
             service.create(user);
+            session.setAttribute("id", user.getId());
+            session.setAttribute("type", 5);
             result.setData(user);
         } catch (Exception e) {
             e.printStackTrace();

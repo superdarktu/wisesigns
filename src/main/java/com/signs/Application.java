@@ -15,7 +15,7 @@ import javax.servlet.MultipartConfigElement;
 @Controller
 @EnableWebMvc
 @SpringBootApplication
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 1800)
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400 * 30)
 @MapperScan(basePackages = "com.signs.mapper")
 public class Application extends WebMvcConfigurerAdapter {
 
