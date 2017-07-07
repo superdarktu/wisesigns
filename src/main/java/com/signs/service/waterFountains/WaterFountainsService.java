@@ -87,7 +87,7 @@ public class WaterFountainsService {
         if (fountains == null) return null;
         WaterFountains waterFountains = new WaterFountains();
         waterFountains.setId(id);
-        waterFountains.setCtime(new Date());
+
         waterFountains.setCode(newWaterNumber);
         waterFountains.setTableCode(newTableNumber);
         waterFountains.setPlace(newWaterPosition);
