@@ -41,12 +41,16 @@ public class UserPurchaseRecordService {
     /**
      * 查询当月消费账单
      */
-    public UserPurchaseRecord selectMonth(String cardNo) {
+    public Float selectMonth(String cardNo) {
         HashMap hashMap = new HashMap();
         if (cardNo != null) {
             hashMap.put("cardNo", cardNo);
         }
-        return mapper.selectMonth(hashMap);
+        UserPurchaseRecord userPurchaseRecord = mapper.selectMonth(hashMap);
+        if (userPurchaseRecord == null) {
+            return 0f;
+        }
+        return userPurchaseRecord.getBalance();
     }
 
     /**
