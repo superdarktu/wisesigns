@@ -60,8 +60,15 @@ public class MsgService {
             request.setSignName("直饮水管理平台");
             //必填:短信模板-可在短信控制台中找到
             request.setTemplateCode("SMS_75880213");
+            String capital = "";
+            for(;;){
+                int cap = (int)(Math.random()*1000000);;
+                if(cap > 100000){
+                    capital = cap + "";
+                    break;
+                }
+            }
 
-            String capital = (int)(Math.random()*1000000)+"";
 
             Msg temp = mapper.selectLast(phone);
             if(temp == null) {
