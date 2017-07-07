@@ -67,8 +67,8 @@ public class PictureController {
         }
         return result;
     }
-    @RequestMapping("/image/{img}")
-    public Integer image(HttpServletResponse response, HttpSession session, @PathVariable String  img) {
+    @RequestMapping("/image")
+    public Integer image(HttpServletResponse response, HttpSession session,String  img) {
 
         FileInputStream fis = null;
         OutputStream os = null;

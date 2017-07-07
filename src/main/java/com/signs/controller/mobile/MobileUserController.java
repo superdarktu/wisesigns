@@ -149,7 +149,9 @@ public class MobileUserController {
             object.put("xf", userPurchaseRecordService.selectDay(userId));
             month.put("cz", userRechargeRecordService.getMonthPrice(cardNo));
             month.put("xf", userPurchaseRecordService.selectMonth(cardNo).getBalance());
+            month.put("nowMonth",new Date().getMonth()+1);
             object.put("month", month);
+
             result.setData(object);
         } catch (Exception e) {
             e.printStackTrace();
@@ -157,4 +159,7 @@ public class MobileUserController {
         return result;
     }
 
+    public static void main(String[] args) {
+        System.out.println(new Date().getMonth());
+    }
 }

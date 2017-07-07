@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.signs.mapper.msg.MsgMapper" >
-  <resultMap id="BaseResultMap" type="com.signs.model.msg.Msg" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="capital" property="capital" jdbcType="VARCHAR" />
-    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
-    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
-  </resultMap>
+<mapper namespace="com.signs.mapper.msg.MsgMapper">
+    <resultMap id="BaseResultMap" type="com.signs.model.msg.Msg">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="capital" property="capital" jdbcType="VARCHAR"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
+    </resultMap>
 
 
-  <select id="verify" parameterType="com.signs.model.msg.Msg" resultMap="BaseResultMap">
-      select * from tb_msg where phone = #{phone} and capital = #{capital} and end_time > now()
-  </select>
+    <select id="verify" parameterType="com.signs.model.msg.Msg" resultMap="BaseResultMap">
+        SELECT *
+        FROM tb_msg
+        WHERE phone = #{phone} AND capital = #{capital} AND end_time > now()
+    </select>
 
-  <select id="selectLast" parameterType="com.signs.model.msg.Msg" resultMap="BaseResultMap">
-    select * from tb_msg where phone = #{phone}  and end_time > now()
-  </select>
+    <select id="selectLast" parameterType="com.signs.model.msg.Msg" resultMap="BaseResultMap">
+        SELECT *
+        FROM tb_msg
+        WHERE phone = #{phone} AND end_time > now()
+    </select>
 
 </mapper>
