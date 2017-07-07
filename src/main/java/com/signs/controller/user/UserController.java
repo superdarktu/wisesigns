@@ -32,6 +32,7 @@ public class UserController {
     @PostMapping("/login")
     public Result loginIn(Manager model, HttpSession httpSession) {
 
+        httpSession.setMaxInactiveInterval(1800);
         Result dto = new Result();
         try {
             if (!service.isHaveUsername(model.getUserName())) {

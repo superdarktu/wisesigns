@@ -56,6 +56,7 @@ public class MobileUserController {
                 } else {
                     result.setResult(0);
                     result.setData(user);
+                    session.setMaxInactiveInterval(86400*30);
                     session.setAttribute("id", user.getId());
                     session.setAttribute("type", 5);
                 }
@@ -105,6 +106,7 @@ public class MobileUserController {
             user.setPrice(0f);
             user.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
             service.create(user);
+            session.setMaxInactiveInterval(86400*30);
             session.setAttribute("id", user.getId());
             session.setAttribute("type", 5);
             result.setData(user);
