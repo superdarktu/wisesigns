@@ -52,7 +52,7 @@
         phone = NULL ,
         remark = NULL ,
         user_id = NULL ,
-        status = 1,
+        status = 2,
         balance = 0
         where id = #{id}
     </update>

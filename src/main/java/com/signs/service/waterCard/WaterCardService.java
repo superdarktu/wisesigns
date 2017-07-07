@@ -45,7 +45,7 @@ public class WaterCardService {
         waterCard.setCode(cardNumberi);
         waterCard.setPassword(password);
         waterCard.setPhone("暂时没有");
-        waterCard.setStatus(1);
+        waterCard.setStatus(2);
         waterCard.setType(type);
         waterCard.setCtime(new Date());
         mapper.insert(waterCard);
@@ -140,6 +140,7 @@ public class WaterCardService {
      */
     public boolean bindCard(String userId,WaterCard waterCard,String remark){
 
+        waterCard.setStatus(2);
         WaterCard temp = mapper.selectOne(waterCard);
         if(!StringUtil.isEmpty(temp.getUserId()) || !StringUtil.isEmpty(temp.getPhone())){
             return  false;
@@ -148,7 +149,7 @@ public class WaterCardService {
         temp.setUserId(userId);
         temp.setPhone(user.getPhone());
         temp.setRemark(remark);
-        temp.setStatus(2);
+        temp.setStatus(1);
         if(mapper.updateByPrimaryKeySelective(temp) > 0) return true;
         return false;
     }
@@ -183,7 +184,7 @@ public class WaterCardService {
 
         WaterCard waterCard = mapper.selectByPrimaryKey(cardId);
         newCard.setBalance(waterCard.getBalance());
-        newCard.setStatus(2);
+        newCard.setStatus(1);
         newCard.setUserId(waterCard.getUserId());
         newCard.setPhone(waterCard.getPhone());
         newCard.setDef(waterCard.getDef());
