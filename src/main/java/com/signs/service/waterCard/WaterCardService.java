@@ -141,15 +141,15 @@ public class WaterCardService {
     public boolean bindCard(String userId,WaterCard waterCard,String remark){
 
         WaterCard temp = mapper.selectOne(waterCard);
-        if(StringUtil.isEmpty(temp.getUserId()) || StringUtil.isEmpty(temp.getPhone())){
+        if(!StringUtil.isEmpty(temp.getUserId()) || !StringUtil.isEmpty(temp.getPhone())){
             return  false;
         }
         User user  = userMapper.selectByPrimaryKey(userId);
-        waterCard.setUserId(userId);
-        waterCard.setPhone(user.getPhone());
-        waterCard.setRemark(remark);
-        waterCard.setStatus(2);
-        if(mapper.updateByPrimaryKeySelective(waterCard) > 0) return true;
+        temp.setUserId(userId);
+        temp.setPhone(user.getPhone());
+        temp.setRemark(remark);
+        temp.setStatus(2);
+        if(mapper.updateByPrimaryKeySelective(temp) > 0) return true;
         return false;
     }
 
