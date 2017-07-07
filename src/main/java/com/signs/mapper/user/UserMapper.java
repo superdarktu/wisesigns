@@ -20,4 +20,6 @@ public interface UserMapper extends MyMapper<User> {
      * 查询用户下卡号
      */
     List<User> pageCard(Map hashMap);
+
+    User temp(String phone);
 }

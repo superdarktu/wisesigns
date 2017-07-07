@@ -1,19 +1,22 @@
 package com.signs.controller.mobile;
 
 import com.signs.model.commons.Result;
+import com.signs.model.manager.Manager;
+import com.signs.model.managerUser.ManagerUser;
 import com.signs.service.manager.ManagerService;
 import com.signs.service.managerUser.ManagerUserService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.util.StringUtil;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
@@ -63,5 +66,36 @@ public class PictureController {
             result.setError(ex.getMessage() != null ? ex.getMessage() : ex.toString());
         }
         return result;
+    }
+    @RequestMapping("/image/{img}")
+    public Integer image(HttpServletResponse response, HttpSession session, @PathVariable String  img) {
+
+        FileInputStream fis = null;
+        OutputStream os = null;
+        String path;
+        if (StringUtil.isEmpty(imagePathOn)||"1".equals(imagePathOn)){
+            path = (this.getClass().getResource("/").toString() + "static/upload").replace("file:/", "");
+        }else {
+            path=imagePathOn;
+        }
+        try {
+            fis = new FileInputStream(path + "/" + img);
+            os = response.getOutputStream();
+            int count = 0;
+            byte[] buffer = new byte[1024 * 8];
+            while ((count = fis.read(buffer)) != -1) {
+                os.write(buffer, 0, count);
+                os.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            fis.close();
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
