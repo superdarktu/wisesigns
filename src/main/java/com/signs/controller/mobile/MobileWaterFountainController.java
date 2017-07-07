@@ -17,7 +17,6 @@ public class MobileWaterFountainController {
 
     /**
      * 获取所有公共饮水机
-     * @return
      */
     @GetMapping("/public")
     public Result getPublic(){

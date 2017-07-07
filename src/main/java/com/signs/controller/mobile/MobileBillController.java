@@ -19,18 +19,7 @@ public class MobileBillController {
     private UserPurchaseRecordService service;
 
 
-//    @GetMapping("/month/{cardNo}")
-//    public Result useless(@PathVariable String cardNo) {
-//        Result result = new Result();
-//        result.setData(service.selectMonth(cardNo));
-//        return result;
-//    }
-//    @GetMapping("/day/{userId}")
-//    public Result useless1(@PathVariable String userId) {
-//        Result result = new Result();
-//        result.setData(service.selectDay(userId));
-//        return result;
-//    }
+
 
     /**
      * 获得卡号下的订单
