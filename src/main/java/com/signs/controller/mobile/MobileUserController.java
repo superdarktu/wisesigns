@@ -129,11 +129,14 @@ public class MobileUserController {
             String userId = session.getAttribute("id").toString();
             User user = service.queryById(userId);
             String cardNo = waterCardService.selectDefaultCardNo(userId);
-            WaterCard waterCard = waterCardService.query(cardNo);
-            if (waterCard != null) {
-                user.setCardNo(waterCard.getCode());
-                user.setPrice(waterCard.getBalance());
+            if (cardNo != null) {
+                WaterCard waterCard = waterCardService.query(cardNo);
+                if (waterCard != null) {
+                    user.setCardNo(waterCard.getCode());
+                    user.setPrice(waterCard.getBalance());
+                }
             }
+
             result.setData(user);
         } catch (Exception e) {
             e.printStackTrace();
