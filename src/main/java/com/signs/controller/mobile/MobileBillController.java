@@ -46,9 +46,9 @@ public class MobileBillController {
      * @return
      */
     @GetMapping("/defaultYear/{defaultCardNo}")
-    public Result useless5(@PathVariable String defaultCardNo) {
+    public Result useless5(@PathVariable String defaultCardNo,Integer type) {
         Result result = new Result();
-        result.setData(service.selectDefaultYear(defaultCardNo));
+        result.setData(service.selectDefaultYear(defaultCardNo,type));
         return result;
     }
 }

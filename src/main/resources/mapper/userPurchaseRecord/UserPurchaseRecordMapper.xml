@@ -193,12 +193,23 @@
         </if>
     </select>
     <select id="selectDefaultYear" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        SELECT
+        <if test="type!=null and type==1">
+            SELECT
             price,
             month(ctime) AS 'name'
-        FROM tb_user_purchase_record
-        WHERE card_no = #{defaultCardNo} AND DATE_FORMAT(ctime, '%Y') = DATE_FORMAT(now(), '%Y')
-        GROUP BY DATE_FORMAT(ctime, '%m')
+            FROM tb_user_purchase_record
+            WHERE card_no = #{defaultCardNo} AND DATE_FORMAT(ctime, '%Y') = DATE_FORMAT(now(), '%Y')
+            GROUP BY DATE_FORMAT(ctime, '%m')
+        </if>
+        <if test="type!=null and type==2">
+            SELECT
+            price,
+            month(ctime) AS 'name'
+            FROM tb_user_recharge_record
+            WHERE card_id = #{defaultCardNo} AND DATE_FORMAT(ctime, '%Y') = DATE_FORMAT(now(), '%Y')
+            GROUP BY DATE_FORMAT(ctime, '%m')
+        </if>
+
     </select>
 
 </mapper>

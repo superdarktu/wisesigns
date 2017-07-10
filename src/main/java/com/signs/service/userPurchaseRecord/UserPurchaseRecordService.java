@@ -168,18 +168,16 @@ public class UserPurchaseRecordService {
 
         UserPurchaseRecord divide = mapper.divide(hashMap);
 
-        Float price = divide.getTotalPrice();
-//                == null ? 0 : divide.getTotalPrice();//总收入
-        Float price1 = divide.getPrice();
-//                == null ? 0 : divide.getPrice();//物业收入
+        Float price = divide.getTotalPrice();//总收入
+        Float price1 = divide.getPrice();//物业收入
         hashMap.put("type", 2);
         UserPurchaseRecord divide1 = mapper.divide1(hashMap);
         Float price2 = divide1.getPrice();
-//                == null ? 0 : divide1.getPrice();
+
         hashMap.put("type", 3);
         UserPurchaseRecord divide2 = mapper.divide1(hashMap);
         Float price3 = divide2.getPrice();
-//                == null ? 0 : divide1.getTotalPrice();
+
 
         object.put("total", price);
         object.put("property", price1);
@@ -210,9 +208,14 @@ public class UserPurchaseRecordService {
         return mapper.selectOneOrder(orderId);
     }
 
-    public JSONObject selectDefaultYear(String defaultCardNo) {
+    public JSONObject selectDefaultYear(String defaultCardNo,Integer type) {
         Map map = new HashMap();
         map.put("defaultCardNo", defaultCardNo);
+        if (type != null) {
+            map.put("type",type);
+        }else {
+            map.put("type",1);
+        }
         List<UserPurchaseRecord> list = mapper.selectDefaultYear(map);
 
 
@@ -226,29 +229,15 @@ public class UserPurchaseRecordService {
                     //name代表月份，price消费
                     array1.add(bill.getName() + "月");
                     array2.add(bill.getPrice());
-//                    jmap.put(bill.getName() + ":00", bill.getPrice());
                     flag = true;
                 }
             }
             if (!flag) {
                 array1.add(i + "月");
                 array2.add(0);
-//                jmap.put("0" + i + ":00", 0);
             }
         }
-//        for (int i = 10; i < 13; i++) {
-//            boolean flag = false;
-//            for (UserPurchaseRecord bill : list) {
-//                if (("" + i).equals(bill.getName())) {
-//                    //name代表月份，price消费
-//                    jmap.put(bill.getName() + ":00", bill.getPrice());
-//                    flag = true;
-//                }
-//            }
-//            if (!flag) {
-//                jmap.put(i + ":00", 0);
-//            }
-//        }
+
         jmap.put("date", array1);
         jmap.put("data", array2);
         return jmap;
