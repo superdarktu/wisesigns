@@ -21,19 +21,19 @@ public class MobileWaterCardController {
     private WaterCardService service;
 
     @GetMapping("list")
-    public Result list(HttpSession session){
+    public Result list(HttpSession session) {
 
         Result result = new Result();
 
-        try{
+        try {
 
             String id = session.getAttribute("id").toString();
-            JSONObject object  = new JSONObject();
+            JSONObject object = new JSONObject();
 
-            object.put("gy",service.getCardByUser(id,1));
-            object.put("sy",service.getCardByUser(id,2));
-
-            result.setData(object);        }catch (Exception e){
+            object.put("gy", service.getCardByUser(id, 1));
+            object.put("sy", service.getCardByUser(id, 2));
+            result.setData(object);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -41,17 +41,17 @@ public class MobileWaterCardController {
     }
 
     @PostMapping("setDefault")
-    public Result setDefault(String cardId,HttpSession session){
+    public Result setDefault(String cardId, HttpSession session) {
 
         Result result = new Result();
 
-        try{
+        try {
 
             String id = session.getAttribute("id").toString();
-            if(service.setDefault(id,cardId)){
+            if (service.setDefault(id, cardId)) {
                 result.setResult(0);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -59,37 +59,36 @@ public class MobileWaterCardController {
     }
 
     @PostMapping("bind")
-    public Result bind(HttpSession session,String code,String password,String remark){
+    public Result bind(HttpSession session, String code, String password, String remark) {
 
         Result result = new Result();
 
-        try{
+        try {
             String id = session.getAttribute("id").toString();
             WaterCard waterCard = new WaterCard();
             waterCard.setPassword(password);
             waterCard.setCode(code);
-            if(service.bindCard(id,waterCard,remark)){
+            if (service.bindCard(id, waterCard, remark)) {
                 result.setResult(0);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return result;
     }
+
     @PostMapping("update")
-    public Result update(String cardId,String remark){
-
+    public Result update(String cardId, String remark) {
         Result result = new Result();
-
-        try{
+        try {
             WaterCard waterCard = new WaterCard();
             waterCard.setId(cardId);
             waterCard.setRemark(remark);
-            if(service.update(waterCard)){
+            if (service.update(waterCard)) {
                 result.setResult(0);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -97,18 +96,17 @@ public class MobileWaterCardController {
     }
 
     @PostMapping("lost")
-    public Result lost(String cardId){
+    public Result lost(String cardId) {
 
         Result result = new Result();
-
-        try{
+        try {
 
             WaterCard waterCard = new WaterCard();
             waterCard.setId(cardId);
             waterCard.setStatus(3);
             if (service.update(waterCard))
                 result.setResult(0);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -116,18 +114,18 @@ public class MobileWaterCardController {
     }
 
     @PostMapping("cancelLost")
-    public Result cancelLost(String cardId){
+    public Result cancelLost(String cardId) {
 
         Result result = new Result();
 
-        try{
+        try {
 
             WaterCard waterCard = new WaterCard();
             waterCard.setId(cardId);
             waterCard.setStatus(2);
             if (service.update(waterCard))
                 result.setResult(0);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -135,31 +133,16 @@ public class MobileWaterCardController {
     }
 
     @PostMapping("changeCard")
-    public Result changeCard(String cardId,String newCardCode,String newPassword,String remark){
+    public Result changeCard(String cardId, String newCardCode, String newPassword, String remark) {
 
         Result result = new Result();
 
-        try{
-            if(service.changeCard(cardId,newCardCode,newPassword,remark))
+        try {
+            if (service.changeCard(cardId, newCardCode, newPassword, remark))
                 result.setResult(0);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return result;
-    }
-
-    @GetMapping("bbb")
-    public Result bbb(HttpSession session){
-
-        Result result = new Result();
-
-        try{
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
         return result;
     }
 }

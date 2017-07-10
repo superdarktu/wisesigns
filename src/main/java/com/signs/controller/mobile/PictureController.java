@@ -40,11 +40,11 @@ public class PictureController {
         System.out.println("1");
         try {
             String path;
-            if (StringUtil.isEmpty(imagePathOn)||"1".equals(imagePathOn)){
+            if (StringUtil.isEmpty(imagePathOn) || "1".equals(imagePathOn)) {
                 path = (this.getClass().getResource("/").toString() + "static/upload").replace("file:/", "");
                 System.out.println(path);
-            }else {
-                path=imagePathOn;
+            } else {
+                path = imagePathOn;
             }
             // String path = "C:\\ftp\\waterpro\\waterpro\\appimg\\";
             File dir = new File(path);
@@ -67,23 +67,24 @@ public class PictureController {
         }
         return result;
     }
+
     @RequestMapping("/image")
-    public Integer image(HttpServletResponse response, HttpSession session,String  img) {
+    public Integer image(HttpServletResponse response, HttpSession session, String img) {
 
         FileInputStream fis = null;
         OutputStream os = null;
         String path;
-        if (StringUtil.isEmpty(imagePathOn)||"1".equals(imagePathOn)){
+        if (StringUtil.isEmpty(imagePathOn) || "1".equals(imagePathOn)) {
             path = (this.getClass().getResource("/").toString() + "static/upload").replace("file:/", "");
-        }else {
-            path=imagePathOn;
+        } else {
+            path = imagePathOn;
         }
         try {
             fis = new FileInputStream(path + "/" + img);
             os = response.getOutputStream();
-            int count = 0;
             byte[] buffer = new byte[1024 * 8];
-            while ((count = fis.read(buffer)) != -1) {
+            int count;
+            while (( count = fis.read(buffer)) != -1) {
                 os.write(buffer, 0, count);
                 os.flush();
             }
@@ -93,7 +94,7 @@ public class PictureController {
         try {
             fis.close();
             os.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
