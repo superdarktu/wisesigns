@@ -177,7 +177,5 @@ public class MobileUserController {
         return result;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new Date().getMonth());
-    }
+
 }

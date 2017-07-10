@@ -79,7 +79,7 @@
         <if test="userId!=null">
             AND user_id=#{userId}
         </if>
-        ORDER BY ctime LIMIT 0,1
+        ORDER BY ctime DESC LIMIT 0,1
     </select>
     <!--通过时间和用户id查询消费记录-->
     <select id="selectByUserId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
