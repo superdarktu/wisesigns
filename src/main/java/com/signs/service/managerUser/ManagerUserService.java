@@ -114,6 +114,9 @@ public class ManagerUserService {
                 }
             }
         }
+        else {
+            mapper1.deleteByManager(managerUser.getId());
+        }
     }
 
     /**
