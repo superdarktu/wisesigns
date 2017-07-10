@@ -33,8 +33,7 @@ public class MobileWaterCardController {
             object.put("gy",service.getCardByUser(id,1));
             object.put("sy",service.getCardByUser(id,2));
 
-            result.setData(object);
-        }catch (Exception e){
+            result.setData(object);        }catch (Exception e){
             e.printStackTrace();
         }
 
@@ -136,12 +135,13 @@ public class MobileWaterCardController {
     }
 
     @PostMapping("changeCard")
-    public Result changeCard(String cardId,String newCardCode,String newPassword){
+    public Result changeCard(String cardId,String newCardCode,String newPassword,String remark){
 
         Result result = new Result();
 
         try{
-
+            if(service.changeCard(cardId,newCardCode,newPassword,remark))
+                result.setResult(0);
         }catch (Exception e){
             e.printStackTrace();
         }

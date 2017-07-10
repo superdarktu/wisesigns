@@ -156,4 +156,14 @@ public class WaterFountainsService {
 
         return mapper.pagePublic();
     }
+
+    public Float getPrice(String tableCode){
+
+        WaterFountains waterFountains = new WaterFountains();
+        waterFountains.setTableCode(tableCode);
+
+        WaterFountains temp = mapper.selectOne(waterFountains);
+
+        return temp.getWaterPrice();
+    }
 }

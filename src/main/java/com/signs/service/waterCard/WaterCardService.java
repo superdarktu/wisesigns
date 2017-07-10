@@ -183,7 +183,7 @@ public class WaterCardService {
      * @return
      */
     @Transactional
-    public boolean changeCard(String cardId,String newCardCode,String newPassword){
+    public boolean changeCard(String cardId,String newCardCode,String newPassword,String remark){
 
         WaterCard temp  = new WaterCard();
         temp.setCode(newCardCode);
@@ -198,6 +198,7 @@ public class WaterCardService {
         newCard.setUserId(waterCard.getUserId());
         newCard.setPhone(waterCard.getPhone());
         newCard.setDef(waterCard.getDef());
+        newCard.setRemark(remark);
         mapper.cancelCard(waterCard);
         return mapper.updateByPrimaryKeySelective(newCard) > 0 ? true : false;
     }
