@@ -3,9 +3,6 @@ package com.signs.controller.mobile;
 
 import com.signs.dto.waterCard.CardDto;
 import com.signs.model.commons.Result;
-import com.signs.model.userPurchaseRecord.UserPurchaseRecord;
-import com.signs.service.msg.MsgService;
-import com.signs.service.user.UserService;
 import com.signs.service.userPurchaseRecord.UserPurchaseRecordService;
 import org.springframework.web.bind.annotation.*;
 

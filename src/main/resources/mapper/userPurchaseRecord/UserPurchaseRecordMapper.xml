@@ -20,22 +20,23 @@
     </resultMap>
     <!--查询一张卡的消费记录和充值记录-->
     <select id="selectAllOrder" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        (SELECT '1' id, price ,ctime FROM tb_user_purchase_record WHERE card_no=#{cardNo}
-
+        (SELECT '1' id, price ,tupr.ctime,order_id,twc.type AS name FROM tb_user_purchase_record tupr JOIN tb_water_card twc ON tupr.card_no=twc.code
+        WHERE card_no=#{cardNo}
         <if test="type!=null and type==1 and date!=null">
-            AND DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
+            AND DATE_FORMAT(tupr.ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
         </if>
         <if test="type!=null and type==2 and date!=null">
-            AND DATE_FORMAT(ctime, '%Y-%m')=DATE_FORMAT(#{date}, '%Y-%m')
+            AND DATE_FORMAT(tupr.ctime, '%Y-%m')=DATE_FORMAT(#{date}, '%Y-%m')
         </if>
         )
         UNION
-        (SELECT '2' id,price,ctime FROM tb_user_recharge_record WHERE card_id=#{cardNo}
+        (SELECT '2' id,price,turr.ctime,order_id,twc2.type AS name FROM tb_user_recharge_record turr JOIN tb_water_card  twc2 ON turr.card_id=twc2.code
+        WHERE card_id=#{cardNo}
         <if test="type!=null and type==1 and date!=null">
-            AND DATE_FORMAT(ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
+            AND DATE_FORMAT(turr.ctime, '%Y-%m-%d')=DATE_FORMAT(#{date}, '%Y-%m-%d')
         </if>
         <if test="type!=null and type==2 and date!=null">
-            AND DATE_FORMAT(ctime, '%Y-%m')=DATE_FORMAT(#{date}, '%Y-%m')
+            AND DATE_FORMAT(turr.ctime, '%Y-%m')=DATE_FORMAT(#{date}, '%Y-%m')
         </if>
         )
         ORDER BY ctime DESC
