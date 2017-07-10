@@ -11,6 +11,7 @@ import com.signs.service.dataDrinkwater.DataDrinkwaterService;
 import com.signs.service.dataTotalmeter.DataTotalmeterService;
 import com.signs.service.dataWatermeter.DataWatermeterService;
 import com.signs.service.user.UserService;
+import com.signs.service.waterFountains.WaterFountainsService;
 import com.signs.service.watermeter.WatermeterService;
 import com.signs.util.DelayManager;
 import com.signs.util.HttpClientHelper;
@@ -57,6 +58,9 @@ public class AcceptController {
 
     @Resource
     private ManagerUserMapper managerUserMapper;
+
+    @Resource
+    private WaterFountainsService waterFountainsService;
 
     public static void main(String args[]){
 
@@ -159,7 +163,9 @@ public class AcceptController {
                     watermeterService.update(watermeter);
 
                     Float flow = Float.valueOf(flow2) - Float.valueOf(flow1);
-                 //   Float price = managerUserMapper.selectPrice(watermeterCode).getWaterPrice();
+                    if(flow<=0.00000000001) return;
+                    Float price = waterFountainsService.getPrice(watermeterCode);
+                    Float blance = flow * price * 1000;
 
                 }
             } else if (object.get("数据类型").equals("直饮水卡数据")) {
