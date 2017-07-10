@@ -222,7 +222,8 @@ public class UserPurchaseRecordService {
         JSONObject jmap = new JSONObject();
         JSONArray array1 = new JSONArray();
         JSONArray array2 = new JSONArray();
-        for (int i = 1; i < 13; i++) {
+
+        for (int i = 1; i < new Date().getMonth()+2; i++) {
             boolean flag = false;
             for (UserPurchaseRecord bill : list) {
                 if (("" + i).equals(bill.getName())) {
@@ -241,5 +242,9 @@ public class UserPurchaseRecordService {
         jmap.put("date", array1);
         jmap.put("data", array2);
         return jmap;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Date().getMonth());
     }
 }

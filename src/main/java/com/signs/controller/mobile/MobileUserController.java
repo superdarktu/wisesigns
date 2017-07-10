@@ -153,6 +153,10 @@ public class MobileUserController {
         try {
             String userId = session.getAttribute("id").toString();
             String cardNo = waterCardService.selectDefaultCardNo(userId);
+            if (cardNo == null) {
+                result.setResult(9);
+                return result;
+            }
             JSONObject object = new JSONObject();
             JSONObject month = new JSONObject();
             object.put("cz", userRechargeRecordService.getLast(userId));
