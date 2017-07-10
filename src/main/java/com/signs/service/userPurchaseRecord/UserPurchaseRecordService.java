@@ -4,23 +4,28 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.signs.dto.waterCard.CardDto;
+import com.signs.mapper.collector.CollectorMapper;
 import com.signs.mapper.userPurchaseRecord.UserPurchaseRecordMapper;
+import com.signs.mapper.waterFountains.WaterFountainsMapper;
+import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
 import com.signs.model.userPurchaseRecord.UserPurchaseRecord;
+import com.signs.model.waterFountains.WaterFountains;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserPurchaseRecordService {
 
     @Resource
     private UserPurchaseRecordMapper mapper;
+    @Resource
+    private WaterFountainsMapper waterFountainsMapper;
+    @Resource
+    private CollectorMapper collectorMapper;
 
     /**
      * 分页查询
@@ -208,13 +213,13 @@ public class UserPurchaseRecordService {
         return mapper.selectOneOrder(orderId);
     }
 
-    public JSONObject selectDefaultYear(String defaultCardNo,Integer type) {
+    public JSONObject selectDefaultYear(String defaultCardNo, Integer type) {
         Map map = new HashMap();
         map.put("defaultCardNo", defaultCardNo);
         if (type != null) {
-            map.put("type",type);
-        }else {
-            map.put("type",1);
+            map.put("type", type);
+        } else {
+            map.put("type", 1);
         }
         List<UserPurchaseRecord> list = mapper.selectDefaultYear(map);
 
@@ -223,7 +228,7 @@ public class UserPurchaseRecordService {
         JSONArray array1 = new JSONArray();
         JSONArray array2 = new JSONArray();
 
-        for (int i = 1; i < new Date().getMonth()+2; i++) {
+        for (int i = 1; i < new Date().getMonth() + 2; i++) {
             boolean flag = false;
             for (UserPurchaseRecord bill : list) {
                 if (("" + i).equals(bill.getName())) {
@@ -246,5 +251,18 @@ public class UserPurchaseRecordService {
 
     public static void main(String[] args) {
         System.out.println(new Date().getMonth());
+    }
+
+    public boolean createUserPurchaseRecord(UserPurchaseRecord record, String watermeterCode) {
+        String id = UUID.randomUUID().toString().replace("-", "");
+        record.setId(id);
+        WaterFountains fountains = waterFountainsMapper.selectTableCode(watermeterCode).get(0);
+        record.setPlace(fountains.getPlace());
+        record.setCtime(new Date());
+        record.setCollectorId(collectorMapper.selectCollectorIdByMeterCode(watermeterCode));
+        mapper.insert(record);
+
+
+        return false;
     }
 }

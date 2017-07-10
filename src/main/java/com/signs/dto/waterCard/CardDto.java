@@ -8,6 +8,8 @@ import java.util.Date;
 public class CardDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
+//    @DateTimeFormat(pattern = "yyyy-MM")
+//    private Date dateMonth;
     private String cardNo;
     private Integer type;
 
@@ -34,4 +36,12 @@ public class CardDto {
     public void setType(Integer type) {
         this.type = type;
     }
+//
+//    public Date getDateMonth() {
+//        return dateMonth;
+//    }
+//
+//    public void setDateMonth(Date dateMonth) {
+//        this.dateMonth = dateMonth;
+//    }
 }

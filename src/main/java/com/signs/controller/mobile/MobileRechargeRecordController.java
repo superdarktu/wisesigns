@@ -29,7 +29,6 @@ public class MobileRechargeRecordController {
 
         Result result  =  new Result();
         try {
-
             String id = session.getAttribute("id").toString();
             User user = userService.queryById(id);
             UserRechargeRecord userRechargeRecord = new UserRechargeRecord();
@@ -38,7 +37,6 @@ public class MobileRechargeRecordController {
             userRechargeRecord.setUserId(id);
             userRechargeRecord.setName(user.getName());
             if(service.create(userRechargeRecord)){
-
                 result.setResult(0);
             }
         }catch (Exception e){

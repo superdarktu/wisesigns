@@ -24,6 +24,9 @@ public class MobileBillController {
     @GetMapping("/all")
     public Result useless3(CardDto dto) {
         Result result = new Result();
+//        if (dto.getDate() == null) {
+//            dto.setDate(dto.getDateMonth());
+//        }
         result.setData(service.selectAll(dto.getCardNo(),dto.getType(),dto.getDate()));
         return result;
     }

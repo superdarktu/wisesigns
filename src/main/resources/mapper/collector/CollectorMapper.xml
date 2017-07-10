@@ -71,6 +71,11 @@
         SET property_id = NULL, property_name = NULL
         WHERE property_id = #{id}
     </update>
-
+    <select id="selectCollectorIdByMeterCode" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT tc.id
+        FROM tb_watermeter tw
+            JOIN tb_collector tc ON tw.collector_code = tc.code
+        WHERE tw.code = #{watermeterCode}
+    </select>
 
 </mapper>

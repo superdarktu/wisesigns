@@ -42,7 +42,7 @@ public class TimeOn implements  Runnable{
                         HttpClientHelper.close(take.getCollectorCode(), take.getMemberId());
                         redis.boundValueOps(take.getMemberId()+"block").set("2");
                         watermeterService.changeTap(watermeter.getId());
-                        redis.delete(take.getMemberId()+"user");
+
                         Map<String,Object> map = new HashMap<>();
                         map.put("type","readingDirectWaterMeter");
                         map.put("DTUID",watermeter.getCollectorCode());

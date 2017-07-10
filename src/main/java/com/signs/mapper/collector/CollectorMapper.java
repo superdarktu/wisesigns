@@ -21,4 +21,6 @@ public interface CollectorMapper extends MyMapper<Collector> {
 
     Integer updateProperty(String id);
 
+    String selectCollectorIdByMeterCode(String watermeterCode);
+
 }

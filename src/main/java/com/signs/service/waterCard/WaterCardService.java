@@ -205,7 +205,6 @@ public class WaterCardService {
 
 
     public WaterCard query(String code){
-
         WaterCard waterCard = new WaterCard();
         waterCard.setCode(code);
         return mapper.selectOne(waterCard);
