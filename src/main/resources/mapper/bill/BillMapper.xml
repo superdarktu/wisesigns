@@ -61,6 +61,10 @@
         <if test="value!=null">
             AND t.name LIKE #{value}
         </if>
+        <if test="type!=null">
+           AND user_type=#{type}
+
+        </if>
         GROUP BY t.id
     </select>
     <select id="pageMonth" parameterType="java.util.HashMap" resultMap="BaseResultMap">
