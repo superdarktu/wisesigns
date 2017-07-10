@@ -144,7 +144,7 @@ public class WaterCardService {
 
         waterCard.setStatus(2);
         WaterCard temp = mapper.selectOne(waterCard);
-        if(!StringUtil.isEmpty(temp.getUserId())){
+        if(temp == null || !StringUtil.isEmpty(temp.getUserId())){
             return  false;
         }
         User user  = userMapper.selectByPrimaryKey(userId);
@@ -201,6 +201,14 @@ public class WaterCardService {
         newCard.setRemark(remark);
         mapper.cancelCard(waterCard);
         return mapper.updateByPrimaryKeySelective(newCard) > 0 ? true : false;
+    }
+
+
+    public WaterCard query(String code){
+
+        WaterCard waterCard = new WaterCard();
+        waterCard.setCode(code);
+        return mapper.selectOne(waterCard);
     }
 
 }

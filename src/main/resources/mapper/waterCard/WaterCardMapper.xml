@@ -22,7 +22,9 @@
         <result column="recharge" jdbcType="REAL" property="recharge"/>
     </resultMap>
     <select id="selectCode" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT * FROM tb_water_card WHERE code=#{code}
+        SELECT *
+        FROM tb_water_card
+        WHERE code = #{code}
     </select>
     <select id="getWaterCard" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         SELECT *
@@ -39,39 +41,47 @@
         </if>
     </select>
     <select id="findDefaultCardNo" parameterType="java.lang.String" resultType="java.lang.String">
-        SELECT * FROM tb_water_card WHERE user_id=#{userId} AND def=1
+        SELECT code
+        FROM tb_water_card
+        WHERE user_id = #{userId} AND def = 1
     </select>
 
     <update id="cancelDefault" parameterType="java.lang.String">
-        update tb_water_card set  def = 0 where user_id = #{userId}
+        UPDATE tb_water_card
+        SET def = 0
+        WHERE user_id = #{userId}
     </update>
 
     <update id="cancelCard" parameterType="com.signs.model.waterCard.WaterCard">
-        update tb_water_card set
-        def = 0 ,
-        phone = NULL ,
-        remark = NULL ,
-        user_id = NULL ,
-        status = 2,
-        balance = 0
-        where id = #{id}
+        UPDATE tb_water_card
+        SET
+            def     = 0,
+            phone   = NULL,
+            remark  = NULL,
+            user_id = NULL,
+            status  = 2,
+            balance = 0
+        WHERE id = #{id}
     </update>
 
     <select id="getCards" parameterType="com.signs.model.waterCard.WaterCard" resultMap="BaseResultMapVO">
-        SELECT wc.*,
+        SELECT
+            wc.*,
 
-        (select sum(price) from tb_user_recharge_record where card_id = wc.code
-        and  DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')) as recharge,
+            ifnull((SELECT sum(price)
+             FROM tb_user_recharge_record
+             WHERE card_id = wc.code
+                   AND DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')),0) AS recharge,
 
-        (SELECT sum(price) FROM tb_user_purchase_record WHERE card_no=wc.code
-        and DATE_FORMAT(ctime, '%Y-%m')=DATE_FORMAT(now(), '%Y-%m')) as purchase
+            ifnull((SELECT sum(price)
+             FROM tb_user_purchase_record
+             WHERE card_no = wc.code
+                   AND DATE_FORMAT(ctime, '%Y-%m') = DATE_FORMAT(now(), '%Y-%m')),0) AS purchase
 
-        FROM tb_water_card  as wc
+        FROM tb_water_card AS wc
 
-        where wc.user_id = #{userId} and wc.type = #{type}
+        WHERE wc.user_id = #{userId} AND wc.type = #{type}
     </select>
-
-
 
 
 </mapper>

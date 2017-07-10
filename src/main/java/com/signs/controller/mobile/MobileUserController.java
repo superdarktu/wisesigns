@@ -4,6 +4,7 @@ package com.signs.controller.mobile;
 import com.alibaba.fastjson.JSONObject;
 import com.signs.model.commons.Result;
 import com.signs.model.user.User;
+import com.signs.model.waterCard.WaterCard;
 import com.signs.service.msg.MsgService;
 import com.signs.service.user.UserService;
 import com.signs.service.userPurchaseRecord.UserPurchaseRecordService;
@@ -103,7 +104,6 @@ public class MobileUserController {
             user.setName(name);
             user.setImg(img);
             user.setCtime(new Date());
-            user.setPrice(0f);
             user.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
             service.create(user);
             session.setMaxInactiveInterval(86400*30);
@@ -128,7 +128,12 @@ public class MobileUserController {
         try {
             String userId = session.getAttribute("id").toString();
             User user = service.queryById(userId);
-            user.setCardNo(waterCardService.selectDefaultCardNo(userId));
+            String cardNo = waterCardService.selectDefaultCardNo(userId);
+            WaterCard waterCard = waterCardService.query(cardNo);
+            if (waterCard != null) {
+                user.setCardNo(waterCard.getCode());
+                user.setPrice(waterCard.getBalance());
+            }
             result.setData(user);
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,7 +158,8 @@ public class MobileUserController {
             object.put("cz", userRechargeRecordService.getLast(userId));
             object.put("xf", userPurchaseRecordService.selectDay(userId));
             month.put("cz", userRechargeRecordService.getMonthPrice(cardNo));
-            month.put("xf", userPurchaseRecordService.selectMonth(cardNo).getBalance());
+            month.put("xf", userPurchaseRecordService.selectMonth(cardNo));
+            month.put("cardNo",cardNo);
             month.put("nowMonth",new Date().getMonth()+1);
             object.put("month", month);
 
