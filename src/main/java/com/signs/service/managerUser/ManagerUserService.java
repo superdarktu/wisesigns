@@ -71,7 +71,7 @@ public class ManagerUserService {
 
     private void addMUC(ManagerUser managerUser, String collectorIds) {
         //修改采集器归属
-        if (collectorIds != null) {
+        if (collectorIds != null &&!collectorIds.equals("")) {
             String[] splits = collectorIds.split(",");
             Collector collector = new Collector();
             //删除该物业下的采集器,修改propertyId
