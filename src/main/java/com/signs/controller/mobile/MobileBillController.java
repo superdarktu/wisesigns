@@ -3,9 +3,6 @@ package com.signs.controller.mobile;
 
 import com.signs.dto.waterCard.CardDto;
 import com.signs.model.commons.Result;
-import com.signs.model.userPurchaseRecord.UserPurchaseRecord;
-import com.signs.service.msg.MsgService;
-import com.signs.service.user.UserService;
 import com.signs.service.userPurchaseRecord.UserPurchaseRecordService;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,9 +46,9 @@ public class MobileBillController {
      * @return
      */
     @GetMapping("/defaultYear/{defaultCardNo}")
-    public Result useless5(@PathVariable String defaultCardNo) {
+    public Result useless5(@PathVariable String defaultCardNo,Integer type) {
         Result result = new Result();
-        result.setData(service.selectDefaultYear(defaultCardNo));
+        result.setData(service.selectDefaultYear(defaultCardNo,type));
         return result;
     }
 }

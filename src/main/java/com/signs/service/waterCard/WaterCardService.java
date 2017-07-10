@@ -172,7 +172,7 @@ public class WaterCardService {
      */
     public boolean update(WaterCard waterCard){
 
-        return mapper.updateByPrimaryKeySelective(waterCard) > 0;
+        return mapper.updateByPrimaryKeySelective(waterCard) > 0 ;
     }
 
     /**
