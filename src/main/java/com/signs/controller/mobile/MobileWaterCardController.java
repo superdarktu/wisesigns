@@ -65,6 +65,7 @@ public class MobileWaterCardController {
 
         try {
             String id = session.getAttribute("id").toString();
+
             WaterCard waterCard = new WaterCard();
             waterCard.setPassword(password);
             waterCard.setCode(code);
