@@ -109,8 +109,7 @@ public class WatermeterService {
         Assert.notNull(watermeter, "该ID水表不存在");
         watermeter.setTapStatus(watermeter.getTapStatus() == 0 ? 1 : 0);
 
-        if (mapper.updateByPrimaryKeySelective(watermeter) > 0) return true;
-        return false;
+        return mapper.updateByPrimaryKeySelective(watermeter) > 0;
     }
 
     /**

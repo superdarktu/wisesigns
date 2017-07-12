@@ -105,33 +105,32 @@ public class AcceptAppController {
         }
         orderId.append(i);
         redis.boundValueOps(watermeterCode + "orderId").set(orderId.toString());
-        redis.boundValueOps(watermeterCode + "cardNo").set(cardNo);
+//        redis.boundValueOps(watermeterCode + "cardNo").set(cardNo);
         Result result = new Result();
         try {
             String id = session.getAttribute("id").toString();
-//            String id = "4";
             if (StringUtil.isEmpty(id) || StringUtil.isEmpty(watermeterCode)) {
                 result.setMsg("id is null");
                 return result;
             }
 
-            if (redis.boundValueOps(watermeterCode + "appBlock").get() != null) {
+            if (redis.boundValueOps(watermeterCode + "block").get() != null) {
                 result.setMsg("water meter is blocked");
-                redis.delete(watermeterCode+"appBlock");
+//                redis.delete(watermeterCode+"appBlock");
 
                 return result;
             }
 //            确认数据库存在卡和表
             Watermeter watermeter = watermeterService.queryByCode(watermeterCode);
-            User user = userService.queryById(id);
+            User user = userService.queryByCard(cardNo);
             if (watermeter == null || user == null) {
                 result.setMsg("mysql don't exists this user ");
                 result.setResult(1);
                 return result;
             }
 
-            redis.boundValueOps(watermeterCode + "appId").set(id);//用户id
-            redis.boundValueOps(watermeterCode + "appBlock").set("1");//1代表锁定
+            redis.boundValueOps(watermeterCode + "user").set(cardNo);//卡号
+            redis.boundValueOps(watermeterCode + "block").set("1");//1代表锁定
 //            redis.boundValueOps(watermeterCode + "app").set(user.getId());
             HttpClientHelper.open(watermeter.getCollectorCode(), watermeterCode);
             Map<String, Object> map = new HashMap<>();
@@ -160,14 +159,14 @@ public class AcceptAppController {
             String id = session.getAttribute("id").toString();
 //            String id="4";
             Watermeter watermeter = watermeterService.queryByCode(watermeterCode);
-            String str = redis.boundValueOps(watermeterCode + "appId").get();
+            String str = redis.boundValueOps(watermeterCode + "user").get();
             if (StringUtil.isEmpty(str) || !str.equals(id)) {
-                result.setMsg("redis don't exists this appId ");
+                result.setMsg("redis don't exists this user ");
                 result.setResult(1);
                 return result;
             }
             HttpClientHelper.close(watermeter.getCollectorCode(), watermeterCode);
-            redis.boundValueOps(watermeterCode + "appBlock").set("2");
+            redis.boundValueOps(watermeterCode + "block").set("2");
             HttpClientHelper.close(watermeter.getCollectorCode(), watermeterCode);
 
             Map<String, Object> map = new HashMap<>();
@@ -178,7 +177,7 @@ public class AcceptAppController {
             Contro contro = new Contro(3, watermeterCode, 20000);
             delayManager.addTask(contro);
 
-            redis.delete(watermeterCode + "appId");
+            redis.delete(watermeterCode + "user");
             watermeterService.changeTap(watermeter.getId());
             result.setResult(0);
         } catch (Exception e) {
@@ -188,6 +187,5 @@ public class AcceptAppController {
         }
         return result;
     }
-
 
 }
