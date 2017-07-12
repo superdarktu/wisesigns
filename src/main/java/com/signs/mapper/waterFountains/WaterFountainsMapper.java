@@ -13,6 +13,16 @@ public interface WaterFountainsMapper extends MyMapper<WaterFountains> {
 
     List<WaterFountains> selectTableCode(String tableCode);
 
+
+    /**
+     * 查询饮水机和阀门状态
+
+     * @return
+     */
+       WaterFountains  selectWFAndTap(String tableCode);
+
+
+
     Integer updateWaterFountain(HashMap hashMap);
 
     List<WaterFountains> pagePublic();

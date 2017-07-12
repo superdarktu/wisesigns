@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/sao") 
+@RequestMapping("/api/sao")
 public class AcceptAppController {
 
 
@@ -53,13 +53,12 @@ public class AcceptAppController {
     public Result first(String watermeterCode) {
         Result result = new Result();
         try {
-            List<WaterFountains> waterFountains = mapper.selectTableCode(watermeterCode);
-
-            if (waterFountains == null || waterFountains.size() == 0) {
+            WaterFountains waterFountains = mapper.selectWFAndTap(watermeterCode);//饮水机
+            if (waterFountains == null) {
                 result.setResult(1);
                 result.setMsg("no waterFountains");
             } else {
-                result.setData(waterFountains.get(0));
+                result.setData(waterFountains);
                 result.setResult(0);
             }
         } catch (Exception e) {

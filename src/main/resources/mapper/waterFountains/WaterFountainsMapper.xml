@@ -88,19 +88,32 @@
         #查询水卡编号是否存在
         SELECT id
         FROM tb_watermeter
-        WHERE code = #{code};
+        WHERE code = #{code}
     </select>
     <select id="tableCodeUsed" parameterType="java.lang.String" resultType="java.lang.String">
         #查询水卡编号是否已被使用
         SELECT tw.id
         FROM tb_water_fountains twf
             JOIN tb_watermeter tw ON twf.table_code = tw.code
-        WHERE tw.code = #{code};
+        WHERE tw.code = #{code}
     </select>
 
     <select id="pagePublic" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from tb_water_fountains where type = 0
+        SELECT *
+        FROM tb_water_fountains
+        WHERE type = 0
     </select>
 
+    <select id="selectWFAndTap" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+            twf.code,
+            place,
+            water_price,
+            status AS type,
+            tap_status AS cost_scale
+        FROM tb_water_fountains twf
+            JOIN tb_watermeter tw ON twf.table_code = tw.code
+        WHERE table_code = #{tableCode}
+    </select>
 
 </mapper>
