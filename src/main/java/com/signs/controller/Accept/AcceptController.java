@@ -103,17 +103,20 @@ public class AcceptController {
                 if (watermeter.getTapStatus() == 1) {
 
                     if (user.getPrice() <= 0.0) return;
-                    HttpClientHelper.open(watermeter.getCollectorCode(), watermeterCode);
-
-                    redis.boundValueOps(watermeterCode + "user").set(cardNo);
-                    redis.boundValueOps(watermeterCode + "block").set("1");
-                    redis.boundValueOps(watermeterCode).set(user.getId());
 
                     Map<String, Object> map = new HashMap<>();
                     map.put("type", "readingDirectWaterMeter");
                     map.put("DTUID", watermeter.getCollectorCode());
                     map.put("MeterID", watermeterCode);
                     HttpClientHelper.sendGet("http://139.196.52.84:2001/control", map, "utf-8");
+
+                    HttpClientHelper.open(watermeter.getCollectorCode(), watermeterCode);
+
+                    redis.boundValueOps(watermeterCode + "user").set(cardNo);
+                    redis.boundValueOps(watermeterCode + "block").set("1");
+                    redis.boundValueOps(watermeterCode).set(user.getId());
+
+
                     watermeterService.changeTap(watermeter.getId());
                     Contro contro = new Contro(1, cardNo, watermeter.getCollectorCode(), watermeterCode, 120000);
                     Contro controBlock = new Contro(2, watermeterCode, 20000);
