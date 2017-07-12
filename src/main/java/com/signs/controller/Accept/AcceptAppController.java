@@ -108,8 +108,8 @@ public class AcceptAppController {
 //        redis.boundValueOps(watermeterCode + "cardNo").set(cardNo);
         Result result = new Result();
         try {
-            String id = session.getAttribute("id").toString();
-            if (StringUtil.isEmpty(id) || StringUtil.isEmpty(watermeterCode)) {
+//            String id = session.getAttribute("id").toString();
+            if (StringUtil.isEmpty(cardNo) || StringUtil.isEmpty(watermeterCode)) {
                 result.setMsg("id is null");
                 return result;
             }
@@ -139,7 +139,7 @@ public class AcceptAppController {
             map.put("MeterID", watermeterCode);
             HttpClientHelper.sendGet("http://139.196.52.84:2001/control", map, "utf-8");
             watermeterService.changeTap(watermeter.getId());
-            Contro contro = new Contro(1, id, watermeter.getCollectorCode(), watermeterCode, 120000);
+            Contro contro = new Contro(1, cardNo, watermeter.getCollectorCode(), watermeterCode, 120000);
             Contro controBlock = new Contro(3, watermeterCode, 20000);
             delayManager.addTask(contro);
             delayManager.addTask(controBlock);
@@ -153,14 +153,14 @@ public class AcceptAppController {
     }
 
     @RequestMapping("/close")
-    public Result close(String watermeterCode, HttpSession session) {
+    public Result close(String watermeterCode,String cardNo ,HttpSession session) {
         Result result = new Result();
         try {
-            String id = session.getAttribute("id").toString();
+//            String id = session.getAttribute("id").toString();
 //            String id="4";
             Watermeter watermeter = watermeterService.queryByCode(watermeterCode);
             String str = redis.boundValueOps(watermeterCode + "user").get();
-            if (StringUtil.isEmpty(str) || !str.equals(id)) {
+            if (StringUtil.isEmpty(str) || !str.equals(cardNo)) {
                 result.setMsg("redis don't exists this user ");
                 result.setResult(1);
                 return result;
