@@ -14,6 +14,7 @@
         <result column="def" jdbcType="INTEGER" property="def"/>
         <result column="ctime" property="ctime" jdbcType="TIMESTAMP"/>
         <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="watermeter_code" property="watermeterCode" jdbcType="VARCHAR"/>
 
     </resultMap>
 

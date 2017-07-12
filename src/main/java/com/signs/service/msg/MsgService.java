@@ -1,6 +1,5 @@
 package com.signs.service.msg;
 
-import com.alibaba.fastjson.JSON;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
@@ -8,10 +7,7 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.signs.mapper.msg.MsgMapper;
-import com.signs.model.commons.SmsSendRequest;
-import com.signs.model.commons.SmsSendResponse;
 import com.signs.model.msg.Msg;
-import com.signs.util.ChuangLanSmsUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,10 +29,11 @@ public class MsgService {
 
     /**
      * 发送短信
+     *
      * @param phone
      * @return
      */
-    public boolean sendMsg(String phone){
+    public boolean sendMsg(String phone) {
 
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
         System.setProperty("sun.net.client.defaultReadTimeout", "10000");
@@ -60,10 +57,10 @@ public class MsgService {
             request.setSignName("直饮水管理平台");
             //必填:短信模板-可在短信控制台中找到
             request.setTemplateCode("SMS_75880213");
-            String capital = "";
-            for(;;){
-                int cap = (int)(Math.random()*1000000);;
-                if(cap > 100000){
+            String capital;
+            for (; ; ) {
+                int cap = (int) (Math.random() * 1000000);
+                if (cap > 100000) {
                     capital = cap + "";
                     break;
                 }
@@ -71,18 +68,18 @@ public class MsgService {
 
 
             Msg temp = mapper.selectLast(phone);
-            if(temp == null) {
+            if (temp == null) {
                 msg.setCapital(capital);
                 Date now = new Date();
                 msg.setCtime(now);
                 msg.setEndTime(new Date(now.getTime() + time * 60000));
                 mapper.insert(msg);
-            }else{
+            } else {
                 capital = temp.getCapital();
             }
 
             //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
-            request.setTemplateParam("{\"code\":\""+capital+"\", \"time\":\""+time+"\"}");
+            request.setTemplateParam("{\"code\":\"" + capital + "\", \"time\":\"" + time + "\"}");
             //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
             //request.setOutId("yourOutId");
 
@@ -94,32 +91,30 @@ public class MsgService {
             System.out.println("Message=" + sendSmsResponse.getMessage());
             System.out.println("RequestId=" + sendSmsResponse.getRequestId());
             System.out.println("BizId=" + sendSmsResponse.getBizId());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return true;
     }
 
-    /**
-     * 临时显示验证码
-     */
 
     /**
      * 短信验证
+     *
      * @param phone
      * @param capital
      * @return
      */
-    public boolean verifyMsg(String phone,String capital){
+    public boolean verifyMsg(String phone, String capital) {
 
         Msg msg = new Msg();
         msg.setPhone(phone);
         msg.setCapital(capital);
         Msg result = mapper.verify(msg);
-        if(result == null){
+        if (result == null) {
             return false;
-        }else{
+        } else {
             result.setEndTime(new Date());
             mapper.updateByPrimaryKeySelective(result);
             return true;

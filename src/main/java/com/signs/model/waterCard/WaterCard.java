@@ -23,6 +23,9 @@ public class WaterCard {
     private String remark;
 
     @Column(name = "user_id")
+    private String watermeterCode;
+
+    @Column(name = "watermeter_code")
     private String userId;
 
     private Integer def;
@@ -159,5 +162,13 @@ public class WaterCard {
 
     public void setDef(Integer def) {
         this.def = def;
+    }
+
+    public String getWatermeterCode() {
+        return watermeterCode;
+    }
+
+    public void setWatermeterCode(String watermeterCode) {
+        this.watermeterCode = watermeterCode;
     }
 }

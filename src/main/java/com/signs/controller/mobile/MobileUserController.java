@@ -13,7 +13,6 @@ import com.signs.service.waterCard.WaterCardService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
