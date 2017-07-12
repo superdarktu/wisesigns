@@ -43,8 +43,8 @@ public class PictureController {
     public Result updateUserImg(String fileName, HttpSession session) {
         Result result = new Result();
         try {
-//            String id = session.getAttribute("id").toString();
-            String id="4";
+            String id = session.getAttribute("id").toString();
+//            String id="4";
             userService.updateImage(fileName, id);
             result.setResult(0);
         } catch (Exception e) {
@@ -92,9 +92,6 @@ public class PictureController {
 
     @RequestMapping("/image")
     public Integer image(HttpServletResponse response, HttpSession session, String img) {
-
-        FileInputStream fis = null;
-        OutputStream os = null;
         String path;
         if (StringUtil.isEmpty(imagePathOn) || "1".equals(imagePathOn)) {
             path = (this.getClass().getResource("/").toString() + "static/upload").replace("file:/", "");
@@ -102,18 +99,14 @@ public class PictureController {
             path = imagePathOn;
         }
         try {
-            fis = new FileInputStream(path + "/" + img);
-            os = response.getOutputStream();
+            FileInputStream   fis = new FileInputStream(path + "/" + img);
+            OutputStream   os = response.getOutputStream();
             byte[] buffer = new byte[1024 * 8];
             int count;
             while ((count = fis.read(buffer)) != -1) {
                 os.write(buffer, 0, count);
                 os.flush();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
             fis.close();
             os.close();
         } catch (Exception e) {
