@@ -140,7 +140,7 @@ public class AcceptAppController {
             HttpClientHelper.sendGet("http://139.196.52.84:2001/control", map, "utf-8");
             watermeterService.changeTap(watermeter.getId());
             Contro contro = new Contro(1, cardNo, watermeter.getCollectorCode(), watermeterCode, 120000);
-            Contro controBlock = new Contro(3, watermeterCode, 20000);
+            Contro controBlock = new Contro(2, watermeterCode, 20000);
             delayManager.addTask(contro);
             delayManager.addTask(controBlock);
             result.setResult(0);
