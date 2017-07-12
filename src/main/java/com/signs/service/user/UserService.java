@@ -69,4 +69,11 @@ public class UserService {
         mapper.insertSelective(user);
         return true;
     }
+
+    public void updateImage(String fileName,String id) {
+        User user = mapper.selectByPrimaryKey(id);
+        user.setImg(fileName);
+        mapper.updateByPrimaryKey(user);
+
+    }
 }

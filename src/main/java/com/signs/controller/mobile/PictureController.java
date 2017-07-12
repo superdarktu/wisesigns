@@ -3,8 +3,10 @@ package com.signs.controller.mobile;
 import com.signs.model.commons.Result;
 import com.signs.model.manager.Manager;
 import com.signs.model.managerUser.ManagerUser;
+import com.signs.model.user.User;
 import com.signs.service.manager.ManagerService;
 import com.signs.service.managerUser.ManagerUserService;
+import com.signs.service.user.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,8 +33,29 @@ public class PictureController {
     @Resource
     private ManagerUserService managerUserService;
 
+    @Resource
+    private UserService userService;
+
     @Value("${upload.imagePathOn}")
     private String imagePathOn;
+
+    @PostMapping("/update")
+    public Result updateUserImg(String fileName, HttpSession session) {
+        Result result = new Result();
+        try {
+//            String id = session.getAttribute("id").toString();
+            String id="4";
+            userService.updateImage(fileName, id);
+            result.setResult(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setResult(1);
+            result.setMsg("throw Exception");
+        }
+        return result;
+
+    }
+
 
     @PostMapping("/uploadPicture")
     public Result saveUserImg(@RequestParam("file") MultipartFile file) {
@@ -52,7 +75,6 @@ public class PictureController {
                 dir.mkdirs();
             }
             String name = file.getOriginalFilename();
-            System.out.println(file.getName());
             if (!name.endsWith(".png") && !name.endsWith(".jpg") && !name.endsWith(".jpeg")) {
                 result.setError("请上传图片文件");
                 return result;
@@ -84,7 +106,7 @@ public class PictureController {
             os = response.getOutputStream();
             byte[] buffer = new byte[1024 * 8];
             int count;
-            while (( count = fis.read(buffer)) != -1) {
+            while ((count = fis.read(buffer)) != -1) {
                 os.write(buffer, 0, count);
                 os.flush();
             }
