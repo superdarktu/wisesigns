@@ -174,7 +174,7 @@ public class AcceptAppController {
             map.put("DTUID", watermeter.getCollectorCode());
             map.put("MeterID", watermeterCode);
             HttpClientHelper.sendGet("http://139.196.52.84:2001/control", map, "utf-8");
-            Contro contro = new Contro(3, watermeterCode, 20000);
+            Contro contro = new Contro(2, watermeterCode, 20000);
             delayManager.addTask(contro);
 
             redis.delete(watermeterCode + "user");
