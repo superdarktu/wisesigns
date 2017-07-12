@@ -249,9 +249,7 @@ public class UserPurchaseRecordService {
         return jmap;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new Date().getMonth());
-    }
+
 
     public boolean createUserPurchaseRecord(UserPurchaseRecord record, String watermeterCode) {
         String id = UUID.randomUUID().toString().replace("-", "");

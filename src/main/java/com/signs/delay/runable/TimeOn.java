@@ -52,8 +52,8 @@ public class TimeOn implements  Runnable{
                 }else if(take.getType() == 2){
 
                     redis.delete(take.getMemberId()+"block");
-                }else if(take.getType() == 3){
 
+                }else if(take.getType() == 3){
                     redis.delete(take.getMemberId()+"appBlock");
                 }
 

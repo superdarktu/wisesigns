@@ -175,11 +175,10 @@ public class AcceptController {
                     if (flow <= 0.00000000001) return;
                     Float unit_cost = waterFountainsService.getPrice(watermeterCode);
                     Float price = flow * unit_cost * 1000;
-                    String cardNo = redis.boundValueOps(watermeterCode + "user").get();
+                    String cardNo = redis.boundValueOps(watermeterCode + "cardNo").get();
                     WaterCard waterCard = waterCardService.query(cardNo);
-                    Float balance;
                     if (waterCard != null) {
-                        balance = waterCard.getBalance() - price;
+                        Float balance = waterCard.getBalance() - price;
                         UserPurchaseRecord record = new UserPurchaseRecord();
                         record.setUnitCost(unit_cost);
                         record.setBalance(balance);
@@ -187,18 +186,19 @@ public class AcceptController {
                         record.setCardNo(cardNo);
                         record.setWaterConsumption(flow);
                         record.setUserId(userId);
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-                        StringBuilder builder = new StringBuilder();
-                        builder.append(simpleDateFormat.format(new Date()));
-                        int i = 0;
-                        while (i < 1000) {
-                            i = (int) (Math.random() * 10000);
-                        }
-                        builder.append(i);
-                        record.setOrderId(builder.toString());
+//                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+//                        StringBuilder builder = new StringBuilder();
+//                        builder.append(simpleDateFormat.format(new Date()));
+//                        int i = 0;
+//                        while (i < 1000) {
+//                            i = (int) (Math.random() * 10000);
+//                        }
+//                        builder.append(i);
+                        String orderId = redis.boundValueOps(watermeterCode + "orderId").get();
+                        record.setOrderId(orderId);
                         userPurchaseRecordService.createUserPurchaseRecord(record, watermeterCode);
                     }
-                    redis.delete(watermeterCode + "user");
+                    redis.delete(watermeterCode + "cardNo");
                 }
             } else if (object.get("数据类型").equals("直饮水卡数据")) {
 
@@ -206,34 +206,6 @@ public class AcceptController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    @RequestMapping("/test")
-    public boolean aaa(String watermeterCode, Float flow) {
-        Float unit_cost = waterFountainsService.getPrice(watermeterCode);
-        Float price = flow * unit_cost * 1000;
-        String cardNo = "12413456134656";
-        WaterCard waterCard = waterCardService.query(cardNo);
-        Float balance = waterCard.getBalance() - price;
-        UserPurchaseRecord record = new UserPurchaseRecord();
-        record.setUnitCost(unit_cost);
-        record.setBalance(balance);
-        record.setPrice(price);
-        record.setCardNo(cardNo);
-        record.setWaterConsumption(flow);
-        record.setUserId("4");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        StringBuilder builder = new StringBuilder();
-        builder.append(simpleDateFormat.format(new Date()));
-        int i = 0;
-        while (i < 1000) {
-            i = (int) (Math.random() * 10000);
-        }
-        builder.append(i);
-        record.setOrderId(builder.toString());
-        return userPurchaseRecordService.createUserPurchaseRecord(record, watermeterCode);
-
     }
 }
 
