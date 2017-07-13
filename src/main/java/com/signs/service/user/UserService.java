@@ -79,7 +79,7 @@ public class UserService {
 
     public void updateName(String name, String id) {
         User user = mapper.selectByPrimaryKey(id);
-        user.setImg(name);
+        user.setName(name);
         mapper.updateByPrimaryKey(user);
 
     }
