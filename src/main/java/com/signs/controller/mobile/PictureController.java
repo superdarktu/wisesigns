@@ -53,9 +53,23 @@ public class PictureController {
             result.setMsg("throw Exception");
         }
         return result;
-
     }
 
+    @PostMapping("/updateName")
+    public Result updateUser(String name, HttpSession session) {
+        Result result = new Result();
+        try {
+            String id = session.getAttribute("id").toString();
+//            String id="4";
+            userService.updateName(name, id);
+            result.setResult(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setResult(1);
+            result.setMsg("throw Exception");
+        }
+        return result;
+    }
 
     @PostMapping("/uploadPicture")
     public Result saveUserImg(@RequestParam("file") MultipartFile file) {
