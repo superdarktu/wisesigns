@@ -1,10 +1,15 @@
 package com.signs.service.dataTotalmeter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.signs.mapper.aiarmHistory.AiarmHistoryMapper;
 import com.signs.mapper.dataTotalmeter.DataTotalmeterMapper;
+import com.signs.model.aiarm.Aiarm;
+import com.signs.model.aiarmHistory.AiarmHistory;
 import com.signs.model.dataTotalmeter.DataTotalmeter;
+import com.signs.service.aiarm.AiarmService;
 import com.signs.util.DateUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -15,6 +20,13 @@ public class DataTotalmeterService {
     @Resource
     private DataTotalmeterMapper mapper;
 
+    @Resource
+    private AiarmService aiarmService;
+
+    @Resource
+    private AiarmHistoryMapper aiarmHistoryMapper;
+
+    @Transactional
     public void create(JSONObject object , Integer type){
 
         DataTotalmeter dataTotalmeter = new DataTotalmeter();
@@ -39,6 +51,34 @@ public class DataTotalmeterService {
         dataTotalmeter.setHaveCard(Integer.valueOf(object.get("是否带卡").toString()));
         dataTotalmeter.setType(type);
         dataTotalmeter.setTime(new Date());
+
         mapper.insert(dataTotalmeter);
+
+        Aiarm aiarm = aiarmService.queryByCode(dataTotalmeter.getCode());
+        if(dataTotalmeter.getStatus() == 1){
+            if(aiarm != null){
+
+                AiarmHistory aiarmHistory = new AiarmHistory();
+                aiarmHistory.setCtime(aiarm.getCtime());
+                aiarmHistory.setFixTime(new Date());
+                aiarmHistory.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
+                aiarmHistory.setLatitude(aiarm.getLatitude());
+                aiarmHistory.setLongitude(aiarm.getLongitude());
+                aiarmHistory.setPlace(aiarm.getPlace());
+                aiarmHistory.setPropertyId(aiarm.getPropertyId());
+                aiarmHistory.setPropertyName(aiarm.getPropertyName());
+                aiarmHistory.setReason(aiarm.getReason());
+                aiarmHistory.setWaterFountainsCode(aiarm.getWaterFountainsCode());
+                int seconds = DateUtils.getSecsBetween(aiarm.getCtime(),aiarmHistory.getFixTime());
+                aiarmHistory.setDuration(Float.valueOf((float)(seconds / 3600)));
+                aiarmHistoryMapper.insert(aiarmHistory);
+                aiarmService.deleteById(aiarm.getId());
+            }
+        }else{
+
+            if(aiarm == null)
+                aiarmService.create(dataTotalmeter.getCode());
+        }
     }
+
 }

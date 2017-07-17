@@ -166,4 +166,12 @@ public class WaterFountainsService {
 
         return temp.getWaterPrice();
     }
+
+    public WaterFountains getByWaterCode(String tableCode){
+
+        WaterFountains waterFountains = new WaterFountains();
+        waterFountains.setTableCode(tableCode);
+
+        return  mapper.selectOne(waterFountains);
+    }
 }

@@ -5,9 +5,15 @@ import com.github.pagehelper.PageHelper;
 import com.signs.mapper.aiarm.AiarmMapper;
 import com.signs.mapper.watermeter.WatermeterMapper;
 import com.signs.model.aiarm.Aiarm;
+import com.signs.model.collector.Collector;
 import com.signs.model.commons.PageInfo;
 import com.signs.model.commons.PageParam;
+import com.signs.model.waterFountains.WaterFountains;
+import com.signs.model.watermeter.Watermeter;
 import com.signs.service.aiarmHistory.AiarmHistoryService;
+import com.signs.service.collector.CollectorService;
+import com.signs.service.waterFountains.WaterFountainsService;
+import com.signs.service.watermeter.WatermeterService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +32,15 @@ public class AiarmService {
 
     @Resource
     private AiarmHistoryService aiarmHistoryService;
+
+    @Resource
+    private WaterFountainsService waterFountainsService;
+
+    @Resource
+    private WatermeterService watermeterService;
+
+    @Resource
+    private CollectorService collectorService;
 
     /**
      * 分页查询即时报警
@@ -93,5 +108,34 @@ public class AiarmService {
         return map;
     }
 
+
+    public void create(String watermeterCode){
+
+        WaterFountains waterFountains = waterFountainsService.getByWaterCode(watermeterCode);
+        Watermeter watermeter = watermeterService.queryByCode(watermeterCode);
+        Collector collector = collectorService.queryByCode(watermeter.getCollectorCode());
+        Aiarm aiarm = new Aiarm();
+        aiarm.setCtime(new Date());
+        aiarm.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
+        aiarm.setLatitude(waterFountains.getLatitude());
+        aiarm.setLongitude(waterFountains.getLongitude());
+        aiarm.setPlace(waterFountains.getPlace());
+        aiarm.setPropertyId(collector.getPropertyId());
+        aiarm.setPropertyName(collector.getPropertyName());
+        mapper.insert(aiarm);
+    }
+
+    public Aiarm queryByCode(String code){
+
+        WaterFountains waterFountains = waterFountainsService.getByWaterCode(code);
+        Aiarm aiarm = new Aiarm();
+        aiarm.setWaterFountainsCode(waterFountains.getCode());
+        return mapper.selectOne(aiarm);
+    }
+
+    public boolean deleteById(String id){
+
+        return  mapper.deleteByPrimaryKey(id) > 0 ? true : false;
+    }
 
 }

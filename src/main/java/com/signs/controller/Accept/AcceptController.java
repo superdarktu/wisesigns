@@ -87,12 +87,15 @@ public class AcceptController {
 
             if (object.get("数据类型").equals("直饮水卡数据")) {
 
+                redis.boundValueOps("app:app").set("1");
+                if(true) return;
                 String cardNo = object.get("卡编号").toString();
                 String watermeterCode = object.get("水表编号").toString();
+            //    redis.delete(watermeterCode + "block");
 
                 if (StringUtil.isEmpty(cardNo) || StringUtil.isEmpty(watermeterCode))
                     return;
-
+             //
                 if (redis.boundValueOps(watermeterCode + "block").get() != null) return;
 
 

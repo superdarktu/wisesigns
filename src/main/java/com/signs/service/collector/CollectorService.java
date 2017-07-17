@@ -66,6 +66,13 @@ public class CollectorService {
         return mapper.selectByPrimaryKey(id);
     }
 
+    public Collector queryByCode(String code) {
+
+        Collector collector = new Collector();
+        collector.setCode(code);
+        return mapper.selectOne(collector);
+    }
+
     /**
      * 删除采集器
      *
