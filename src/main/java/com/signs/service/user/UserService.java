@@ -76,4 +76,11 @@ public class UserService {
         mapper.updateByPrimaryKey(user);
 
     }
+
+    public void updateName(String name, String id) {
+        User user = mapper.selectByPrimaryKey(id);
+        user.setName(name);
+        mapper.updateByPrimaryKey(user);
+
+    }
 }
