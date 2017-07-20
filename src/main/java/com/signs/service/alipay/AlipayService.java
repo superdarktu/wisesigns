@@ -66,7 +66,7 @@ public class AlipayService {
         }
     }
 
-    private void createRecharge(Float price, String cardNo, String id, String orderId) {
+    public void createRecharge(Float price, String cardNo, String id, String orderId) {
         UserRechargeRecord userRechargeRecord = new UserRechargeRecord();
         userRechargeRecord.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
         userRechargeRecord.setCtime(new Date());
