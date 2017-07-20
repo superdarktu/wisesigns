@@ -31,8 +31,6 @@
             AND type=#{type}
         </if>
     </select>
-    <update id="updateMoney" parameterType="java.util.HashMap">
-        UPDATE tb_user SET price=price+#{price} WHERE id=#{id}
-    </update>
+
 
 </mapper>

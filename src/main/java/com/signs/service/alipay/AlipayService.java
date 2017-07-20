@@ -10,8 +10,10 @@ import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.signs.mapper.user.UserMapper;
 import com.signs.mapper.userPurchaseRecord.UserPurchaseRecordMapper;
 import com.signs.mapper.userRechargeRecord.UserRechargeRecordMapper;
+import com.signs.mapper.waterCard.WaterCardMapper;
 import com.signs.model.user.User;
 import com.signs.model.userRechargeRecord.UserRechargeRecord;
+import com.signs.model.waterCard.WaterCard;
 import com.signs.service.user.UserService;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,7 @@ public class AlipayService {
     private UserRechargeRecordMapper mapper;
 
     @Resource
-    private UserMapper userMapper;
+    private WaterCardMapper waterCardMapper;
 
     private AlipayClient alipayClient;
     //String APP_ID = "2017071307735680";
@@ -74,9 +76,9 @@ public class AlipayService {
         userRechargeRecord.setOrderId(orderId);
         mapper.insertSelective(userRechargeRecord);
         HashMap map=new HashMap();
-        map.put("id",id);
+        map.put("cardNo",cardNo);
         map.put("price",price);
-        userMapper.updateMoney(map);
+        waterCardMapper.updateMoney(map);
 
     }
 }

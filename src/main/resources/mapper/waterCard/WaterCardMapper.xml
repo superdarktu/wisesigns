@@ -83,6 +83,8 @@
 
         WHERE wc.user_id = #{userId} AND wc.type = #{type}
     </select>
-
+    <update id="updateMoney" parameterType="java.util.HashMap">
+        UPDATE tb_water_card SET balance=balance+#{price} WHERE code=#{cardNo}
+    </update>
 
 </mapper>

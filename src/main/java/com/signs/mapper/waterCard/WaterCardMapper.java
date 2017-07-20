@@ -27,4 +27,7 @@ public interface WaterCardMapper extends MyMapper<WaterCard> {
     int cancelCard(WaterCard waterCard);
 
     List<WaterCardVO> getCards(WaterCard waterCard);
+
+    void updateMoney(HashMap map);
+
 }
