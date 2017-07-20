@@ -19,10 +19,10 @@ public class AlipayService {
     //String ALIPAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlMnCeEmxfuHuQSkE2mvUHpAwM2zP1h/AsHLnDaWQcPBTHyPc6JUmEo4wqE9i56eDlW2yvaDsW6C/ywtPw5GVcWOwIC8dsYAhT14RuUnKC24B0AFkFgYn1RDZuIxK84e3690R675FrKwmlQaad970op1KUr7C1oNTIFC08oq3BqbfgqmciD+Ql1Dpt5NfXXr+yrdFDuqtHVSZGyEK3Sv8iVz6lNl2OwJKO3lSgjwdWKH+TtPrWg/ad4ly54dp1cmyDWxFmhxfDjeDDX4kaEE8mUoCjNKD57lxQt3q+3WVtpv32FN7WTPpFX7ucnWZK6HgnUlpcX04NQcTANRhTsqyjwIDAQAB";
     String ALIPAY_PUBLIC_KEY ="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvYwHeC6ztIGLZ5yjb0Ny7XCft+lcfSDP7ObWGowStyi5U9a4ya+4rGz2POHuXFZmvAat8G5xjM3rI4XGyqCUmi/dFTNu83RcHev8bo6WTMuhGBIHiwR7xBjMX60hIUPd8zozT2OZvAuSyKLgo2C75+nxh8yG9Gii37i6asoC2W7HiG1t/jVnNl4TRd1HYolHfS5DKtn4HhLI3w0+m77AXrNUTgy6TjbfM3BSJDj+xmMbwxYAXxpU2tTBi/VRtMTI1HQF1n08KVe+yY4hiG8x3WtQR8Kfup12qHxosrrIjz2Fc3f4sgxZvqUBtntkJK04qhGnhW2JcHkMPf9vLfRNeQIDAQAB";
 
-    public void getOrder(){
+    public String getOrder(){
 
         if(alipayClient == null){
-            AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", "UTF-8", ALIPAY_PUBLIC_KEY, "RSA2");
+            alipayClient = new DefaultAlipayClient("https://openapi.alipaydev.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", "UTF-8", ALIPAY_PUBLIC_KEY, "RSA2");
         }
         AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
 //SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
@@ -40,8 +40,10 @@ public class AlipayService {
             //这里和普通的接口调用不同，使用的是sdkExecute
             AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
             System.out.println(response.getBody());//就是orderString 可以直接给客户端请求，无需再做处理。
+            return response.getBody();
         } catch (AlipayApiException e) {
             e.printStackTrace();
+            return "";
         }
     }
 }
