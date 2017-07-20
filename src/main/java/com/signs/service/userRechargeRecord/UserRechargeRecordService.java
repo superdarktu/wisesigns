@@ -105,7 +105,8 @@ public class UserRechargeRecordService {
      */
     public Float getMonthPrice(String cardNo){
 
-        return mapper.getMonthPrice(cardNo);
+        Float temp = mapper.getMonthPrice(cardNo);
+        return temp == null ? 0 : temp;
     }
 
 

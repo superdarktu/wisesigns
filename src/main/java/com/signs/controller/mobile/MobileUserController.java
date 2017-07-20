@@ -138,7 +138,8 @@ public class MobileUserController {
 
             result.setData(user);
         } catch (Exception e) {
-            e.printStackTrace();
+        //    e.printStackTrace();
+            System.out.println("没登录查询");
         }
         return result;
     }
@@ -171,7 +172,26 @@ public class MobileUserController {
 
             result.setData(object);
         } catch (Exception e) {
-            e.printStackTrace();
+        //    e.printStackTrace();
+            System.out.println("没登录主页");
+
+        }
+        return result;
+    }
+
+    /**
+     * 退出登录
+     * @param session
+     * @return
+     */
+    @GetMapping("/exit")
+    public Result exit(HttpSession session) {
+        Result result = new Result();
+        try {
+            session.invalidate();
+            result.setResult(0);
+        } catch (Exception e) {
+            System.out.println("没登录查询");
         }
         return result;
     }

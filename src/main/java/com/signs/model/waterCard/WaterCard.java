@@ -22,10 +22,10 @@ public class WaterCard {
 
     private String remark;
 
-    @Column(name = "user_id")
+    @Column(name = "watermeter_code")
     private String watermeterCode;
 
-    @Column(name = "watermeter_code")
+    @Column(name = "user_id")
     private String userId;
 
     private Integer def;

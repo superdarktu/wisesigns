@@ -55,7 +55,7 @@ public class DataTotalmeterService {
         mapper.insert(dataTotalmeter);
 
         Aiarm aiarm = aiarmService.queryByCode(dataTotalmeter.getCode());
-        if(dataTotalmeter.getStatus() == 1){
+        if(dataTotalmeter.getStatus() == 0){
             if(aiarm != null){
 
                 AiarmHistory aiarmHistory = new AiarmHistory();
