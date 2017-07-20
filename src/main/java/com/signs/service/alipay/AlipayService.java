@@ -7,10 +7,20 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
+import com.signs.mapper.userPurchaseRecord.UserPurchaseRecordMapper;
+import com.signs.mapper.userRechargeRecord.UserRechargeRecordMapper;
+import com.signs.model.user.User;
+import com.signs.model.userRechargeRecord.UserRechargeRecord;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Date;
 
 @Service
 public class AlipayService {
+
+    @Resource
+    private UserRechargeRecordMapper mapper;
 
     private AlipayClient alipayClient;
     //String APP_ID = "2017071307735680";
@@ -45,5 +55,16 @@ public class AlipayService {
             e.printStackTrace();
             return "";
         }
+    }
+    private void createRecharge(Float price, String cardNo, String id, String orderId) {
+        UserRechargeRecord userRechargeRecord = new UserRechargeRecord();
+        userRechargeRecord.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
+        userRechargeRecord.setCtime(new Date());
+        userRechargeRecord.setPrice(price);
+        userRechargeRecord.setUserId(id);
+        userRechargeRecord.setCardId(cardNo);
+        userRechargeRecord.setOrderId(orderId);
+        mapper.insertSelective(userRechargeRecord);
+
     }
 }
