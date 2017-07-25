@@ -123,7 +123,7 @@ public class MobileWaterCardController {
 
             WaterCard waterCard = new WaterCard();
             waterCard.setId(cardId);
-            waterCard.setStatus(2);
+            waterCard.setStatus(1);
             if (service.update(waterCard))
                 result.setResult(0);
         } catch (Exception e) {

@@ -57,7 +57,7 @@
             order_id,
             card_no
         FROM tb_user_purchase_record tupr
-            JOIN tb_water_card twc ON tupr.card_no = twc.code
+          LEFT  JOIN tb_water_card twc ON tupr.card_no = twc.code
         WHERE order_id = #{orderId}
         )  UNION  (SELECT '2' AS id,price,turr.balance,'no' place, twc2.type AS name,turr.ctime,order_id,card_id AS card_no FROM tb_user_recharge_record turr JOIN tb_water_card
        twc2 ON turr.card_id=twc2.code
