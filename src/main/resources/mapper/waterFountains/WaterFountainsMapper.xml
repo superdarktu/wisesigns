@@ -120,5 +120,6 @@
         <if test="_parameter!=null">
             AND place LIKE #{keyword}
         </if>
+        LIMIT 0,40
     </select>
 </mapper>
