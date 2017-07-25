@@ -28,4 +28,18 @@ public class MobileWaterFountainController {
         }
         return result;
     }
+    /**
+     * 搜索饮水机
+     */
+    @GetMapping("/search")
+    public Result search(String keyword){
+        Result result = new Result();
+        try {
+            result.setData(service.search("%"+keyword+"%"));
+            result.setResult(0);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

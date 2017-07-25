@@ -32,7 +32,7 @@ public class WaterFountainsService {
         List<WaterFountains> fountains = mapper.selectCode(waterNumber);
         if (fountains == null || fountains.size() > 0) return false;
         List<WaterFountains> temp = mapper.selectTableCode(tableNumber);
-        if (temp!=null&&temp.size() > 0) return false;
+        if (temp != null && temp.size() > 0) return false;
         WaterFountains waterFountains = new WaterFountains();
         waterFountains.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
         waterFountains.setCtime(new Date());
@@ -103,13 +103,13 @@ public class WaterFountainsService {
      * 分页查询
      */
     public PageInfo<WaterFountains>
-    page(PageParam page, String type, String value,String id) {
+    page(PageParam page, String type, String value, String id) {
         if (page != null && page.getPageNo() != null && page.getPageSize() != null)
             PageHelper.startPage(page.getPageNo(), page.getPageSize());
         HashMap<String, String> hashMap = new HashMap<>();
         if (type != null) hashMap.put("type", type);
         if (value != null) hashMap.put("value", "%" + value + "%");
-        hashMap.put("id",id);
+        hashMap.put("id", id);
         return new PageInfo(mapper.getDispenser(hashMap));
     }
 
@@ -152,12 +152,12 @@ public class WaterFountainsService {
         }
     }
 
-    public List<WaterFountains> pagePublic(){
+    public List<WaterFountains> pagePublic() {
 
         return mapper.pagePublic();
     }
 
-    public Float getPrice(String tableCode){
+    public Float getPrice(String tableCode) {
 
         WaterFountains waterFountains = new WaterFountains();
         waterFountains.setTableCode(tableCode);
@@ -167,11 +167,17 @@ public class WaterFountainsService {
         return temp.getWaterPrice();
     }
 
-    public WaterFountains getByWaterCode(String tableCode){
+    public WaterFountains getByWaterCode(String tableCode) {
 
         WaterFountains waterFountains = new WaterFountains();
         waterFountains.setTableCode(tableCode);
 
-        return  mapper.selectOne(waterFountains);
+        return mapper.selectOne(waterFountains);
+    }
+
+    public List<WaterFountains> search(String keyword) {
+        List<WaterFountains> search = mapper.search(keyword);
+        return search;
+
     }
 }
