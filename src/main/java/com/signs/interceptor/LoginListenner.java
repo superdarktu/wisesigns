@@ -3,41 +3,37 @@ package com.signs.interceptor;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.util.StringUtil;
 
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionAttributeListener;
-import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.annotation.WebListener;
+import javax.servlet.http.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
-public class LoginListenner  implements HttpSessionAttributeListener {
+@WebListener
+public class LoginListenner  implements HttpSessionListener {
 
-    private Map<String, HttpSession> map = new HashMap<String, HttpSession>();
+    private Map<String, HttpSession> map = new HashMap<String,
+            HttpSession>();
 
     @Override
-    public void attributeAdded(HttpSessionBindingEvent httpSessionBindingEvent) {
+    public void sessionCreated(HttpSessionEvent httpSessionEvent) {
+        String name = httpSessionEvent.getSession().getAttributeNames().toString();
+        System.out.println(httpSessionEvent.getSession().getAttributeNames());
 
-        String name = httpSessionBindingEvent.getName();
-
-        if (name.equals("id")) {
-            String value = httpSessionBindingEvent.getValue().toString();
+        /*if (name.equals("id")) {
+            String value = httpSessionBindingEvent.getValue
+                    ().toString();
             if (!StringUtil.isEmpty(value)) {
                 HttpSession session = map.get(value);
                 session.removeAttribute(value);
                 session.invalidate();
             }
             map.put(value, httpSessionBindingEvent.getSession());
-        }
-
+        }*/
     }
 
     @Override
-    public void attributeRemoved(HttpSessionBindingEvent httpSessionBindingEvent) {
-
-    }
-
-    @Override
-    public void attributeReplaced(HttpSessionBindingEvent httpSessionBindingEvent) {
+    public void sessionDestroyed(HttpSessionEvent
+                                         httpSessionEvent) {
 
     }
 }
