@@ -4,6 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import javax.servlet.MultipartConfigElement;
 @Controller
 @EnableWebMvc
 @SpringBootApplication
+@ServletComponentScan
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400 * 30)
 @MapperScan(basePackages = "com.signs.mapper")
 public class Application extends WebMvcConfigurerAdapter {
