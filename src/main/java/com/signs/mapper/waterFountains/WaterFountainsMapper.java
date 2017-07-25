@@ -53,4 +53,5 @@ public interface WaterFountainsMapper extends MyMapper<WaterFountains> {
     String tableCodeUsed(String id);
 
 
+    List<WaterFountains> search(String keyword);
 }

@@ -54,7 +54,7 @@
         left join tb_watermeter as w on f.table_code = w.code
         left join tb_collector as c on w.collector_code = c.code
         left join tb_aiarm as a on f.code = a.water_fountains_code
-        WHERE f.type = #{type}
+        WHERE f.type = #{type} AND NOT isnull(f.water_price)
         <if test="id != null and id != ''">
             and c.property_id = #{id}
         </if>
@@ -109,11 +109,17 @@
             twf.code,
             place,
             water_price,
-            status AS type,
+            status     AS type,
             tap_status AS cost_scale
         FROM tb_water_fountains twf
             JOIN tb_watermeter tw ON twf.table_code = tw.code
         WHERE table_code = #{tableCode}
     </select>
-
+    <select id="search" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM tb_water_fountains WHERE NOT isnull(water_price) AND type=0
+        <if test="_parameter!=null">
+            AND place LIKE #{keyword}
+        </if>
+        LIMIT 0,40
+    </select>
 </mapper>
