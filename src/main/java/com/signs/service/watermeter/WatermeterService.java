@@ -113,6 +113,22 @@ public class WatermeterService {
     }
 
     /**
+     * 修改水表阀门开关
+     *
+     * @param id
+     * @return
+     */
+    public boolean changeTap(String id,Integer tapStatus) {
+
+        Watermeter watermeter = mapper.selectByPrimaryKey(id);
+
+        Assert.notNull(watermeter, "该ID水表不存在");
+        watermeter.setTapStatus(tapStatus);
+
+        return mapper.updateByPrimaryKeySelective(watermeter) > 0;
+    }
+
+    /**
      * 根据采集器获取所有的表编号
      *
      * @param collectorCode

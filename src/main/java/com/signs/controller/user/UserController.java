@@ -5,7 +5,9 @@ import com.signs.model.manager.Manager;
 import com.signs.model.managerUser.ManagerUser;
 import com.signs.service.manager.ManagerService;
 import com.signs.service.managerUser.ManagerUserService;
+import com.signs.util.SessionManager;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +23,9 @@ public class UserController {
 
     @Resource
     private ManagerUserService managerUserService;
+
+    @Resource
+    private SessionManager sessionManager;
 
     /**
      * 登录
@@ -38,8 +43,8 @@ public class UserController {
             if (!service.isHaveUsername(model.getUserName())) {
                 dto.setResult(2);
             } else {
-                Manager manager = service.login(model.getUserName(), model.getPassword());
 
+                Manager manager = service.login(model.getUserName(), model.getPassword());
                 if (manager == null) {
                     ManagerUser managerUser = managerUserService.login(model.getUserName(), model.getPassword());
                     if (managerUser == null) {
@@ -51,6 +56,7 @@ public class UserController {
                         } else {
                             dto.setInfo("3");
                         }
+
                         httpSession.setAttribute("id", managerUser.getId());
                         httpSession.setAttribute("type", "2");
                     }
@@ -136,7 +142,7 @@ public class UserController {
     /**
      * 获取用户信息
      *
-     * @param httpSession
+     * @param httpSession   
      * @return
      */
     @PostMapping("/message")

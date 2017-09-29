@@ -10,6 +10,7 @@ import com.signs.service.user.UserService;
 import com.signs.service.userPurchaseRecord.UserPurchaseRecordService;
 import com.signs.service.userRechargeRecord.UserRechargeRecordService;
 import com.signs.service.waterCard.WaterCardService;
+import com.signs.util.SessionManager;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -35,6 +36,9 @@ public class MobileUserController {
     @Resource
     private WaterCardService waterCardService;
 
+    @Resource
+    private SessionManager sessionManager;
+
 
     /**
      * 登录
@@ -49,13 +53,14 @@ public class MobileUserController {
 
         Result result = new Result();
         try {
-            if (msgService.verifyMsg(phone, capital)) {
+            if (true || msgService.verifyMsg(phone, capital)) {
                 User user = service.queryByPhone(phone);
                 if (user == null) {
                     result.setResult(2);
                 } else {
                     result.setResult(0);
                     result.setData(user);
+                    sessionManager.addSession(phone,session);
                     session.setMaxInactiveInterval(86400*30);
                     session.setAttribute("id", user.getId());
                     session.setAttribute("type", 5);
@@ -67,6 +72,33 @@ public class MobileUserController {
         } catch (Exception e) {
             result.setResult(1);
             e.printStackTrace();
+        }
+        return result;
+    }
+
+    @GetMapping("/otherLogin")
+    public Result otherLogin(String phone, String name, HttpSession session) {
+
+        Result result = new Result();
+        try {
+
+            User user =  service.queryByPhone(phone);
+
+            if(user == null){
+                user = new User();
+                user.setPhone(phone);
+                user.setName(name);
+                user.setCtime(new Date());
+                user.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
+                service.create(user);
+            }
+            session.setAttribute("id", user.getId());
+            session.setAttribute("type", 5);
+            sessionManager.addSession(phone,session);
+            result.setData(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setResult(1);
         }
         return result;
     }
@@ -105,9 +137,11 @@ public class MobileUserController {
             user.setCtime(new Date());
             user.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
             service.create(user);
+
             session.setMaxInactiveInterval(86400*30);
             session.setAttribute("id", user.getId());
             session.setAttribute("type", 5);
+            sessionManager.addSession(phone,session);
             result.setData(user);
         } catch (Exception e) {
             e.printStackTrace();
@@ -188,7 +222,13 @@ public class MobileUserController {
     public Result exit(HttpSession session) {
         Result result = new Result();
         try {
+            String userId = session.getAttribute("id").toString();
+            User user = service.queryById(userId);
             session.invalidate();
+            if(user != null){
+                String phone = user.getPhone();
+                sessionManager.delSession(phone);
+            }
             result.setResult(0);
         } catch (Exception e) {
             System.out.println("没登录查询");

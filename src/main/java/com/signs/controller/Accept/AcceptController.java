@@ -88,39 +88,39 @@ public class AcceptController {
             if (object.get("数据类型").equals("直饮水卡数据")) {
 
                 redis.boundValueOps("app:app").set("1");
-                if(true) return;
+             //   if(true) return;
                 String cardNo = object.get("卡编号").toString();
                 String watermeterCode = object.get("水表编号").toString();
             //    redis.delete(watermeterCode + "block");
-
+                System.out.println(1);
                 if (StringUtil.isEmpty(cardNo) || StringUtil.isEmpty(watermeterCode))
                     return;
-             //
+                System.out.println(2);
                 if (redis.boundValueOps(watermeterCode + "block").get() != null) return;
 
-
+                System.out.println(3);
                 Watermeter watermeter = watermeterService.queryByCode(watermeterCode);
-                User user = userService.queryByCard(cardNo);
-                if (watermeter == null || user == null) return;
-
+                WaterCard waterCard = waterCardService.query(cardNo);
+                System.out.println(4);
+                if (watermeter == null || waterCard == null) return;
+                System.out.println(5);
                 if (watermeter.getTapStatus() == 1) {
 
-                    if (user.getPrice() <= 0.0) return;
-
+                    if (waterCard.getBalance() <= 0.0) return;
+                    System.out.println(6);
+                    redis.boundValueOps(watermeterCode + "block").set("1");
                     Map<String, Object> map = new HashMap<>();
                     map.put("type", "readingDirectWaterMeter");
                     map.put("DTUID", watermeter.getCollectorCode());
                     map.put("MeterID", watermeterCode);
                     HttpClientHelper.sendGet("http://139.196.52.84:2001/control", map, "utf-8");
-
                     HttpClientHelper.open(watermeter.getCollectorCode(), watermeterCode);
 
                     redis.boundValueOps(watermeterCode + "user").set(cardNo);
-                    redis.boundValueOps(watermeterCode + "block").set("1");
-                    redis.boundValueOps(watermeterCode).set(user.getId());
+                    redis.boundValueOps(watermeterCode).set(waterCard.getUserId());
 
 
-                    watermeterService.changeTap(watermeter.getId());
+                    watermeterService.changeTap(watermeter.getId(),0);
                     Contro contro = new Contro(1, cardNo, watermeter.getCollectorCode(), watermeterCode, 120000);
                     Contro controBlock = new Contro(2, watermeterCode, 20000);
                     delayManager.addTask(contro);
@@ -140,7 +140,7 @@ public class AcceptController {
                     HttpClientHelper.sendGet("http://139.196.52.84:2001/control", map, "utf-8");
                     Contro contro = new Contro(2, watermeterCode, 20000);
                     delayManager.addTask(contro);
-                    watermeterService.changeTap(watermeter.getId());
+                    watermeterService.changeTap(watermeter.getId(),1);
                 }
 
             } else if (object.get("数据类型").equals("总表定时上报数据")) {
@@ -160,10 +160,16 @@ public class AcceptController {
                 String watermeterCode = object.get("水表编号").toString();
 
                 if (StringUtil.isEmpty(watermeterCode)) return;
+                System.out.println(1);
                 String userId = redis.boundValueOps(watermeterCode).get();
                 if (StringUtil.isEmpty(userId)) return;
+                User user = userService.queryById(userId);
+                System.out.println(2);
                 String type = redis.boundValueOps(watermeterCode + "block").get();
                 if (StringUtil.isEmpty(type)) return;
+                String cardNo = redis.boundValueOps(watermeterCode + "user").get();
+                if (StringUtil.isEmpty(cardNo)) return;
+                System.out.println(3);
                 if (type.equals("1")) {
                     redis.boundValueOps(watermeterCode + "flow").set(object.get("累计流量").toString());
                 } else if (type.equals("2")) {
@@ -178,16 +184,20 @@ public class AcceptController {
                     watermeterService.update(watermeter);
 
                     Float flow = Float.valueOf(flow2) - Float.valueOf(flow1);
-                    if (flow <= 0.00000000001) return;
+                    flow = flow * 1000;
+                    System.out.println("流量="+flow);
+                    if (flow <= 0.00000000001){redis.delete(watermeterCode + "user"); return;}
                     Float unit_cost = waterFountainsService.getPrice(watermeterCode);
-                    Float price = flow * unit_cost * 1000;
-                    String cardNo = redis.boundValueOps(watermeterCode + "cardNo").get();
+                    Float price = flow * unit_cost;
+                    System.out.println("花费="+price);
+
                     WaterCard waterCard = waterCardService.query(cardNo);
                     if (waterCard != null) {
                         Float balance = waterCard.getBalance() - price;
                         UserPurchaseRecord record = new UserPurchaseRecord();
                         record.setUnitCost(unit_cost);
                         record.setBalance(balance);
+                        record.setName(user.getName());
                         record.setPrice(price);
                         record.setCardNo(cardNo);
                         record.setWaterConsumption(flow);
@@ -202,9 +212,11 @@ public class AcceptController {
 //                        builder.append(i);
                         String orderId = redis.boundValueOps(watermeterCode + "orderId").get();
                         record.setOrderId(orderId);
+                        waterCard.setBalance(waterCard.getBalance()-price);
+                        waterCardService.update(waterCard);
                         userPurchaseRecordService.createUserPurchaseRecord(record, watermeterCode);
                     }
-                    redis.delete(watermeterCode + "cardNo");
+                    redis.delete(watermeterCode + "user");
                 }
             } else if (object.get("数据类型").equals("直饮水卡数据")) {
 

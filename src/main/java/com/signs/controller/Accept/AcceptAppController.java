@@ -110,6 +110,7 @@ public class AcceptAppController {
         try {
 //            String id = session.getAttribute("id").toString();
             if (StringUtil.isEmpty(cardNo) || StringUtil.isEmpty(watermeterCode)) {
+                System.out.println(1);
                 result.setMsg("id is null");
                 return result;
             }
@@ -117,18 +118,19 @@ public class AcceptAppController {
             if (redis.boundValueOps(watermeterCode + "block").get() != null) {
                 result.setMsg("water meter is blocked");
 //                redis.delete(watermeterCode+"appBlock");
-
+                System.out.println(2);
                 return result;
             }
 //            确认数据库存在卡和表
             Watermeter watermeter = watermeterService.queryByCode(watermeterCode);
-            User user = userService.queryByCard(cardNo);
-            if (watermeter == null || user == null) {
+            WaterCard waterCard = waterCardService.query(cardNo);
+            if (watermeter == null || waterCard == null) {
                 result.setMsg("mysql don't exists this user ");
                 result.setResult(1);
+                System.out.println(3);
                 return result;
             }
-
+            redis.boundValueOps(watermeterCode).set(waterCard.getUserId());
             redis.boundValueOps(watermeterCode + "user").set(cardNo);//卡号
             redis.boundValueOps(watermeterCode + "block").set("1");//1代表锁定
 //            redis.boundValueOps(watermeterCode + "app").set(user.getId());
@@ -138,7 +140,7 @@ public class AcceptAppController {
             map.put("DTUID", watermeter.getCollectorCode());
             map.put("MeterID", watermeterCode);
             HttpClientHelper.sendGet("http://139.196.52.84:2001/control", map, "utf-8");
-            watermeterService.changeTap(watermeter.getId());
+            watermeterService.changeTap(watermeter.getId(),0);
             Contro contro = new Contro(1, cardNo, watermeter.getCollectorCode(), watermeterCode, 120000);
             Contro controBlock = new Contro(2, watermeterCode, 20000);
             delayManager.addTask(contro);
@@ -176,9 +178,7 @@ public class AcceptAppController {
             HttpClientHelper.sendGet("http://139.196.52.84:2001/control", map, "utf-8");
             Contro contro = new Contro(2, watermeterCode, 20000);
             delayManager.addTask(contro);
-
-            redis.delete(watermeterCode + "user");
-            watermeterService.changeTap(watermeter.getId());
+            watermeterService.changeTap(watermeter.getId(),1);
             result.setResult(0);
         } catch (Exception e) {
             e.printStackTrace();

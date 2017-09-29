@@ -8,7 +8,7 @@ public class test implements SheetContentsHandler {
     public static void main(String argsp[]) {
 
         String aaa = null;
-        Double.valueOf("");
+        Integer.valueOf("1");
     }
 
     @Override

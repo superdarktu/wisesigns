@@ -20,9 +20,16 @@ public class SessionManager {
         HttpSession session = map.get(phone);
         if(session != null && !session.getId().equals(httpSession.getId())){
             session.invalidate();
-            map.remove(phone);
-            throw new NullPointerException();
         }
         map.put(phone,httpSession);
+    }
+
+    public void delSession(String phone){
+
+        HttpSession session = map.get(phone);
+        map.remove(phone);
+        if(session != null){
+            session.invalidate();
+        }
     }
 }

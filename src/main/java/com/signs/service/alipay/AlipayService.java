@@ -34,6 +34,9 @@ public class AlipayService {
     @Resource
     private WaterCardMapper waterCardMapper;
 
+    @Resource
+    private UserService userService;
+
     private AlipayClient alipayClient;
     String APP_ID = "2017071307735680";
     //String APP_ID = "2016080500170502";
@@ -78,12 +81,14 @@ public class AlipayService {
         if(mapper.selectOne(temp) != null){
             return;
         }
+        User user = userService.queryById(id);
 
         UserRechargeRecord userRechargeRecord = new UserRechargeRecord();
         userRechargeRecord.setId(java.util.UUID.randomUUID().toString().replace("-", ""));
         userRechargeRecord.setCtime(new Date());
         userRechargeRecord.setPrice(price);
         userRechargeRecord.setUserId(id);
+        userRechargeRecord.setName(user.getName());
         userRechargeRecord.setCardId(cardNo);
         userRechargeRecord.setOrderId(orderId);
         Float balance = waterCardMapper.selectCode(cardNo).get(0).getBalance();

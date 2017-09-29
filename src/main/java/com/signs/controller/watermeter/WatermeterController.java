@@ -137,7 +137,7 @@ public class WatermeterController {
      * @param tableNumber
      * @return
      */
-    @RequestMapping("/allEquipmentStatus")
+        @RequestMapping("/allEquipmentStatus")
     public Result allEquipmentStatus(PageParam param, String deviceStatus, String valveOperation, String tableNumber, HttpSession session) {
         Result result = new Result();
         result.setResult(1);
